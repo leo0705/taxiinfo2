@@ -1,0 +1,110 @@
+﻿	<div id ="paramsinfo">
+		<table width="100%"  border="0" >
+			<caption><h2>Пояснения по вводу параметров запроса</h2></caption>
+			<tr>
+				<td class="MainTableCol"  colspan="2"  >
+				<img src="TaxiInfoHelp2015.PNG"  alt = "Основные элементы управления интерфейса пользователя" 
+							 style="width:1112px; height:239px; border-width:1px" />
+			   </td>
+			</tr>
+			<tr>
+				<td class="MainTableCol" style="width:50%;  text-align:justify;">
+					<ul style=" margin-bottom:10px; list-style-type:none">
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">1&nbsp;-&nbsp;</span>Кнопка "загрузка" посылает запрос на
+							поиск и переключает видимость на панель с результатами 
+							запроса.<br><span class="thisImportant">Использование: кликнуть для просмотра результатов выполнения запроса.</span>
+						</li>
+						</li>
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">2&nbsp;-&nbsp;</span>Поля для ввода параметров "Марка" и "Модель". 
+							Содержат кнопку, которая открывает и закрывает выпадающее окно, содержащее список возможных значений параметра запроса.						</li>
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">3&nbsp;-&nbsp;</span>Поля "Номерной знак" и "Перевозчик" позволяют использовать для ввода и мышь и клавиатуру.  
+							<br><span class="thisImportant">Использование: кликнуть внутри поля</span>, выпадающее окно закроется 
+							(если оно открыто), либо откроется (если оно закрыто) содержащее список значений параметра, 
+							попадающих в результат запроса(не более 100).
+ 							<br><span class="thisImportant">Использование: Вводить с клавиатуры требуемое значение, 
+							начиная с его первого символа (буквы русские).</span> В выпадающем окне выводится список возможных значений, первые символы которых совпадают 
+							с указанными Вами.
+							<br><span class="thisImportant">Использование: в выпадающем окне кликнуть требуемое значение</span>, выпадающее окно закроется.  
+							<br>В любой момент Вы можете прекратить ввод и кликнуть кнопку "загрузка". При этом если в поле ввода остались 
+							только символы, введенные Вами с клавиатуры, то в результат запроса будут включено все, что было в выпадающем окне. 
+							Если же Вы перед тем, как кликнуть кнопку "загрузка", выбрали из выпадающего окна конкретное значение, то в результат 
+							запроса будет включено только оно.
+						</li>
+						</li>
+					</ul>
+				</td>
+
+				<td  class="MainTableCol" style="width:50%;  text-align:justify;">
+			  
+					<ul style=" margin-bottom:10px; list-style-type:none">
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">4&nbsp;-&nbsp;</span>Кнопка, которая открывает и закрывает выпадающее окно,
+							содержащее список возможных значений параметра запроса.<br>
+							Если Вы желаете изменить уже введенное значение, то предварительно поле надо очистить (сбросить старое значение).<br>
+							<span class="thisImportant">Использование: кликнуть кнопку и в выпадающем окне кликнуть
+							требуемое значение.</span><br>
+							Открытое выпадающее окно закрывается в трех случаях: 
+							<ul> 
+								<li style=" margin-bottom:inherit;">
+									после выбора значения из списка;
+								</li>
+								<li style=" margin-bottom:inherit;">
+									после клика по кнопке, даже если эта кнопка используется для ввода значения другого параметра; 
+								</li>
+								<li style=" margin-bottom:inherit;">
+									после клика по кнопке "загрузка";
+								</li>
+							</ul>
+						</li>
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">5&nbsp;-&nbsp;</span>Кнопка для сброса введенного значения параметра запроса. 
+							<br><span class="thisImportant">Использование: кликнуть, если поле содержит значение, 
+							а Вы не хотите  включать в запрос этот параметр.</span>
+						</li>
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">6&nbsp;-&nbsp;</span>Поле для вывода сообщений о выполнении запроса.
+							После каждого изменения значения любого параметра пересчитывается и выводится количество записей БД,
+							которые попадают в результат запроса.
+							<br><span class="thisImportant">Использование: кликнуть в поле, если Вам захочется его очистить.</span>
+					</ul>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="MainTableCol"  colspan="2"  >
+					<h2  style="text-align:center;" >
+					  Формирование результата запроса
+					</h2>
+			   </td>
+			</tr>
+
+			<tr>
+				<td class="MainTableCol" style="width:50%;  text-align:justify;">
+					<ul style=" margin-bottom:10px; list-style-type:none">
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">Набор введенных значений</span> в поля параметров запроса является <span class="thisImportant">фильтром</span>, который пропускает в результат 
+							только те строки, которые удовлетворяют <span class="thisImportant">всем</span> введенным значениям.
+						</li>
+						<li style=" margin-bottom:inherit;">
+							<span class="thisImportant">Содержимое списка</span>, которое выводится в выпадающем окне при вводе каждого из параметров, формируется 
+							по <span class="thisImportant">точно такому  же алгоритму</span>, т.е. с учетом всех установленных значений для других параметров(но не более 100 
+							записей для полей "Номерной знак" и "Перевозчик", точное число показывается в поле для вывода сообщений).
+						</li>
+					</ul>
+				</td>
+
+				<td  class="MainTableCol" style="width:50%;  text-align:justify;">
+					<ul style=" margin-bottom:10px; list-style-type:none">
+						<li style=" margin-bottom:inherit;">
+							Когда Вы при вводе значения параметра получаете сообщение <span class="thisImportant">"не загружено ни одной записи"</span>, 
+							то это означает, что в БД не существует записи, которая удовлетворяет <span class="thisImportant">всем</span> указанным Вами значениям.
+						</li>
+					</ul>
+				</td>
+			</tr>
+
+		</table>
+	</div>

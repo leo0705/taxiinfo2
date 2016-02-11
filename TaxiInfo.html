@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html ng-app="TaxiInfoApp">
+<head>
+	<meta charset="utf-8">  <!-- only for html 5  -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TaxiInfo</title>
+	<link href="../../../images/tree.ico"  rel="icon" />
+	<script src="https://yastatic.net/jquery/1.11.3/jquery.min.js"></script>
+	<script src=" https://yastatic.net/jquery-ui/1.11.2/jquery-ui.min.js"></script>
+	<!--
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script src="../../js/jquery-1.9.1.js"></script>
+	<script src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	 -->	
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script> -->
+	<!-- <script src="https://yastatic.net/angularjs/1.3.0/angular.min.js"></script> -->
+   <!--  <script src="angular-animate.js"></script> -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.min.js">   -->  
+	<!-- <link href="bootstrap-3-3.css" rel="stylesheet" />-->
+    <!-- <link href="bootstrap-theme-3-3.css" rel="stylesheet" /> -->
+    <link href="UniClientBase.css" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet" />
+	<link href="../../../styles/styles.css" rel="stylesheet" type="text/css" />
+	<!-- <script src="../../../js/jMsie8con-min.js"></script> -->
+	<!-- <script src="../../../js/jWhocomein-min.js"></script> -->
+    <script src="jUniClientBase.js"></script>
+    <script src="jMain.js"></script>
+</head>
+<body ng-controller="commonCtrl"> 
+<!-- <body ng-controller="commonCtrl" onload="jWhocomein.ashxOnloadReg('taxiinfo','load');">  -->
+	<div id="mes" >
+		<span id="mestextmark">►</span><span id="mestext" title="кликни для очистки" ng-click="mesClear()"></span>
+	</div>
+    <div id="mainCtrl" ng-controller="mainCtrl" >
+			<ng-include src="'rezult/tableView.html'" ng-show="displayMode == 'rezult'"></ng-include>
+			<ng-include src="'params/paramsView.html'" ng-show="displayMode == 'params' || displayMode == 'params/paramsinfo'"></ng-include>
+			<ng-include src="'params/paramsinfo/paramsinfo.html'" ng-show="displayMode == 'params/paramsinfo'"></ng-include>
+
+	</div>
+</body>
+</html>
