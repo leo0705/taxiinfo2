@@ -1337,7 +1337,7 @@ $scope.mesClear = function()  {
 };
 
 $scope.mesPost = function(text)  {
-	console.log("mesPost: -------->");
+	console.log("mesPost: ----'%s'---->",text);
 	$scope.mestext = text;
 	angular.element(document.getElementById('mestext')).html($scope.mestext);				// document.querySelector("#mes")
 };

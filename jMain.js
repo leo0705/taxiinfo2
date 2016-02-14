@@ -265,7 +265,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 		var sWhere = $scope.UniPopup.getUniWhere($scope.whereparam);
 		var sTop = (sWhere)?'':' limit 1000';									console.log("sTop='%s'",sTop);
 		//		SELECT    Name + '   ( ' +OgrnNum + '  ' + OgrnDate + ')' as Name
-		var sqlTempl = "select {1} Name + '   ( ' +OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc"; 
+		var sqlTempl = "select Name + '   ( ' +OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc{1}"; 
 		var params = {
 			Vrwtrace: "True",
 			EntryPointName: "DBTableViewer",
@@ -286,8 +286,9 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			arrayname: 	'Count' 	
 		};
 		var sWhere = $scope.UniPopup.getUniWhere($scope.whereparam);
-		//var sTop = (sWhere)?'':'top 1000';									console.log("sTop='%s'",sTop);
+		var sTop = (sWhere)?'':' top 1000';									console.log("sTop='%s'",sTop);
 		var sqlTempl = "select Count(TaxiInfoId) as affected_rows  from `inet-19_guestinfo`.`TaxiInfo` {1}"; 
+		//var sqlTempl = "select Count(TaxiInfoId) as affected_rows  from `inet-19_guestinfo`.`TaxiInfo`"; 
 		var params = {
 			Vrwtrace: "True",
 			EntryPointName: "DBTableViewer",
