@@ -5,7 +5,8 @@
  */
 angular.module("UniClientBase", [])
 	//.constant("UNIURL", "http://localhost/site/www/Engine/PHP/SimplQueryEngineJS.php")
-	.constant("UNIURL", "../../SimplQueryEngineJS.ashx")
+	//.constant("UNIURL", "../../SimplQueryEngineJS.ashx")
+	.constant("UNIURL", "http://localhost:3000/Engine")
 	.factory("UniWebClient", function () {							// --------------------UniWebClient	
 /*
 /////////////////////////////////////////////////////////////////////////////Math 
@@ -80,8 +81,7 @@ Math.LN10
 // 		age = parseInt(age,10); //20//
 */
 	//	Format - аналог функции С sprinf: подставляет в строку значения произвольного числа указанных параметров (либо массив)
-	String.prototype.Format = function () 
-	{ 
+	String.prototype.Format = function () { 
 		//console.log("Format:--'%s'-->",this);
 		var rezult = this;
 		for (var i = 0; i < arguments.length; i++) 
@@ -152,14 +152,13 @@ toPostParams : function (objParams) {
 	return sParams;
 },
 	
-Json2Csv: function (jsonobj, sDelimF, sDelimL) {
-//WebServer.ToUniDictionCsv(_Params, "\x7F", "@@"); //Example: \x7F is equivalent to char(127);\u03a3 is equivalent to the Greek character Σ
-	console.log("Json2Csv:--- sDelimF:'%s'-----sDelimL:'%s'------>", sDelimF, sDelimL);
+toCsv: function (obj, sDelimF, sDelimL) {
+	console.log("tosv:--- sDelimF:'%s'-----sDelimL:'%s'------>", sDelimF, sDelimL);
   var csvKey = sDelimL;
   var csvValue = sDelimL;
-  for (prop in jsonobj) {
+  for (prop in obj) {
 	csvKey += sDelimF + '@' + prop;
-	csvValue += sDelimF + jsonobj[prop];
+	csvValue += sDelimF + obj[prop];
   }
   return csvKey + csvValue;
 },
@@ -194,7 +193,6 @@ addDefualts : function (objExt,objDefualt) {
 
 csvToJson : function (sCsv) {		//sCsv.substr(4)
 	//if (sCsv.indexOf('&quot;')>0)  sCsv = sCsv.replace(/&quot;/g, '\"');	//  14.12.2014
-
 	var ArrayRows = this.Csv2ArrayRows(sCsv);              		console.log("csvToJson: ArrayRows.length:'%s'---->", ArrayRows.length);
 	this.table_col_names = this.Csv2ArrayFields(ArrayRows[0]);  	console.log("csvToJson: this.table_col_names:'%s'---->", this.table_col_names.length);// DB field names
 	var item,               // obj ~ row  (DB record)
@@ -1689,9 +1687,11 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 		
 		if (configExt) url=configExt.url;
 		console.log("send:   url:'%s'", url);
-			//	url.TrimEnd('.php') =>data = "mode=SP&ConKey=guestinfo&sqlText=select * from `world`.city limit 0,20"
-			//	url.TrimEnd('.ashx')=>data = "@@@mode@ConKey@sqlText@@SPguestinfoselect * from `world`.city limit 0,20"	"\x7F"~	\u03a3~Σ
-		$scope.configDefualt.data = (url.EndsWith('.php'))?UniWebClient.toPostParams(paramExt):UniWebClient.Json2Csv(paramExt,	"\x7F","@@");
+			//nodejs+mySQL	url.TrimEnd('/Engine') =>data = "mode=SP&ConKey=guestinfo&sqlText=select * from `world`.city limit 0,20"
+			//Apache+mySQL	url.TrimEnd('.php')    =>data = "mode=SP&ConKey=guestinfo&sqlText=select * from `world`.city limit 0,20"
+			//ASP.NET+MSSQL	url.TrimEnd('.ashx')   =>data = "@@@mode@ConKey@sqlText@@SPguestinfoselect * from `world`.city limit 0,20"	"\x7F"~	\u03a3~Σ
+		//$scope.configDefualt.data = (url.EndsWith('.php'))?UniWebClient.toPostParams(paramExt):UniWebClient.Json2Csv(paramExt,	"\x7F","@@");
+		$scope.configDefualt.data = (url.EndsWith('.ashx'))?UniWebClient.toCsv(paramExt,	"\x7F","@@"):UniWebClient.toPostParams(paramExt);
 		if (!configExt) configExt = angular.copy($scope.configDefualt);
 		else UniWebClient.addDefualts(configExt, $scope.configDefualt);
 		//console.log("send:---paramExt.sqlText:'%s'----config.url:'%s'----", paramExt.sqlText, configExt.url);
