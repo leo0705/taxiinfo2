@@ -182,7 +182,6 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 		var mstext;
 		switch(newValue)
 		{
-		
 			case "Count.load.OK": 
 				mstext = ($scope.Count[0]['affected_rows'])? 'найдено {1} зап.'.Format( $scope.Count[0]['affected_rows']):'не найдено НИ ОДНОЙ записи';
 				$scope.mesPost(mstext);
@@ -262,10 +261,11 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			colnames: 	'colnames', 
 			arrayname: 	'DBInfo' 	
 		};
-		var sWhere = $scope.UniPopup.getUniWhere($scope.whereparam);
+		var sWhere = $scope.UniPopup.getUniWhere($scope, $scope.whereparam);
 		var sTop = (sWhere)?'':' limit 1000';									console.log("sTop='%s'",sTop);
-		//		SELECT    Name + '   ( ' +OgrnNum + '  ' + OgrnDate + ')' as Name
-		var sqlTempl = "select Name + '   ( ' +OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc{1}"; 
+		//		CONCAT(Name,'(',OgrnNum,' / ',OgrnDate,' )' )   
+		var sqlTempl = "select CONCAT(Name,' (',OgrnNum,' / ',OgrnDate,')' ) as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc{1}"; 
+		//var sqlTempl = "select Name + '   ( ' +OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc{1}"; 
 		var params = {
 			Vrwtrace: "True",
 			EntryPointName: "DBTableViewer",
@@ -285,7 +285,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			colnames: 	'colnames', 
 			arrayname: 	'Count' 	
 		};
-		var sWhere = $scope.UniPopup.getUniWhere($scope.whereparam);
+		var sWhere = $scope.UniPopup.getUniWhere($scope, $scope.whereparam);
 		var sTop = (sWhere)?'':' top 1000';									console.log("sTop='%s'",sTop);
 		var sqlTempl = "select Count(TaxiInfoId) as affected_rows  from `inet-19_guestinfo`.`TaxiInfo` {1}"; 
 		//var sqlTempl = "select Count(TaxiInfoId) as affected_rows  from `inet-19_guestinfo`.`TaxiInfo`"; 
@@ -314,7 +314,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			ConKey: "guestinfo",
 			mode: 'SP', 
 			//sqlText: sqlTempl.Format($scope.curRegNum.Name)
-			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope.whereparam))
+			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope,$scope.whereparam))
 		};
 		var config = {url: UNIURL};
 		var promise = $scope.send($scope,params,opts,config);
@@ -327,7 +327,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			eventname:	'RegNum.load.OK',	
 			arrayname: 	'RegNum' 	
 		};
-		//$scope.UniPopup.getUniWhere($scope.whereparam);
+		//$scope.UniPopup.getUniWhere($scope,$scope.whereparam);
 		//var sqlTempl = "select distinct top 100 RegNum as Name from [inet-19_guestinfo].[inet-19_student].TaxiInfo where RegNum like '{1}%' order by RegNum asc"; 
 		var sqlTempl = "select RegNum as Name from `inet-19_guestinfo`.`TaxiInfo` {1} order by RegNum asc  LIMIT 100"; 
 		var params = {
@@ -336,7 +336,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			ConKey: "guestinfo",
 			mode: 'SP', 
 			//sqlText: sqlTempl.Format($scope.curRegNum.Name)
-			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope.whereparam))
+			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope,$scope.whereparam))
 		};
 		var config = {url: UNIURL};
 		var promise = $scope.send($scope,params,opts,config);
@@ -349,7 +349,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			eventname:	'Brand.load.OK',	
 			arrayname: 	'Brand' 	
 		};
-		$scope.UniPopup.getUniWhere($scope.whereparam);
+		//$scope.UniPopup.getUniWhere($scope, $scope.whereparam);
 		//var sqlTempl = "select distinct Brand as Name from [inet-19_guestinfo].[inet-19_student].TaxiInfo order by Brand asc"; 
 		var sqlTempl = "select distinct Brand as Name from `inet-19_guestinfo`.`TaxiInfo` {1} order by Brand asc"; 
 		var params = {
@@ -357,7 +357,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			EntryPointName: "DBTableViewer",
 			ConKey: "guestinfo",  // taxiinfo
 			mode: 'SP', 
-			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope.whereparam))
+			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope, $scope.whereparam))
 
 		};
 		var config = {url: UNIURL};
@@ -379,7 +379,7 @@ $scope.ToArrayByGroup = function (arrayname,propname,subarray_propname) {	//
 			ConKey: "guestinfo",
 			mode: 'SP', 
 			//sqlText: sqlTempl.Format($scope.curBrand.Name)
-			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope.whereparam))
+			sqlText: sqlTempl.Format($scope.UniPopup.getUniWhere($scope, $scope.whereparam))
 		};
 		var config = {url: UNIURL};
 		var promise = $scope.send($scope,params,opts,config);

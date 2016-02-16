@@ -1119,8 +1119,7 @@ cityUKR : 	{						// cityUKR
 			template: function () {
 						var tmp =
 '<div id="tgPopup" class="uniPopup"><table class="tgTable"><tbody ><tr ng-repeat="item in arrayname">'+
-'<td class="tgCell" ng-click="selectedItem(item)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)">'+
-'{{item.Name}}</td></tr></tbody></table></div>';
+'<td class="tgCell" ng-click="selectedItem(item)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)">'+'{{item.Name}}</td></tr></tbody></table></div>';
 						//console.log("unipopupdiv:    tmp:'%s'",tmp);
 						return tmp;
 						}
@@ -1309,14 +1308,14 @@ $scope.validMessage = function (item,text,timeout) {   // $scope.validMessage(it
 	
 /////////////////////////////////////////////////////////////////////////    ajax
 //	var opts = {
-//		eventname:	'cyties.load.OK',	// * opts['eventname'] 
+//		eventname:	'cyties.load.OK',		// * opts['eventname'] 
 //		//id:			'mainCtrl',			// * opts['id']  sender controller's element id (which scope has to be used)
 //		//curitemname:'currentCity',		// ins  opts['curitemname'] scope name which id prop is set to data.insert_id (AUTO_INCREMENT)
-//		arrayname: 	'city', 			// *	opts['arrayname'] scope array name (table body or select param options) which has to be created
-//		arrayitemprop: 'Name',			// tr	opts['arrayitemprop'] array item prop name (in arrayname) which has to be translated
-//      arraynameDic: UniDic['countryAsia']	// 	opts['arrayDic'] a dictionary for tanslating arrayname to russian
-//		colnames: 	'colnames', 		// tr	opts['colnames'] scope array name (table colnames) which has to be translated
-//		colnamesDic:UniDic.colnames 	// tr	opts['colnamesDic'] a dictionary for translating colnames to russian
+//		arrayname: 	'city', 				// *	opts['arrayname'] scope array name (table body or select param options) which has to be created
+//		arrayitemprop: 'Name',				// tr	opts['arrayitemprop'] array item prop name (in arrayname) which has to be translated
+//      arraynameDic: UniDic['countryAsia']	// 		opts['arrayDic'] a dictionary for tanslating arrayname to russian
+//		colnames: 	'colnames', 			// tr	opts['colnames'] scope array name (table colnames) which has to be translated
+//		colnamesDic:UniDic.colnames 		// tr	opts['colnamesDic'] a dictionary for translating colnames to russian
 //	}
 
 $scope.configDefualt = {
@@ -1407,12 +1406,6 @@ $scope.ToArrayByGroup = function (_scope,arrayname,propname,subarray_propname) {
 			break;
 		}// endswitch	
 	}// ends for
-	
-	
-	
-	
-	
-	
 	
 	console.log("ToArrayByGroup: <---OK-------");
 	return rezult;
@@ -2158,7 +2151,11 @@ localDiction: [],
 		return popupPos;
 	},
 
-	getUniWhere: function(arr) 	{		//UniPopup.getUniWhere($scope.whereparam);
+	getParamValue: function(_scope, colname) {	      // вызов из getUniWhere: this.getParamValue(_scope, arr[i])
+		return _scope.$eval('cur' + colname + '.Name');
+	},
+	
+	getUniWhere: function(_scope, arr) 	{		//UniPopup.getUniWhere($scope, $scope.whereparam);
 	//$scope.whereparam = [
 	//{id:'txtBrand',col:'Brand',op:'='},
 	//{id:'txtModel',col:'Model',op:'='},
@@ -2166,11 +2163,17 @@ localDiction: [],
 		console.log("getUniWhere:--arr.length=%s---->",arr.length);
             var i,name,value, sWhere = "where ";
 			for (i=0; i< arr.length; i++){
-				value = this.localDiction[arr[i].id];	
-				if (!value) value = angular.element(document.getElementById(arr[i].id)).val();
+				value = this.getParamValue(_scope, arr[i].col);
+				console.log("getUniWhere: i:%s id:'%s'    col:'%s'      op:'%s' 	getParamValue:'%s'",
+										  i,  arr[i].id,  arr[i].col,    arr[i].op, value);
+				/*                                                 
+                
+				//value = this.localDiction[arr[i].id];	
+				//if (!value) value = angular.element(document.getElementById(arr[i].id)).val();
 															console.log("getUniWhere:   arr[i].id='%s'   value='%s'",arr[i].id,value);
 				// if (arr[i].op =="%" ) value = angular.element(document.getElementById(arr[i].id)).val();
 				// if (arr[i].op =="=" ) value = this.localDiction[arr[i].id];	console.log("getUniWhere:   arr[i].id='%s'   value='%s'",arr[i].id,value);
+				*/
 				if (value)	{
 					if (sWhere.length > "where ".length) sWhere += " and ";
 					switch(arr[i].op)	{
