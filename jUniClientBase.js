@@ -265,6 +265,7 @@ colname : {							//	UniDic.colname continent
 	.directive("unipopupbtn", function (UniWebClient) { //Table 16-2. The Properties Defined by Directive Definition Objects p.415
 		//   <div unipopupbtn="City" placeholder="Город" size="32"  clearimgsrc ="../../images/clear12button.PNG"></div>
 		//   <img id="btnClearText" class="imgToolbarNorm" src="/images/clear12button.PNG"  width="12"  height="12" title="удалить комментируемый текст" alt=""/>
+		// <input type="button" id="btn{1}" class="btnPopup" {6}  ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)"  ng-mousedown="UniPopup.handleEvent($event)" ng-mouseup="UniPopup.handleEvent($event)"/>
 	return {
 			restrict: "A",
 			replace: true,
@@ -276,8 +277,11 @@ colname : {							//	UniDic.colname continent
 						var title = attrs["title"] || '';
 						var titlehtml = (title.length>0)?' title="' + title + '" ' : '';
 						var sz = attrs["size"] || '32';
-						var model = attrs["model"] || 'cur'+arrname+'.Name';					//console.log("***unipopupkey error: не задан параметр:'%s'",'model');
-						var tmp = '<div><input id="txt{1}" type="text" class="unipopupbtn" placeholder="{2}" size="{3}" ng-model="{4}" readonly="true"/><input type="button" id="btn{1}" class="btnPopup" {6}  ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)"  ng-mousedown="UniPopup.handleEvent($event)" ng-mouseup="UniPopup.handleEvent($event)"/>{5}</div>';
+						var model = attrs["model"] || 'cur'+arrname+'.Name';					//console.log("***unipopupkey error: не задан параметр:'%s'",'model');	
+						//<input type="button" id="btn{1}" class="btnPopup" {6}  ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)"  ng-mousedown="UniPopup.handleEvent($event)" ng-mouseup="UniPopup.handleEvent($event)"/>
+						
+						//var tmp = '<div><input id="txt{1}" type="text" class="unipopupbtn" placeholder="{2}" size="{3}" ng-model="{4}" readonly="true"/><span class="fa fa-cog fa-circle-o  fa-chevron-down						fa-spin" style="margin-left: -15px;margin-right: 8px;opacity: 0.5"></span>{5}</div>';
+						var tmp = '<div><input id="txt{1}" type="text" class="unipopupbtn" placeholder="{2}" size="{3}" ng-model="{4}" readonly="true"/><span class="fa fa-fw fa-caret-down" style="margin-left: -15px;margin-right: 2px;opacity: 0.6"></span>{5}</div>';
 						tmp = tmp.Format(arrname,placehld,sz,model,clearimghtml,titlehtml); 	//console.log("unipopupbtn:    tmp:'%s'",tmp);
 						return tmp;
 						}
