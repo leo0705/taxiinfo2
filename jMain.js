@@ -7,7 +7,7 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 //.controller("mainCtrl", function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 	$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '20px';	 	// мин/мах значния для анимации иображений
-	$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '25px';
+	$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '30px';
 	
 	$scope.curRegNum = {};	// $scope.curRegNum = {Name:'М0'};
 	$scope.curBrand = {};	// $scope.curBrand = {Name:'AUDI'};

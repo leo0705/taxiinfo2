@@ -281,7 +281,7 @@ colname : {							//	UniDic.colname continent
 						//<input type="button" id="btn{1}" class="btnPopup" {6}  ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)"  ng-mousedown="UniPopup.handleEvent($event)" ng-mouseup="UniPopup.handleEvent($event)"/>
 						
 						//var tmp = '<div><input id="txt{1}" type="text" class="unipopupbtn" placeholder="{2}" size="{3}" ng-model="{4}" readonly="true"/><span class="fa fa-cog fa-circle-o  fa-chevron-down						fa-spin" style="margin-left: -15px;margin-right: 8px;opacity: 0.5"></span>{5}</div>';
-						var tmp = '<div><input id="txt{1}" type="text" class="unipopupbtn" placeholder="{2}" size="{3}" ng-model="{4}" readonly="true"/><span class="fa fa-fw fa-caret-down" style="margin-left: -15px;margin-right: 2px;opacity: 0.6"></span>{5}</div>';
+						var tmp = '<div><input id="txt{1}" type="text" class="unipopupbtn" placeholder="{2}" size="{3}" ng-model="{4}" ng-mousedown="UniPopup.handleEvent($event)" ng-click="UniPopup.handleEvent($event)" readonly="true"/><span class="fa fa-fw fa-caret-down" style="margin-left: -15px;margin-right: 2px;opacity: 0.6"></span>{5}</div>';
 						tmp = tmp.Format(arrname,placehld,sz,model,clearimghtml,titlehtml); 	//console.log("unipopupbtn:    tmp:'%s'",tmp);
 						return tmp;
 						}

@@ -1,26 +1,85 @@
-﻿	
-<div class="panel-body">
-	<h2>Настройка параметров поиска в БД</h2>		
+﻿	<div class="row">
+		<div class="form-group col-sm-8">
+			<h2>Настройка параметров поиска в БД</h2>
+		</div>
+	</div>	
+	
+	
+	<form role="form" class="row">
+		<!-- <div class="form-group col-sm-4"> -->
+		<!-- </div> -->
+		<fieldset>
+			<div class="form-group col-sm-12">
+			<div class="form-group col-sm-4">
+				<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
+				title="кликни для загрузки данных после настройки параметров поиска" 	ng-click="selectMode('rezult')" 
+				ng-mouseenter="btnToolbarNorm.handleEvent($event)" >
+				<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД</button>
+			</div>
+			</div>
+	
+			<div class="form-group col-sm-12">
+				<div class="form-group col-sm-4">															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->
+					<label class="control-label" for="txtBrand">Марка:</label>&nbsp;&nbsp;&nbsp;</span><span ng-show="curBrand.Name" ng-click="unselectBrand()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<div>
+						<input class="form-control facaretdown" id="txtBrand" type="text" name="txtBrand" 
+						ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
+						ng-model="curBrand.Name" 
+						/>
+					</div>
+					<!-- <div unipopupbtn="Brand" placeholder="Марка"  clearimgsrc ="../../../images/clear12button.PNG"></div>  fa-lg -->
+				</div>
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="txtModel">Модель:</label>&nbsp;&nbsp;&nbsp;</span><span ng-show="curModel.Name" ng-click="unselectModel()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control facaretdown" id="txtModel" type="text" name="txtModel" 
+					ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
+					ng-model="curModel.Name" 
+					/>
+				</div>
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="txtRegnum">Регистрационный знак:</label>
+					<input class="form-control" id="xname" type="text" name="lname" />
+				</div>
+				<div class="form-group col-sm-12">
+					<label class="control-label" for="email">Перевозчик:</label>
+					<input class="form-control" id="email" type="text" name="email" />
+				</div>
+			</div>	
+	
+	
+	
+		</fieldset>
+	</form>
+	<div unipopupdiv></div> 
+	
+<!--	tn-primary	autofocus 
 	<input type="button" id="btnReply" value="загрузить" class="btnToolbarNorm bgr-ffffff" 
 	title="кликни для загрузки данных после настройки параметров поиска"	ng-click="selectMode('rezult')" 
 	ng-mouseenter="btnToolbarNorm.handleEvent($event)" ng-mouseleave="btnToolbarNorm.handleEvent($event)"/>
-			<div id="params" >
-				<div id="content" >
-					<table id="ptab"><tbody>
-					<tr>
-						<td><div unipopupbtn="Brand" placeholder="Марка"  clearimgsrc ="../../../images/clear12button.PNG"></div></td>
-						<td><div unipopupbtn="Model" placeholder="Модель"  clearimgsrc ="../../../images/clear12button.PNG"></div></td>
-						<td><div unipopupkey="RegNum" placeholder="Номерной знак"  model="curRegNum.Name" size="32" clearimgsrc="../../../images/clear12button.PNG" title="регистрационный номер автомобиля (буквы русские)"></div></td>
-					</tr>
-					<tr>							
-						<td colspan="3"><div unipopupkey="Name"   placeholder="Перевозчик" model="curName.Name" size="75" clearimgsrc="../../../images/clear12button.PNG" title="владелец автомобиля и перевозчик (буквы русские)"></div></td>
-					</tr></tbody></table >
-				</div>
+	
+	
+	<div class="form-group col-sm-4">
+		<input type="button" id="btnReply" value="загрузить" class="btnToolbarNorm bgr-ffffff" 
+		title="кликни для загрузки данных после настройки параметров поиска"	ng-click="selectMode('rezult')" 
+		ng-mouseenter="btnToolbarNorm.handleEvent($event)" ng-mouseleave="btnToolbarNorm.handleEvent($event)"/>
+		<div id="params" >
+			<div id="content" >
+				<table id="ptab"><tbody>
+				<tr>
+					<td><div unipopupbtn="Brand" placeholder="Марка"  clearimgsrc ="../../../images/clear12button.PNG"></div></td>
+					<td><div unipopupbtn="Model" placeholder="Модель"  clearimgsrc ="../../../images/clear12button.PNG"></div></td>
+					<td><div unipopupkey="RegNum" placeholder="Номерной знак"  model="curRegNum.Name" size="32" clearimgsrc="../../../images/clear12button.PNG" title="регистрационный номер автомобиля (буквы русские)"></div></td>
+				</tr>
+				<tr>							
+					<td colspan="3"><div unipopupkey="Name"   placeholder="Перевозчик" model="curName.Name" size="75" clearimgsrc="../../../images/clear12button.PNG" title="владелец автомобиля и перевозчик (буквы русские)"></div></td>
+				</tr></tbody></table >
 			</div>
-			<div unipopupdiv></div> 
-			<div class="paramsinfo">
-				<img id="paramsinfo" class="imgToolbarNorm"   src="paramsinfo.png"  alt = "?" style="border-width:0" 
-				ng-click="selectMode('params/paramsinfo')" 	title="Пояснения по вводу параметров запроса - показать/скрыть"/>
-				
-			</div>
+		</div>
+		<div unipopupdiv></div> 
+		<div class="paramsinfo">
+			<img id="paramsinfo" class="imgToolbarNorm"   src="paramsinfo.png"  alt = "?" style="border-width:0" 
+			ng-click="selectMode('params/paramsinfo')" 	title="Пояснения по вводу параметров запроса - показать/скрыть"/>
+			
+		</div>
 </div>
+-->
