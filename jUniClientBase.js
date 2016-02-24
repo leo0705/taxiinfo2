@@ -323,7 +323,6 @@ colname : {							//	UniDic.colname continent
 	})
 //.controller("commonCtrl", function ($scope, $http, $document,$timeout,$window,UNIURL,UniWebClient,UniDic) {
 .controller("commonCtrl", ['$scope', '$http', '$document','$timeout','$window','UNIURL','UniWebClient','UniDic',function ($scope, $http, $document,$timeout,$window,UNIURL,UniWebClient,UniDic) {
-
 /*
 /////////////////////////////////////////////////////////////////////////    form validation
 // params=[	
@@ -499,7 +498,23 @@ $scope.validMessage = function (item,text,timeout) {   // $scope.validMessage(it
 					}
 		,timeout);
 	};	
+
 	
+//	use the window.onresize API to manage a responsive state
+//----------------------------------------------------------------------	
+$scope.getWidth = function () {		//	get width of browser window
+	var x = 0;
+	if (typeof(document.body.clientWidth) == 'number') {	// Newer generation of browsers
+		x = document.body.clientWidth;
+	}
+	else if( typeof( window.innerWidth ) == 'number' ) {	//None Internet Explorer
+				x = window.innerWidth;
+			}
+			else if( document.documentElement && document.documentElement.clientWidth ) {
+				x = document.documentElement.clientWidth;	//Internet Explorer 6 and above in 'standards compliant mode'
+			}
+	return x;
+};	
 	
 	
 /////////////////////////////////////////////////////////////////////////    ajax
@@ -558,7 +573,7 @@ $scope.ToArrayByGroup = function (_scope,arrayname,propname,subarray_propname) {
 		old_item = _scope[arrayname][i];
 		propname_value = old_item[propname];
 		subarray_item = old_item;
-		delete subarray_item[propname];
+		//delete subarray_item[propname];							// !!!!!    24.02.2016
 		console.log("i:'%s'     propname_value:'%s'   groupvalue:'%s'    subarray.length:'%s'",i, propname_value, groupvalue,subarray.length);
 		switch (true) {
 			case i == 0:											// first array item

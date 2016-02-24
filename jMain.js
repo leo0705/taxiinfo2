@@ -6,6 +6,31 @@
 angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 //.controller("mainCtrl", function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
+	
+	
+	$scope.newWinWidth = $window.outerWidth;
+
+	$scope.$watch("newWinWidth", function(newWidth, oldWidth){
+		console.log("---->$watch newWidth:'%s' ",newWidth);
+		/*--- code bgn ---
+		if(newWidth <= 400){
+			//scope.deviceSize = "smallDevice";
+		}else if(newWidth >400 && newWidth <=767){
+			//scope.deviceSize = "mediumDevice";
+		}else{
+			//scope.deviceSize = "largeDevice";
+		}
+		--- code end ---*/
+	});
+		
+	angular.element($window).bind('resize',function(){
+		$scope.$apply(function(){
+			$scope.newWinWidth = $window.outerWidth;
+		})
+	});
+
+
+	
 	$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '20px';	 	// мин/мах значния для анимации иображений
 	$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '30px';
 	
@@ -48,12 +73,12 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 				$scope.mesPost(mstext);
 			break;
 		
-			case "DBInfo.load.OK": 
+			case "smDBInfo.load.OK": 
 				$scope.displayMode = 'rezult';
-				mstext = ($scope.DBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.DBInfo.length):'не загружено НИ ОДНОЙ записи';
+				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
 				if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
 				else $scope.mesPost(mstext);
-				$scope.DBInfo = $scope.ToArrayByGroup($scope,'DBInfo','Name','Use');
+				$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
 			break;
 		
 			case "Brand.load.OK":  
@@ -117,9 +142,9 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 	$scope.loadDBInfo = function () {
 		console.log("loadDBInfo: -------->");
 		var opts = {
-			eventname:	'DBInfo.load.OK',
+			eventname:	'smDBInfo.load.OK',
 			colnames: 	'colnames', 
-			arrayname: 	'DBInfo' 	
+			arrayname: 	'smDBInfo' 	
 		};
 		var sWhere = $scope.UniPopup.getUniWhere($scope, $scope.whereparam);
 		var sTop = (sWhere)?'':' limit 1000';									console.log("sTop='%s'",sTop);

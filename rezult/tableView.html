@@ -1,62 +1,92 @@
 ﻿
 
 <div class="panel-body">
-	<h2>Сведения о выданных лицензиях легковым такси города Москва</h1>		
-	<input type="button" id="btnReply" value="параметры" class="btnToolbarNorm bgr-ffffff" 
-	title="настроить параметры поиска в БД"	ng-click="selectMode('params')" 
-	ng-mouseenter="btnToolbarNorm.handleEvent($event)" ng-mouseleave="btnToolbarNorm.handleEvent($event)"/>
+
+	<div class="row">
+		<div class="form-group col-sm-8">
+			<h2>Сведения о выданных лицензиях легковым такси города Москва</h1>		
+		</div>
+	</div>	
 	
-	<table id="DBInfo" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <!-- <th  ng-repeat="colname in colnames">{{colname}}</th> -->
-                <th>Перевозчик</th>
-               <!--  <th>ОГРН</th> -->
-               <!--  <th>Дата</th> -->
-                <th>Марка</th>
-                <th>Модель</th>
-                <th>Рег.номер</th>
-                <th>Год</th>
-                <th>Лицензия</th>
-                <th>Дата<!--  лицензии --></th>
-                <th><!-- Номер  -->Бланк</th>
-            </tr>
-        </thead>
-        <tbody >
-		<tr ng-hide="DBInfo.length"><td colspan="8" class="text-center">Нет данных</td></tr>
-            <tr ng-repeat-start="item in DBInfo">
-				<!-- <tr ng-repeat="item in array"> --> 
-				<!-- <td  ng-repeat="prop in obj">{{prop}}</td> -->
-                <td rowspan="{{item.Use.length + 1}}"  title="Перевозчик и владелец автомобиля  (ОГРН перевозчика/дата выдачи ОГРН)" ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)"><br>{{item.Name}}</td>
-                <!-- <td  title="ОГРН перевозчика">{{item.OgrnNum}}</td> -->
-                <!-- <td  title="Дата выдачи ОГРН">{{item.OgrnDate}}</td> -->
-			</tr>
-				<tr ng-repeat="prop in item.Use">
-					<td  title="Марка автомобиля"  							ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Brand}}</td>
-					<td  title="Модель автомобиля"  						ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Model}}</td>
-					<td  title="Регистрационный номерной знак автомобиля"  	ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.RegNum}}</td>
-					<td  title="Год выпуска автомобиля"  					ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Year}}</td>
-					<td  title="Номер лицензии"  							ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.LicenseNum}}</td>
-					<td title="Дата выдачи лицензии"  						ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.LicenseDate}}</td>
-					<td  title="Номер бланка лицензии"  					ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.BlankNum}}</td>
+	<div class="row">		<!--  параметры -->
+		<div class="form-group col-sm-4">
+			<button type="button" id="btnReply" class="btn btn-default btn-block" 
+				title="настроить параметры поиска в БД"	ng-click="selectMode('params')" 
+				ng-mouseenter="btnToolbarNorm.handleEvent($event)" ng-mouseleave="btnToolbarNorm.handleEvent($event)">
+				<i class="fa fa-fw fa-lg fa-cab"></i> &nbsp;&nbsp;&nbsp; параметры</button>
+		</div>
+	</div>
+
+
+	<div class="row" ng-show="newWinWidth >= 768">
+		<table id="DBInfo" class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<!-- <th  ng-repeat="colname in colnames">{{colname}}</th> -->
+					<th>Перевозчик</th>
+				   <!--  <th>ОГРН</th> -->
+				   <!--  <th>Дата</th> -->
+					<th>Марка</th>
+					<th>Модель</th>
+					<th>Рег.номер</th>
+					<th>Год</th>
+					<th>Лицензия</th>
+					<th>Дата<!--  лицензии --></th>
+					<th><!-- Номер  -->Бланк</th>
 				</tr>
-			</tr>
-			<tr ng-repeat-end style="display:none"><td  colspan="8"</td></tr>		
-        </tbody>
-    </table>
+			</thead>
+			<tbody >
+			<tr ng-hide="DBInfo.length"><td colspan="8" class="text-center">Нет данных</td></tr>
+				<tr ng-repeat-start="item in DBInfo">
+					<!-- <tr ng-repeat="item in array"> --> 
+					<!-- <td  ng-repeat="prop in obj">{{prop}}</td> -->
+					<td rowspan="{{item.Use.length + 1}}"  title="Перевозчик и владелец автомобиля  (ОГРН перевозчика/дата выдачи ОГРН)" ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)"><br>{{item.Name}}</td>
+					<!-- <td  title="ОГРН перевозчика">{{prop.Ogrn}}</td> -->
+					<!-- <td  title="Дата выдачи ОГРН">{{item.OgrnDate}}</td> -->
+				</tr>
+					<tr ng-repeat="prop in item.Use">
+						<td  title="Марка автомобиля"  							ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Brand}}</td>
+						<td  title="Модель автомобиля"  						ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Model}}</td>
+						<td  title="Регистрационный номерной знак автомобиля"  	ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.RegNum}}</td>
+						<td  title="Год выпуска автомобиля"  					ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Year}}</td>
+						<td  title="Номер лицензии"  							ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.LicenseNum}}</td>
+						<td  title="Дата выдачи лицензии"  						ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.LicenseDate}}</td>
+						<td  title="Номер бланка лицензии"  					ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.BlankNum}}</td>
+					</tr>
+				</tr>
+				<tr ng-repeat-end style="display:none"><td  colspan="8"</td></tr>		
+			</tbody>
+		</table>
+	</div>
+
+	
+	<div ng-show="newWinWidth < 768">
+		<div class="row" ng-repeat="item in smDBInfo"	>
+			<div class="col-sm-12">			<!-- Name -->
+				<!-- <p >Марка автомобиля:{{item.Brand}} </p> -->
+				<!-- <p >Модель автомобиля:{{item.Model}}</p> -->
+				<table  class="table table-striped table-bordered">
+					<tbody >
+						<!-- <tr ng-repeat="prop in {Brand:'VAZ',Model:'4103'}"> 
+								<td>Перевозчик</td>				<td>{{prop.Name}}</td>
+								<td>ОГРН</td>					<td>{{prop.Ogrn}}</td>
+								<td>Дата ОГРН</td>				<td>{{item.OgrnDate}}</td>
+						-->
+							<tr><td>Перевозчик</td>				<td>{{item.Name}}</td></tr>
+ 							<tr><td>Марка автомобиля</td>		<td>{{item.Brand}}</td> </tr>
+							<tr><td>Модель автомобиля</td>		<td>{{item.Model}}</td> </tr>
+							<tr><td>Регистрационный номер</td>	<td>{{item.RegNum}}</td></tr>
+							<tr><td>Год выпуска автомобиля</td>	<td>{{item.Year}}</td></tr>
+							<tr><td>Лицензия</td>				<td>{{item.LicenseNum}}</td></tr>
+							<tr><td>Дата выдачи лицензии</td>	<td>{{item.LicenseDate}}</td></tr>
+							<tr><td>Номер бланка лицензии</td>	<td>{{item.BlankNum}}</td></tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	
+
 </div>
-<!-- 
-        <tbody >
-			<tr ng-hide="countrylang.length"><td colspan="4" class="text-center">Нет данных</td></tr>
-            <tr ng-repeat-start="item in countrylang">
-                <td rowspan="{{item.Use.length + 1}}"  title="Страна, в которой используется язык" ng-mouseenter="handleEvent($event)" ng-mouseleave="handleEvent($event)"><br>{{item.Country}}</td>
-			</tr>
-				<tr ng-repeat="prop in item.Use">
-					<td title="Язык, который используется в стране" ng-mouseenter="handleEvent($event)" ng-mouseleave="handleEvent($event)">{{prop.Language}}</td>
-					<td  title="Язык является государственным" ng-mouseenter="handleEvent($event)" ng-mouseleave="handleEvent($event)">{{prop.IsOfficial}}</td>
-					<td class="text-right"  title="Доля населения, которая использует язык" ng-mouseenter="handleEvent($event)" ng-mouseleave="handleEvent($event)">{{prop.Percentage | number }}%</td>
-				</tr>
-			</tr>
-			<tr ng-repeat-end style="xdisplay:none"><td  colspan="4"</td></tr>		
-        </tbody>
- -->
