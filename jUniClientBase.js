@@ -1140,6 +1140,7 @@ localDiction: [],
 	},
 	
 	popupShow: function(_from, refresh) 	{	
+//	$scope.UniPopup.popupShow('') 	- использовать массив с именем from если он существует, если нет - загрузить из БД
 //	$scope.UniPopup.popupShow(from) 	- использовать массив с именем from если он существует, если нет - загрузить из БД
 //	$scope.UniPopup.popupShow(from,true)- загрузить массив из БД даже если он существует ( существует - значит уже загружен)
 		console.log("popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);

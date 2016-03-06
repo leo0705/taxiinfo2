@@ -109,8 +109,7 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 			
 			case 'params':            
 				$scope.displayMode = 'params';
-				//if ( $scope._scope.from) $scope.UniPopup.popupShow('');	// 	закрыть любое открытое выпадающее окно
-				if ( $scope.from) $scope.UniPopup.popupShow('');	// 	закрыть любое открытое выпадающее окно
+				$scope.from = null;		// 	закрыть любое открытое выпадающее окно
 			break;
 			
 			case 'params/paramsinfo': 
