@@ -1090,6 +1090,7 @@ $scope.btnToolbarNorm = {
 $scope.UniPopup = {	
 popupHeight: 341,    	//  20 x 17px = 340 +1 = 341px
 localDiction: [],
+lastWhere: '',
 	
 	handleEvent: function (e) {				//  UniPopup.handleEvent(e)
 		//console.log("UniPopup.handleEvent:--------e.type='%s'---------------->", e.type);
@@ -1104,6 +1105,9 @@ localDiction: [],
 		if (e.type == "mousedown") $this.addClass('mdown');
 		if (e.type == "mouseup") $this.removeClass('mdown');
 		if (e.type == "click") this.popupShow(e.target.id.substr(3),true);
+		
+		e.preventDefault();
+		e.stopPropagation();
 	},
 	
 	clearText: function (_from) {				//  $scope.UniPopup.clearText(_from);
@@ -1166,7 +1170,9 @@ localDiction: [],
 		}
 		
 		// показать массив в окне   (если массив содержит только одно значение - особый случай)
-		var $th = $('#txt'+$scope._scope.from);
+		var $th = $('#txt'+$scope._scope.from)
+			,$tgPopup = $('#tgPopup');
+
 				console.log("popupShow: arrayname.length:'%s' from:'%s'",$scope._scope.arrayname.length, $scope._scope.from); 
 		if ($scope._scope.arrayname.length == 1)  	{
 				console.log("popupShow: $th.val():'%s'",$th.val()); 
@@ -1176,9 +1182,19 @@ localDiction: [],
 				return;
 			}
 		}
-		var popupPos = this.getPopupPosition($th);
-		var style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:auto;top:{2}px;left:{3}px;".Format(popupPos[2],popupPos[1],popupPos[0]);
-		$('#tgPopup').attr('style',style).show();
+		var popupPos = this.getPopupPosition($th)
+			,style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:auto;top:{2}px;left:{3}px;"
+					.Format(popupPos[2],popupPos[1],popupPos[0])
+					
+			,timeoutId = setTimeout(function() {
+				var thleft = $scope.UniPopup.getPopupPosition($th)[0]				// input param left offset
+				   ,tgleft = $scope.UniPopup.getPopupPosition($tgPopup)[0]; 		// div popup left offset
+				console.log("timeoutId:---> $th.left:'%s'  $tgPopup.left:'%s'", thleft, tgleft);
+				//$scope.UniPopup.getPopupPosition($th)[0],$scope.UniPopup.getPopupPosition( $tgPopup)[0]); 
+				$tgPopup.css('left',thleft);
+		}, 300);	
+					
+		$tgPopup.attr('style',style).show();
 	},
 
 	selectedItemBase: function(_scope,item) 	{
@@ -1193,20 +1209,30 @@ localDiction: [],
 							//$this.removeClass('open');
 		////			});
 	},
+	
 	getPopupPosition: function ($this) {
 		var popupPos = []; // возвращаем [left,top,width,height]           // [left,top,width,height]
 		//var $this = $("#" + UniPopup.Opts.target);
 		var id = $this.attr('id');
 		var targetPos = $this.offset();
 		var targetH = $this.outerHeight();
-		var targetW = $this.outerWidth();
-		//popupPos[0] = targetPos.left;
+		var targetW = $this.outerWidth(),
+			targetWi = $this.innerWidth(),
+			targetWw = $this.width(),
+			targetWc = $this.css("width"),
+			leftdelta =(targetWi - targetWw)/2 ;
+			if ($('body').hasClass('bootstrap') && this.lastWhere.length == 0 )  leftdelta += 0;
+			
+			//console.log("getPopupPosition:-->id='%s' targetW=%s targetWi=%s targetWw=%s targetWc=%s  leftdelta=%s this.lastWhere.length=%s",
+			//			id, targetW, targetWi, targetWw,targetWc, leftdelta, this.lastWhere.length );
+			
+			//popupPos[0] = targetPos.left;
 		popupPos[2] = targetW;
 		popupPos[3] = this.popupHeight;
 		//screenW = $(window).width();
 		// documentH = $(document).height();
 		var scrollLeft = $(document).scrollLeft();
-		var scrollTop = $(document).scrollTop(); console.log("id='%s' targetPos.top=%s targetH=%s scrollTop=%s",id, targetPos.top, targetH, scrollTop);
+		var scrollTop = $(document).scrollTop(); console.log("getPopupPosition:-->id='%s' targetPos.top=%s targetH=%s scrollTop=%s",id, targetPos.top, targetH, scrollTop);
 
 		//if (scrollTop > 0 ) {
 		//  popupPos[1] = targetPos.top - UniPopup._Height - scrollTop - 10;   //console.log("delta:%s ",popupPos[1], targetPos.top + targetH);
@@ -1220,8 +1246,23 @@ localDiction: [],
 		} else {
 		  popupPos[0] = targetPos.left;
 		}
+		//popupPos[0] = popupPos[0] - leftdelta;
 		console.log("getPopupPosition:<--left=%s  top=%s  wi=%s hi=%s",popupPos[0],popupPos[1],popupPos[2],popupPos[3]);
 		return popupPos;
+	},
+		
+	getOffset:	function(elem) 	{
+		var box = elem.getBoundingClientRect()
+		, body = document.body
+		, docElem = document.documentElement
+		, scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop
+		, scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft
+		, clientTop = docElem.clientTop || body.clientTop || 0
+		, clientLeft = docElem.clientLeft || body.clientLeft || 0
+		, top  = box.top +  scrollTop - clientTop
+		, left = box.left + scrollLeft - clientLeft;
+	     
+	    return { top: Math.round(top), left: Math.round(left) };
 	},
 
 	getParamValue: function(_scope, colname) {	      // вызов из getUniWhere: this.getParamValue(_scope, arr[i])
@@ -1254,6 +1295,7 @@ localDiction: [],
 			}//for 
 		sWhere = (sWhere=="where ")?'':sWhere;
 		console.log("getUniWhere:<--sWhere='%s'----",sWhere);
+		this.lastWhere = sWhere;
 		return sWhere;
 	}
 };//scope.UniPopup

@@ -5,45 +5,46 @@
 	</div>	
 	
 	
-	<form role="form" class="row">
+	<form role="form" >
 		<fieldset>
-			<div class="form-group col-sm-12">			<!-- для загрузки данных -->
-			<div class="form-group col-sm-4">
-				<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
-				title="кликни для загрузки данных после настройки параметров поиска" 	ng-click="selectMode('rezult')" 
-				ng-mouseenter="btnToolbarNorm.handleEvent($event)" >
-				<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД</button>
-			</div>
+			<div class="row">			<!-- button  для загрузки данных -->
+				<div class="form-group col-sm-4">
+					<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
+					title="кликни для загрузки данных после настройки параметров поиска" 	ng-click="selectMode('rezult')" 
+					ng-mouseenter="btnToolbarNorm.handleEvent($event)" >
+					<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД</button>
+				</div>
 			</div>
 	
-			<div class="form-group col-sm-12">
+			<div class="row">
 				<div class="form-group col-sm-4">			<!-- Brand -->															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->
-					<label class="control-label" for="txtBrand">Марка:</label>&nbsp;&nbsp;&nbsp;</span><span ng-show="curBrand.Name" ng-click="unselectBrand()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<label class="control-label" for="txtBrand">Марка:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curBrand.Name" ng-click="unselectBrand()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control facaretdown unipopinput" id="txtBrand" type="text" name="txtBrand" readonly
+					ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
+					ng-model="curBrand.Name" 
+					/>
 					<div>
-						<input class="form-control facaretdown" id="txtBrand" type="text" name="txtBrand" 
-						ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
-						ng-model="curBrand.Name" 
-						/>
 					</div>
-					
 				</div>
 				<div class="form-group col-sm-4">			<!-- Model -->
-					<label class="control-label" for="txtModel">Модель:</label>&nbsp;&nbsp;&nbsp;</span><span ng-show="curModel.Name" ng-click="unselectModel()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control facaretdown" id="txtModel" type="text" name="txtModel" 
+					<label class="control-label" for="txtModel">Модель:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curModel.Name" ng-click="unselectModel()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control facaretdown unipopinput" id="txtModel" type="text" name="txtModel" readonly
 					ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
 					ng-model="curModel.Name" 
 					/>
 				</div>
 				<div class="form-group col-sm-4">			<!-- RegNum -->
-					<label class="control-label" for="txtRegNum">Регистрационный знак:</label>&nbsp;&nbsp;&nbsp;</span><span ng-show="curRegNum.Name" ng-click="unselectRegNum()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control" id="txtRegNum" type="text" name="txtRegNum"
+					<label class="control-label" for="txtRegNum">Регистрационный знак:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curRegNum.Name" ng-click="unselectRegNum()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control unipopinput" id="txtRegNum" type="text" name="txtRegNum"
 					ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)" 
 					ng-model="curRegNum.Name" 
 					/>
 				</div>
+			</div>	
+			<div class="row">	
 				<div class="form-group col-sm-12">			<!-- Name -->
-					<label class="control-label" for="txtName">Перевозчик:</label>&nbsp;&nbsp;&nbsp;</span><span ng-show="curName.Name" ng-click="unselectName()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control" id="txtName" type="text" name="txtName" 
+					<label class="control-label" for="txtName">Перевозчик:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curName.Name" ng-click="unselectName()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control unipopinput" id="txtName" type="text" name="txtName" 
 					ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)" 
 					ng-model="curName.Name" 
 					/>
