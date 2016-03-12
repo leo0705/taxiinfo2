@@ -1,0 +1,137 @@
+﻿
+
+<div class="panel-body color2b">
+
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<h3>Сведения о выданных лицензиях легковым такси города Москва</h3>		
+		</div>
+	</div>	
+	
+	<div class="row">		<!--  параметры btn-default btn-success  -->
+		<div class="form-group col-sm-4">
+			<button type="button" id="btnReply" class="btn btn-primary btn-md  btn-block" 
+				title="настроить параметры поиска в БД"	ng-click="selectMode('params')" 
+				ng-mouseenter="btnToolbarNorm.handleEvent($event)" ng-mouseleave="btnToolbarNorm.handleEvent($event)">
+				<i class="fa fa-fw fa-lg fa-cab"></i> &nbsp;&nbsp;&nbsp; параметры</button>
+		</div>
+	</div>
+
+
+	<div class="row"  class="table-responsive" ng-show="newWinWidth >= 768">
+		<table id="DBInfo" class="table table-condensed table-bordered">
+			<thead>
+				<tr>
+					<!-- table-striped  <th  ng-repeat="colname in colnames">{{colname}}</th> label-primary -->
+					<th><h3><span class="label bc-556d3c">Перевозчик</span></h3></th>
+				   <!--  <h1><span class="label label-info">Info</span></h1>-->
+				   <!--  <mark>Марка</mark>< -->
+					<th><h4><span class="label bc-556d3c">Марка</span></h4></th>
+					<th><h4><span class="label bc-556d3c">Модель</span></h4></th>
+					<th><h4><span class="label bc-556d3c">Рег.номер</span></h4></th>
+					<th><h4><span class="label bc-556d3c">Год</span></h4></th>
+					<th><h4><span class="label bc-556d3c">Лицензия</span></h4></th>
+					<th><h4><span class="label bc-556d3c">Дата</span></h4></th>
+					<th><h4><span class="label bc-556d3c">Бланк</span></h4></th>
+				</tr>
+			</thead>
+			<tbody >
+			<tr ng-hide="DBInfo.length"><td colspan="8" class="text-center">Нет данных</td></tr>
+				<tr ng-repeat-start="item in DBInfo">
+					<!-- <tr ng-repeat="item in array"> --> 
+					<!-- <td  ng-repeat="prop in obj">{{prop}}</td> -->
+					<td rowspan="{{item.Use.length + 1}}"  title="Перевозчик и владелец автомобиля  (ОГРН перевозчика/дата выдачи ОГРН)" ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)"><br>{{item.Name}}</td>
+					<!-- <td  title="ОГРН перевозчика">{{prop.Ogrn}}</td> -->
+					<!-- <td  title="Дата выдачи ОГРН">{{item.OgrnDate}}</td> -->
+				</tr>
+					<tr ng-repeat="prop in item.Use">
+						<td  title="Марка автомобиля"  							ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Brand}}</td>
+						<td  title="Модель автомобиля"  						ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Model}}</td>
+						<td  title="Регистрационный номерной знак автомобиля"  	ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.RegNum}}</td>
+						<td  title="Год выпуска автомобиля"  					ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.Year}}</td>
+						<td  title="Номер лицензии"  							ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.LicenseNum}}</td>
+						<td  title="Дата выдачи лицензии"  						ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.LicenseDate}}</td>
+						<td  title="Номер бланка лицензии"  					ng-mouseenter="toggleHover($event)" ng-mouseleave="toggleHover($event)">{{prop.BlankNum}}</td>
+					</tr>
+				</tr>
+				<tr ng-repeat-end style="display:none"><td  colspan="8"</td></tr>		
+			</tbody>
+		</table>
+	</div>
+
+<!-- 	
+	<div ng-show="newWinWidth < 768">
+		<div class="row" ng-repeat="item in smDBInfo">
+			<div class="col-sm-12">			
+					<tbody >
+							<tr><td><strong>Перевозчик</strong></td>			<td>{{item.Name}}</td></tr>
+ 							<tr><td><strong>Марка автомобиля</strong></td>		<td>{{item.Brand}}</td> </tr>
+							<tr><td><strong>Модель автомобиля</strong></td>		<td>{{item.Model}}</td> </tr>
+							<tr><td><strong>Регистрационный номер</strong></td>	<td>{{item.RegNum}}</td></tr>
+							<tr><td><strong>Год выпуска автомобиля</strong></td><td>{{item.Year}}</td></tr>
+							<tr><td><strong>Лицензия</strong></td>				<td>{{item.LicenseNum}}</td></tr>
+							<tr><td><strong>Дата выдачи лицензии</strong></td>	<td>{{item.LicenseDate}}</td></tr>
+							<tr><td><strong>Номер бланка лицензии</strong></td>	<td>{{item.BlankNum}}</td></tr>
+					</tbody>
+				</table>
+
+				
+			</div>
+		</div>
+	</div>
+	
+ -->	
+
+	<div ng-show="newWinWidth < 768">
+		<div class="row" ng-repeat="item in smDBInfo">
+			<div class="col-sm-12">	
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong>Перевозчик:&nbsp;&nbsp;&nbsp;</strong>{{item.Name}}</h3>
+					</div>
+					<div class="panel-body">
+						<table id="DBInfo" class="table table-condensed table-bordered">
+							<tbody >
+									<!-- <tr><td><strong>Перевозчик</strong></td>			<td>{{item.Name}}</td></tr> -->
+									<tr><td><strong>Марка автомобиля</strong></td>		<td>{{item.Brand}}</td> </tr>
+									<tr><td><strong>Модель автомобиля</strong></td>		<td>{{item.Model}}</td> </tr>
+									<tr><td><strong>Регистрационный номер</strong></td>	<td>{{item.RegNum}}</td></tr>
+									<tr><td><strong>Год выпуска автомобиля</strong></td><td>{{item.Year}}</td></tr>
+									<tr><td><strong>Лицензия</strong></td>				<td>{{item.LicenseNum}}</td></tr>
+									<tr><td><strong>Дата выдачи лицензии</strong></td>	<td>{{item.LicenseDate}}</td></tr>
+									<tr><td><strong>Номер бланка лицензии</strong></td>	<td>{{item.BlankNum}}</td></tr>
+							</tbody>
+						</table>
+<!-- 					
+						<strong>Марка автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Brand}}<br>
+						<strong>Модель автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Model}}<br>
+						<strong>Регистрационный номер:&nbsp;&nbsp;&nbsp;</strong>{{item.RegNum}}<br>
+						<strong>Год выпуска автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Year}}<br>
+						<strong>Лицензия:&nbsp;&nbsp;&nbsp;</strong>{{item.LicenseNum}}<br>
+						<strong>Дата выдачи лицензии:&nbsp;&nbsp;&nbsp;</strong>{{item.LicenseDate}}<br>
+						<strong>Номер бланка лицензии:&nbsp;&nbsp;&nbsp;</strong>{{item.BlankNum}}
+ -->					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	
+<!-- 	
+         <div class="panel panel-info">
+            <div class="panel-heading">
+               <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content 
+            </div>
+        </div>
+ -->		
+		
+		
+		
+		
+</div>
