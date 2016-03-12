@@ -41,18 +41,20 @@
     <script src="jMain.js"></script>
 </head>
 <!-- <body ng-controller="commonCtrl" onload="jWhocomein.ashxOnloadReg('taxiinfo','load');">  -->
-<body class="bootstrap" ng-controller="commonCtrl"> 
+<body ng-controller="commonCtrl"> 
 	<div class="container">
 			<div class="row">
-				<div class="col-sm-12">
-					<div id="mes" >
+				<div  id="mes" class="col-sm-12">
+					<!-- <div id="mes" > -->
 						<span id="mestextmark">►</span><span id="mestext" title="кликни для очистки" ng-click="mesClear()"></span>
-					</div>
+					<!-- </div> -->
 				</div>
 			</div>
 		
 		<div id="mainCtrl" class="row" ng-controller="mainCtrl" >
-				<ng-include src="'rezult/tableView.html'" ng-show="displayMode == 'rezult'"></ng-include>
+				<!-- <ng-include src="'rezult/tableView.html'" ng-show="displayMode == 'rezult'"></ng-include> -->
+				<ng-include src="'rezult/md-tableView.html'" ng-show="displayMode == 'rezult' && newWinWidth >= 768"></ng-include>
+				<ng-include src="'rezult/sm-tableView.html'" ng-show="displayMode == 'rezult' && newWinWidth < 768 "></ng-include>
 				<ng-include src="'params/paramsView.html'" ng-show="displayMode == 'params' || displayMode == 'params/paramsinfo'"></ng-include>
 				<ng-include src="'params/paramsinfo/paramsinfo.html'" ng-show="displayMode == 'params/paramsinfo'"></ng-include>
 		</div>
