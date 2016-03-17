@@ -112,10 +112,11 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 				$scope.from = null;		// 	закрыть любое открытое выпадающее окно
 			break;
 			
-			case 'params/paramsinfo': 
+			case 'params/paramsinfo':
+				$scope.displayMode = ($scope.displayMode=='params')?'params/paramsinfo':'params';
+			/*
 				var old = $('div#paramsinfo');			
 				if ($scope.displayMode=='params/paramsinfo') {old.fadeOut('slow', function(){$scope.displayMode = 'params';});}//скрыть
-				/*
 				//	old.animate(
 				//						{
 				//							opacity: 0.1
@@ -126,13 +127,13 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 				//							$scope.displayMode = 'params';
 				//							old.attr('opacity', '1');
 				//						}); // end animate	
-				*/							
 											
 				
 					else	{					// показать
 						$scope.displayMode = 'params/paramsinfo';
 						old.hide().fadeIn('slow');
 					}
+				*/	
 			break;
 			
 		}
