@@ -1,0 +1,225 @@
+<!--
+		ngHide and  ngShow directives
+		-----------------------------
+   when the element is going to be hidde ===>  ADD     ng-hide-add    &  ng-hide-add-active    classes
+   when the element is going to be shown ===>  ADD	   ng-hide-remove &  ng-hide-remove-active classes 	
+-->
+
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<title>ngHide and  ngShow animation</title>
+
+<!-- <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet" /> -->
+<!--    https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css -->
+<style>
+.uniPopup {
+	/*display:none;overflow-y:auto;overflow-x:hidden;	height:341px;*/
+	width: 30%;
+	height: 100%;
+	max-height: 0px;
+	overflow: hidden;
+}
+
+.tgTable {font-size: 1em; font-family:sans-serif;width:100%;padding:0px;margin:0px;border-collapse:collapse;border:1px solid black;}
+.tgCell {padding:0px 5px;border:1px solid black;/*height:17px;*/background-color:white;color: black;}
+td.tgCell.hover{  color:white;background-color: steelblue; cursor:default;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+p.pstyle {
+    text-align: justify;
+	width: 30%;
+	height: 100%;
+	max-height: 0px;
+	overflow: hidden;
+}
+
+
+@keyframes open-down-animation {
+	0% {
+		max-height: 0px;
+		overflow: hidden;
+	}
+	100% {
+		max-height: 500px;
+	}
+}
+.open-down {
+animation-name:open-down-animation;
+animation-duration:.6s;
+animation-fill-mode: forwards;
+/*animation-timing-function:linear;*/
+animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
+}
+
+
+@keyframes close-up-animation {
+	0% {
+		max-height: 500px;
+		overflow: hidden;
+	}
+	100% {
+		max-height: 0px;
+		overflow: hidden;
+	}
+}
+.close-up {
+animation-name:close-up-animation;
+animation-duration:.6s;
+animation-fill-mode: forwards;
+/*animation-timing-function:linear;*/
+animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
+}
+
+
+@keyframes animation-transform {
+	from {
+		transform: rotate(0deg);
+	}
+	50% {
+		transform: rotate(90deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.perfom {
+	animation-name: animation-transform;
+	animation-duration: 5s;
+} 
+ 
+</style>
+
+</head>
+<body ng-controller="ExampleController">
+<div>
+	<h1>ngHide and  ngShow + animation.css</h1>
+	<div>
+		<button ng-click="animateCss('.pstyle','open-down',doneRun)">open.pstyle</button>
+		<button ng-click="animateCss('.pstyle','close-up',doneGo)">close.pstyle</button>
+		
+		<button ng-click="animateCss('.uniPopup','open-down',doneRun)">open.uniPopup</button>
+		<button ng-click="animateCss('.uniPopup','close-up',doneGo)">close.uniPopup</button>
+		
+		<div id="tgPopup" class="uniPopup">
+			<table class="tgTable">
+				<tbody >
+						<!-- ng-click="selectedItem(item)" ng-mouseenter="UniPopup.handleEvent($event)"  для td-->
+						<!-- ng-mouseleave="UniPopup.handleEvent($event)" -->
+					<tr ng-repeat="item in Lorem_ipsum">
+						<td class="tgCell"	>
+							{{item.Name}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	   
+<!--
+		ngHide and  ngShow directives
+		-----------------------------
+   when the element is going to be hidde ===>  ADD     ng-hide-add    &  ng-hide-add-active    classes
+   when the element is going to be shown ===>  ADD	   ng-hide-remove &  ng-hide-remove-active classes 	
+-->
+
+		<div>
+			<p class="pstyle">
+			Lorem ipsum dolor sit amet, consectetuer adipiscingelit. Duis tellus. Donec ante dolor, 
+			iaculis nec, gravidaac, cursus in, eros. Mauris vestibulum, felis et egestasullamcorper, 
+			purus nibh vehicula sem, eu egestas antenisl non justo. Fusce tincidunt, lorem nev 
+			dapibusconsectetuer, leo orci mollis ipsum, eget suscipit erospurus in ante.
+			At ipsum vitae est lacinia tincidunt. Maecenas elit orci,gravida ut, molestie non, 
+			venenatis vel, lorem. Sedlacinia. Suspendisse potenti. Sed ultricies cursuslectus. In 
+			id magna sit amet nibh suspicit euismod.Integer enim. Donec sapien ante, accumsan ut,
+			sodales commodo, auctor quis, lacus. Maecenas a elitlacinia urna posuere sodales. Curabitur 
+			pede pede,molestie id, blandit vitae, varius ac, purus. Mauris atipsum vitae est lacinia 
+			tincidunt. Maecenas elit orci, gravida ut, molestie non, venenatis vel,lorem. Sed lacinia. 
+			Suspendisse potenti. Sed ultrucies cursus lectus. In id magna sit amet nibhsuspicit euismod. 
+			Integer enim. Donec sapien ante, accumsan ut, sodales commodo, auctorquis, lacus. Maecenas 
+			a elit lacinia urna posuere sodales. Curabitur pede pede, molestie id,blandit vitae, varius 
+			ac, purus.
+			Morbi dictum. Vestibulum adipiscing pulvinar quam. In aliquam rhoncus sem. In mi erat, 
+			sodaleseget, pretium interdum, malesuada ac, augue. Aliquam sollicitudin, massa ut vestibulum 
+			posuere, massa arcu elementumpurus, eget vehicula lorem metus vel libero. Sed in dui id lectus 
+			commodo elementum. Etiam rhoncus tortor. Proin alorem. Ut nec velit. Quisque varius. Proin 
+			nonummy justo dictum sapien tincidunt iaculis. Duis lobortis pellentesque risus.Aenean ut 
+			tortor imperdiet dolor scelerisque bibendum. Fusce metus nibh, adipiscing id, ullamcorper at, 
+			consequat a,nulla.
+			</p>
+		</div> 
+	</div>
+</div>
+<script src="https://yastatic.net/jquery/1.10.2/jquery.js"></script>
+<script src="http://yastatic.net/angularjs/1.3.16/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.3.16/angular-animate.min.js"></script>
+<script>
+var app = angular.module('myApp', ['ngAnimate'])
+.controller('ExampleController', ['$scope', function($scope) {
+
+$scope.Lorem_ipsum = [
+	{Name: 'Lorem ipsum dolor sit amet, consectetuer adipiscingelit. Duis tellus.'},
+	{Name: 'Donec ante dolor, 	iaculis nec, gravidaac, cursus in, eros.'},
+	{Name: 'Mauris vestibulum, felis et egestasullamcorper, purus nibh vehicula sem, eu egestas antenisl non justo.'}, 
+	{Name: 'Fusce tincidunt, lorem nev 	dapibusconsectetuer, leo orci mollis ipsum, eget suscipit erospurus in ante.'},
+    {Name: 'At ipsum vitae est lacinia tincidunt.'},
+	{Name: 'Maecenas elit orci,gravida ut, molestie non, venenatis vel, lorem. Sedlacinia.'},
+	{Name: 'Suspendisse potenti. Sed ultricies cursuslectus.'},
+	{Name: 'In id magna sit amet nibh suspicit euismod.Integer enim.'},
+	{Name: 'Donec sapien ante, accumsan ut, sodales commodo, auctor quis, lacus.'},
+	{Name: 'Maecenas a elitlacinia urna posuere sodales. Curabitur pede pede,molestie id, blandit vitae, varius ac, purus.'},
+	{Name: 'Mauris atipsum vitae est lacinia tincidunt. Maecenas elit orci, gravida ut, molestie non, venenatis vel,lorem.'}, 
+	{Name: 'Sed lacinia. 	Suspendisse potenti. Sed ultrucies cursus lectus. In id magna sit amet nibhsuspicit euismod.'}, 
+	{Name: 'Integer enim. Donec sapien ante, accumsan ut, sodales commodo, auctorquis, lacus.'},
+	{Name: 'Maecenas 	a elit lacinia urna posuere sodales. Curabitur pede pede, molestie id,blandit vitae, varius ac, purus.'},
+    {Name: 'Morbi dictum. Vestibulum adipiscing pulvinar quam. In aliquam rhoncus sem.'},
+	{Name: 'In mi erat, sodaleseget, pretium interdum, malesuada ac, augue.'},
+	{Name: 'Aliquam sollicitudin, massa ut vestibulum posuere, massa arcu elementumpurus, eget vehicula lorem metus vel libero.'},
+	{Name: 'Sed in dui id lectus 	commodo elementum. Etiam rhoncus tortor. Proin alorem.'},
+	{Name: 'Ut nec velit. Quisque varius. Proin nonummy justo dictum sapien tincidunt iaculis.'},
+	{Name: 'Duis lobortis pellentesque risus.Aenean ut tortor imperdiet dolor scelerisque bibendum.'},
+	{Name: 'Fusce metus nibh, adipiscing id, ullamcorper at, consequat a, nulla.'}
+];
+
+
+$scope.animateCss = function (_se, _cname,_cb) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
+		   ,$th = $(_se).addClass(_cname).one(animationEnd, function() {
+															  if (_cb) {_cb(_se);}
+															  $(this).removeClass(_cname);  
+															});
+		console.log("==>animateCss: animationClassName:'%s'  _se:'%s'",_cname,_se);
+};
+
+$scope.doneRun = function(_se) {console.log("==>doneRun:open-down _se:'%s'",_se);$(_se).css('max-height','100%');};
+$scope.doneGo  = function(_se) {console.log("==>doneGo:close-up   _se:'%s'",_se);$(_se).css('max-height','0');};
+
+
+$scope.run =false;
+$scope.go =false;
+$scope.Run = function() {    //	$scope.Run()
+	console.log("==>Run");
+	$scope.run = true;
+};
+$scope.Go = function() {    //	$scope.Go()
+	console.log("==>Go");
+	$scope.go = true;
+};
+  
+	  
+	  
+}]);
+</script>
+</body>
+</html>
