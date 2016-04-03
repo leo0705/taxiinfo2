@@ -3,15 +3,21 @@
  *  Copyriqht (C) 2013-2015  Leonid L.Voitenko All Rights Reserved  http://www.inet-apps.ru/                          
  *	version: 1.12 (2015-03-18)
  */
-angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
+angular.module("TaxiInfoApp", [ "ngAnimate","UniClientBase"])   //  ,
 //.controller("mainCtrl", function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 	
-	
+	$scope.displayMode = 'params';
 	$scope.newWinWidth = $window.outerWidth;
-
-	$scope.$watch("newWinWidth", function(newWidth, oldWidth){
-		console.log("---->$watch newWidth:'%s' ",newWidth);
+	$scope.currentlUrl = 'params/paramsView.html';				// Url for current view for transient animation	
+	
+	
+	$scope.$watchGroup(['newWinWidth', 'displayMode'], function(newValues, oldValues, scope) {
+// newValues[0] -> new-newWinWidth 
+// newValues[1] -> new-displayMode
+//$scope.$watch("newWinWidth", function(newWidth, oldWidth){
+console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displayMode:'%s'   old-displayMode:'%s' ",
+							newValues[0],		 oldValues[0],          newValues[1],			oldValues[1] );
 		/*--- code bgn ---
 		if(newWidth <= 400){
 			//scope.deviceSize = "smallDevice";
@@ -21,15 +27,49 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 			//scope.deviceSize = "largeDevice";
 		}
 		--- code end ---*/
-	});
-		
+		switch(true) {
+			case newValues[0] < 768 &&  newValues[1] == 'rezult':
+				$scope.currentlUrl = 'rezult/sm-tableView.html';
+			break;
+			
+			case newValues[0] >= 768 &&  newValues[1] == 'rezult':
+				$scope.currentlUrl = 'rezult/md-tableView.html';
+			break;
+			
+				//$scope.displayMode = ($scope.displayMode=='params')?'params/paramsinfo':'params';
+			//case  newValues[1] == 'params/paramsinfo' && $scope.currentlUrl == 'params/paramsinfo/sm-paramsinfo.html' :
+			//	$scope.currentlUrl = 'params/paramsView.html';
+			//break;
+			
+			case  newValues[1] == 'params' :
+				$scope.currentlUrl = 'params/paramsView.html';
+			break;
+			
+			case newValues[0] < 768 &&  newValues[1] == 'params/paramsinfo':
+				$scope.currentlUrl = 'params/paramsinfo/sm-paramsinfo.html';
+			break;
+			
+			case newValues[0] >= 768 &&  newValues[1] == 'params/paramsinfo':
+				$scope.currentlUrl = 'params/paramsinfo/md-paramsinfo.html';
+			break;
+		}
+		console.log("<----$watch   currentlUrl:'%s'", $scope.currentlUrl );
+	});		
+	
 	angular.element($window).bind('resize',function(){
 		$scope.$apply(function(){
 			$scope.newWinWidth = $window.outerWidth;
 		})
 	});
-
-
+			/* $scope.displayMode
+			+<ng-include src="'rezult/sm-tableView.html'" ng-show="newWinWidth < 768 && displayMode == 'rezult'"></ng-include>
+			+<ng-include src="'rezult/md-tableView.html'" ng-show="newWinWidth >= 768 && displayMode == 'rezult'"></ng-include>
+			
+			+<ng-include src="'params/paramsView.html'" ng-show="displayMode == 'params' || displayMode == 'params/paramsinfo'"></ng-include>
+			
+			<ng-include src="'params/paramsinfo/sm-paramsinfo.html'" ng-show="newWinWidth < 768  && displayMode == 'params/paramsinfo'"></ng-include>
+			<ng-include src="'params/paramsinfo/md-paramsinfo.html'" ng-show="newWinWidth >= 768 && displayMode == 'params/paramsinfo'"></ng-include>
+				*/
 	
 	$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '20px';	 	// мин/мах значния для анимации иображений
 	$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '30px';
@@ -74,11 +114,11 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 			break;
 		
 			case "smDBInfo.load.OK": 
-				$scope.displayMode = 'rezult';
 				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
 				if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
 				else $scope.mesPost(mstext);
 				$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
+				$scope.displayMode = 'rezult';
 			break;
 		
 			case "Brand.load.OK":  
@@ -319,6 +359,6 @@ angular.module("TaxiInfoApp", ["UniClientBase"])   //  , "ngAnimate"
 				$scope.loadCount();
 	};
 	
-	$scope.displayMode = 'params';
+//	$scope.displayMode = 'params';
 	
 }]);

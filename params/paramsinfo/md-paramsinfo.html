@@ -1,8 +1,44 @@
 	
 	<!-- md-paramsinfo.html >-->
-<div id ="md-paramsinfo">			
+<div id ="md-paramsinfo" class="ngIncludeItem"  ng-show="'true'">	
+<!--
+	<div class="row">
+		<div class="col-sm-1">
+			<span id="paramsinfo" class="badge"
+				ng-click="selectMode('params/paramsinfo')" 	title="Скрыть пояснения по вводу параметров запроса"
+			>
+				&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-close "></i>&nbsp;&nbsp;&nbsp;
+			</span>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<h2 id="paramstitle">Пояснения по вводу параметров запроса</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+				<span id="paramsinfo" class="badge"
+					ng-click="selectMode('params/paramsinfo')" 	title="Скрыть пояснения по вводу параметров запроса"
+				>
+					&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-close "></i>&nbsp;&nbsp;&nbsp;
+				<!-- <h2 id="paramstitle">&nbsp;&nbsp;&nbsp;Пояснения по вводу параметров запроса</h2> -- >			
+			</span>
+		</div>
+	</div>
+-->
+	
+	<div class="row">
 		<table >
-			<caption><h2 id="paramstitle">Пояснения по вводу параметров запроса</h2></caption>
+			<caption>
+				<span id="paramsinfo" class="badge"
+					ng-click="selectMode('params/paramsinfo')" 	title="Скрыть пояснения по вводу параметров запроса"
+				>
+					&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-close "></i>&nbsp;&nbsp;&nbsp;
+				</span>
+				<h2 id="paramstitle">Пояснения по вводу параметров запроса</h2>
+			</caption>
 			<tr>
 				<td class="MainTableCol"  colspan="2"  >
 				<img src="md-paramsinfo-fig.PNG"  alt = "Основные элементы управления интерфейса пользователя" 
@@ -81,7 +117,7 @@
 			<tr>
 				<td style="padding-right: 18px;"">
 					 <p class="text-justify"  style="margin-bottom:inherit;">
-						<code>Набор введенных значений</code>> в поля параметров запроса является 
+						<code>Набор введенных значений</code> в поля параметров запроса является 
 						<code>фильтром</code>, который пропускает в результат 
 						только те строки, которые удовлетворяют <code>всем</code> введенным значениям.
 						<br>
@@ -102,6 +138,6 @@
 				 </p>
 				</td>
 			</tr>
-
 		</table>
-	</div>
+	</div>	
+</div>

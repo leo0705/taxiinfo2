@@ -1088,7 +1088,7 @@ $scope.btnToolbarNorm = {
 
 //////////////////////////////////////////////////////////////////////////////////     UniPopup   
 $scope.UniPopup = {	
-popupHeight: 341,    	//  20 x 17px = 340 +1 = 341px
+popupHeight: 460,    	   //  20 x 17px = 340 +1 = 341px    20 x 23px + 1 = 461px
 localDiction: [],
 lastWhere: '',
 	
@@ -1117,14 +1117,14 @@ lastWhere: '',
 		//$(sid).val('');
 	},
 
-	closeAnyOpenPopup: function()			{	//	$scope.UniPopup.closeAnyOpenPopup() 	закрыть любое открытое выпадающее окно
+	closeAnyOpenPopup: function()	{	//	$scope.UniPopup.closeAnyOpenPopup() 	закрыть любое открытое выпадающее окно
 		console.log("UniPopup.closeAnyOpenPopup:----------->");
 		var _from = this.getOpenPopup();
 		if (_from)	this.closeOpenPopup(_from);
 		console.log("UniPopup.closeAnyOpenPopup:<------ _from='%s'-----",_from);
 	},
 	
-	closeOpenPopup: function(_from) 		{	// 	$scope.UniPopup.closeOpenPopup(_from) 	закрыть выпадающее окно для _from
+	closeOpenPopup: function(_from) {	// 	$scope.UniPopup.closeOpenPopup(_from) 	закрыть выпадающее окно для _from
 		console.log("UniPopup.closeOpenPopup:----- _from='%s' ------>",_from);
 		if ($scope._scope.arrayname && $scope._scope.arrayname.length && $scope._scope.from == _from)	 {
 			$scope._scope.arrayname = [];
@@ -1133,8 +1133,19 @@ lastWhere: '',
 		}
 		return false;
 	},
+
+	closAlienOpenPopup: function(_from) {	// 	$scope.UniPopup.closAlienOpenPopup(_from) 	закрыть выпадающее окно для from != _from
+		console.log("UniPopup.closAlienOpenPopup:----- _from='%s' ------>",_from);
+		var from = this.getOpenPopup()
+		,	rezult; 
+		if ( _from && from && from != _from) {
+			rezult = $scope.UniPopup.closeOpenPopup(_from);
+		}
+		console.log("UniPopup.closAlienOpenPopup:<-----rezult='%s' ------>",rezult);
+		return rezult;
+	},
 	
-	getOpenPopup: function()				{	//	$scope.UniPopup.getOpenPopup()      	возврашает from - открытое выпадающее окно	
+	getOpenPopup: function()		{	//	$scope.UniPopup.getOpenPopup()   возврашает from - открытое выпадающее окно	
 		var _from;
 		if ($scope._scope.arrayname && $scope._scope.arrayname.length )	{
 			_from = $scope._scope.from;
@@ -1143,19 +1154,29 @@ lastWhere: '',
 		return _from;
 	},
 	
-	popupShow: function(_from, refresh) 	{	
-//	$scope.UniPopup.popupShow('') 	- использовать массив с именем from если он существует, если нет - загрузить из БД
-//	$scope.UniPopup.popupShow(from) 	- использовать массив с именем from если он существует, если нет - загрузить из БД
-//	$scope.UniPopup.popupShow(from,true)- загрузить массив из БД даже если он существует ( существует - значит уже загружен)
+	popupShow: function(_from, refresh) 	{
+/*		
+ *	$scope.UniPopup.popupShow('') 	- использовать массив с именем $scope._scope.from если он существует, если нет - загрузить из БД
+ *	$scope.UniPopup.popupShow(from) 	- использовать массив с именем from если он существует, если нет - загрузить из БД
+ *	$scope.UniPopup.popupShow(from,true)- загрузить массив из БД даже если он существует ( существует - значит уже загружен)
+ */		
 		console.log("popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
 		
 		//	закрыть показанный чужой список
-		if ($scope._scope.arrayname && $scope._scope.arrayname.length && $scope._scope.from != _from) {$scope._scope.arrayname = [];	console.log("закрыть показанный чужой список");}
+		//this.closAlienOpenPopup(_from);
+		if ($scope._scope.arrayname && $scope._scope.arrayname.length && $scope._scope.from != _from) {
+			$scope._scope.arrayname = [];			   //   ********************************************* hide popup
+			console.log("popupShow: закрыть показанный чужой список");
+		}
 		
 		//	закрыть показанный свой список
 		if ($scope._scope.arrayname && $scope._scope.arrayname.length && $scope._scope.from == _from)	 {
-			$scope._scope.arrayname = [];				// закрыть показанный  свой список
-			$scope._scope.from = '';			console.log("закрыть показанный свой список");
+			//$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);	// закрыть показанный  свой список 
+			//this.localDiction['_arrayname'] = $scope._scope.arrayname;
+			//this.localDiction['_from'] = $scope._scope.from;
+			$scope._scope.arrayname = [];				
+			$scope._scope.from = '';			
+			console.log("popupShow: закрыть показанный свой список");
 			return;
 		}
 		
@@ -1177,40 +1198,75 @@ lastWhere: '',
 		if ($scope._scope.arrayname.length == 1)  	{
 				console.log("popupShow: $th.val():'%s'",$th.val()); 
 			if ($th.val() == $scope._scope.arrayname[0].Name  &&  !$th.hasClass('unipopupbtn')) {
-				$scope._scope.arrayname = [];
+				$scope._scope.arrayname = [];			//   ********************************************* hide popup
 				$scope._scope.from = '';
 				return;
 			}
 		}
+/*		
 		var popupPos = this.getPopupPosition($th)
 			,style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:auto;top:{2}px;left:{3}px;"
 					.Format(popupPos[2],popupPos[1],popupPos[0])
 					
 			,timeoutId = setTimeout(function() {
-				var thleft = $scope.UniPopup.getPopupPosition($th)[0]				// input param left offset
-				   ,tgleft = $scope.UniPopup.getPopupPosition($tgPopup)[0]; 		// div popup left offset
-				console.log("timeoutId:---> $th.left:'%s'  $tgPopup.left:'%s'", thleft, tgleft);
-				//$scope.UniPopup.getPopupPosition($th)[0],$scope.UniPopup.getPopupPosition( $tgPopup)[0]); 
-				$tgPopup.css('left',thleft);
-		}, 300);	
-					
-		$tgPopup.attr('style',style).show();
+				var thleft = $scope.UniPopup.getViewportOffset($th[0]).left			// input param left offset
+				   ,tgleft = $scope.UniPopup.getViewportOffset($tgPopup[0]).left	// div popup left offset
+				   ,delta = tgleft - thleft;
+										console.log("timeoutId:---> $th.left:'%s'  $tgPopup.left:'%s'  delta:'%s",
+																	thleft, 		tgleft, 			delta);
+				$tgPopup.css('left',thleft);	// the final correction
+		}, 150);	
+		
+		
+*/	
+		var popupPos = this.getViewportOffset($th[0])  //  have got popupPos.left, popupPos.top
+		,	style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:{4}px;top:{2}px;left:{3}px;overflow-y:auto;overflow-x:hidden;"
+					.Format($this.outerWidth(), popupPos.top + $th.outerHeight(), popupPos.left,this.popupHeight);
+
+		//$tgPopup.attr('style',style).show();    //   ********************************************* show popup
+		
+		// show popup
+		$tgPopup.attr('style',style);
+		$scope.animateCss('.uniPopup','open-down',$scope.done_open_down);
 	},
 
-	selectedItemBase: function(_scope,item) 	{
-		console.log("selectedItemBase:  from:'%s'  popupValue:'%s'",$scope._scope.from,item['Name']);
-		$scope._scope['cur' + $scope._scope.from].Name = item['Name'];
-		this.localDiction['txt' + $scope._scope.from] = item['Name']; 	console.log("selectedItemBase: from:'%s'   value='%s'",'txt' + $scope._scope.from, this.localDiction['txt' + $scope._scope.from]);
-		$scope._scope.arrayname = [];
-		$scope._scope.from = '';
-		////$this.slideUp('fast', function() {
-		////					$scope._scope.arrayname = [];	// arrayname ????
-		////					$scope._scope.from = '';		// from ????
-							//$this.removeClass('open');
-		////			});
+	getViewportOffset: function (element) {   	//  OK, this is the best !!!
+		var node = element
+		,   left = node.offsetLeft
+		,   top = node.offsetTop
+		;
+
+		node = node.parentNode;
+
+		do {
+		var styles = getComputedStyle(node);
+
+		if (styles) {
+		  var position = styles.getPropertyValue('position');
+
+		  left -= node.scrollLeft;
+		  top -= node.scrollTop;
+
+		  if (/relative|absolute|fixed/.test(position)) {
+			left += parseInt(styles.getPropertyValue('border-left-width'), 10);
+			top += parseInt(styles.getPropertyValue('border-top-width'), 10);
+			
+			left += node.offsetLeft;
+			top += node.offsetTop;
+		  }
+
+		  node = position === 'fixed' ? null : node.parentNode;
+		} else {
+		  node = node.parentNode;
+		}
+		//console.log("node.nodeName:'%s'",node.nodeName);// 'DIV' 'FIELDSET'  'BODY' 'HTML'	
+		} while (node.nodeName == 'DIV' || node.nodeName == 'FIELDSET' || node.nodeName == 'BODY');	// element.nodeName == "TD"
+		console.log("getViewportOffset:<--- left:'%s'  top:'%s'", left, top);
+		return { left: left, top: top };
 	},
-	
-	getPopupPosition: function ($this) {
+
+/*	
+	getPopupPosition: function ($this) {		//  has a shift to right
 		var popupPos = []; // возвращаем [left,top,width,height]           // [left,top,width,height]
 		//var $this = $("#" + UniPopup.Opts.target);
 		var id = $this.attr('id');
@@ -1250,8 +1306,37 @@ lastWhere: '',
 		console.log("getPopupPosition:<--left=%s  top=%s  wi=%s hi=%s",popupPos[0],popupPos[1],popupPos[2],popupPos[3]);
 		return popupPos;
 	},
-		
-	getOffset:	function(elem) 	{
+	
+	 XY: function(o) {   						// exact the same as getPopupPosition()
+		var z=o, x=0,y=0, c; 
+		while(z && !isNaN(z.offsetLeft) && !isNaN(z.offsetTop)) {        
+		c = isNaN(window.globalStorage)?0:window.getComputedStyle(z,null); 
+		x += z.offsetLeft-z.scrollLeft+(c?parseInt(c.getPropertyValue('border-left-width'),10):0);
+		y += z.offsetTop-z.scrollTop+(c?parseInt(c.getPropertyValue('border-top-width'),10):0);
+		z = z.offsetParent;
+		} 
+		//return {x:o.X=x,y:o.Y=y};
+		return { left:x, top:y};
+	},
+
+	getPosition: function (el) {   				// exact the same as getPopupPosition()
+		var isNotFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') == -1;
+		var xPosition = 0;
+		var yPosition = 0;
+		while(el) {
+			xPosition += (el.offsetLeft-el.scrollLeft);
+			yPosition += (el.offsetTop-el.scrollTop);
+			if (isNotFirefox) {
+				xPosition += el.clientLeft;
+				yPosition += el.clientTop;
+			}
+			el = el.offsetParent;
+		}
+		return { left: xPosition, top: yPosition };
+	},	
+	
+	
+	getOffset:	function(elem) 	{  				// exact the same as getPopupPosition()
 		var box = elem.getBoundingClientRect()
 		, body = document.body
 		, docElem = document.documentElement
@@ -1264,16 +1349,27 @@ lastWhere: '',
 	     
 	    return { top: Math.round(top), left: Math.round(left) };
 	},
+*/
+	
+	selectedItemBase: function(_scope,item) {
+		console.log("selectedItemBase:  from:'%s'  popupValue:'%s'",$scope._scope.from,item['Name']);
+		$scope._scope['cur' + $scope._scope.from].Name = item['Name'];
+		////this.localDiction['txt' + $scope._scope.from] = item['Name']; 	console.log("selectedItemBase: from:'%s'   value='%s'",'txt' + $scope._scope.from, this.localDiction['txt' + $scope._scope.from]);
+		$scope._scope.arrayname = [];	    //   ********************* item selected ************************ hide popup
+		$scope._scope.from = '';
 
-	getParamValue: function(_scope, colname) {	      // вызов из getUniWhere: this.getParamValue(_scope, arr[i])
+		//var timeoutId = setTimeout(function go() {
+		//		$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);
+		//}, 10);	
+		
+		
+	},
+	
+	getParamValue: function(_scope, colname) {	// вызов из getUniWhere: this.getParamValue(_scope, arr[i])
 		return _scope.$eval('cur' + colname + '.Name');
 	},
 	
 	getUniWhere: function(_scope, arr) 	{		//UniPopup.getUniWhere($scope, $scope.whereparam);
-	//$scope.whereparam = [
-	//{id:'txtBrand',col:'Brand',op:'='},
-	//{id:'txtModel',col:'Model',op:'='},
-	//{id:'txtRegNum',col:'RegNum',op:'%'}];
 		console.log("getUniWhere:--arr.length=%s---->",arr.length);
             var i,name,value, sWhere = "where ";
 			for (i=0; i< arr.length; i++){
@@ -1300,5 +1396,28 @@ lastWhere: '',
 	}
 };//scope.UniPopup
 
+
+/*--------------------------------------------- animation ------------------------------------------------------------*/
+
+$scope.animateCss = function (_se, _cname,_cb) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
+		   ,$th = $(_se).addClass(_cname).one(animationEnd, function() {
+															  console.log("==>animateCss.function: _se:'%s'",_se);
+															  if (_cb) {_cb(_se);}
+															  $(this).removeClass(_cname); 
+															});
+		console.log("==>animateCss: _cname:'%s'  _se:'%s'  hasClass:'%s'",_cname,_se,$th.hasClass(_cname));
+};
+
+$scope.done_open_down = function(_se) {
+	console.log("==>done_open_down _se:'%s'",_se);
+	$(_se).css({'max-height': '460px'});
+};
+$scope.done_close_up_self = function(_se) {
+	console.log("==>done_close_up_self   _se:'%s'  _arrayname:'%s'", _se);
+	$(_se).css({'max-height': '0px'});
+	$scope._scope.arrayname = [];	  
+	$scope._scope.from = '';
+};
 }]);
 

@@ -10,7 +10,7 @@
 	<!-- <script src="https://yastatic.net/jquery/1.11.3/jquery.min.js"></script> -->
 	<script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
-
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.min.js"></script>
 <!--
 	<script src=" https://yastatic.net/jquery-ui/1.11.2/jquery-ui.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
@@ -35,6 +35,7 @@
 		<script src="../../../js/jMsie8con-min.js"></script>
 		<script src="../../../js/jWhocomein-min.js"></script> 
     <link href="UniClientBase.css" rel="stylesheet" />
+	
 -->
 	
     <script src="jUniClientBase.js"></script>
@@ -43,16 +44,24 @@
 <!-- <body ng-controller="commonCtrl" onload="jWhocomein.ashxOnloadReg('taxiinfo','load');">  -->
 <body ng-controller="commonCtrl"> 
 	<div class="container">
+<!--	
 			<div class="row">
 				<div  id="mes" class="col-sm-12">
-					<!-- <div id="mes" > -->
 						<span id="mestextmark">►</span><span id="mestext" title="кликни для очистки" ng-click="mesClear()"></span>
-					<!-- </div> -->
 				</div>
 			</div>
-		
-		<div id="mainCtrl" class="row" ng-controller="mainCtrl" >
-			<!-- <ng-include src="'rezult/tableView.html'" ng-show="displayMode == 'rezult'"></ng-include> -->
+-->		
+		<div id="mainCtrl" ng-controller="mainCtrl" class="row">
+			<!-- <ng-include src="currentlUrl"></ng-include> -->
+			<div class="ngIncludeRelative">
+				<div class="ngIncludeItem" ng-include="currentlUrl"></div>
+			</div>
+			
+			<!--  
+				<div class="ngIncludeRelative">
+					<div class="ngIncludeItem" ng-include="url"></div>
+				</div>
+						
 			<ng-include src="'rezult/sm-tableView.html'" ng-show="newWinWidth < 768 && displayMode == 'rezult'"></ng-include>
 			<ng-include src="'rezult/md-tableView.html'" ng-show="newWinWidth >= 768 && displayMode == 'rezult'"></ng-include>
 			
@@ -60,7 +69,7 @@
 			
 			<ng-include src="'params/paramsinfo/sm-paramsinfo.html'" ng-show="newWinWidth < 768  && displayMode == 'params/paramsinfo'"></ng-include>
 			<ng-include src="'params/paramsinfo/md-paramsinfo.html'" ng-show="newWinWidth >= 768 && displayMode == 'params/paramsinfo'"></ng-include>
-		
+			-->
 		</div>
 	</div>
 </body>

@@ -1,7 +1,13 @@
 ﻿
 
-<div class="panel-body">
-
+<div class="animate-show panel-body"  ng-show="'true'">
+<!--
+	<div class="row">
+		<div class="col-sm-12">
+			<div ng-include="'mes.html'"></div>
+		</div>
+	</div>
+-->
 	<div class="row">
 		<div class="form-group col-sm-12">
 			<h3>Сведения о выданных лицензиях легковым такси города Москва</h3>		
@@ -59,29 +65,6 @@
 		</table>
 	</div>
 
-<!-- 	
-	<div ng-show="newWinWidth < 768">
-		<div class="row" ng-repeat="item in smDBInfo">
-			<div class="col-sm-12">			
-					<tbody >
-							<tr><td><strong>Перевозчик</strong></td>			<td>{{item.Name}}</td></tr>
- 							<tr><td><strong>Марка автомобиля</strong></td>		<td>{{item.Brand}}</td> </tr>
-							<tr><td><strong>Модель автомобиля</strong></td>		<td>{{item.Model}}</td> </tr>
-							<tr><td><strong>Регистрационный номер</strong></td>	<td>{{item.RegNum}}</td></tr>
-							<tr><td><strong>Год выпуска автомобиля</strong></td><td>{{item.Year}}</td></tr>
-							<tr><td><strong>Лицензия</strong></td>				<td>{{item.LicenseNum}}</td></tr>
-							<tr><td><strong>Дата выдачи лицензии</strong></td>	<td>{{item.LicenseDate}}</td></tr>
-							<tr><td><strong>Номер бланка лицензии</strong></td>	<td>{{item.BlankNum}}</td></tr>
-					</tbody>
-				</table>
-
-				
-			</div>
-		</div>
-	</div>
-	
- -->	
-
 	<div ng-show="newWinWidth < 768">
 		<div class="row" ng-repeat="item in smDBInfo">
 			<div class="col-sm-12">	
@@ -102,22 +85,4 @@
 			</div>
 		</div>
 	</div>
-
-
-
-	
-<!-- 	
-         <div class="panel panel-info">
-            <div class="panel-heading">
-               <h3 class="panel-title">Panel title</h3>
-            </div>
-            <div class="panel-body">
-              Panel content 
-            </div>
-        </div>
- -->		
-		
-		
-		
-		
 </div>

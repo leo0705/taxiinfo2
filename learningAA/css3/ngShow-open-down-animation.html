@@ -28,16 +28,6 @@ td.tgCell.hover{  color:white;background-color: steelblue; cursor:default;}
 
 
 
-
-
-
-
-
-
-
-
-
-
 p.pstyle {
     text-align: justify;
 	width: 30%;
@@ -45,6 +35,11 @@ p.pstyle {
 	max-height: 0px;
 	overflow: hidden;
 }
+
+
+
+
+
 
 
 @keyframes open-down-animation {
@@ -58,7 +53,7 @@ p.pstyle {
 }
 .open-down {
 animation-name:open-down-animation;
-animation-duration:.6s;
+animation-duration:.3s;
 animation-fill-mode: forwards;
 /*animation-timing-function:linear;*/
 animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
@@ -77,7 +72,7 @@ animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
 }
 .close-up {
 animation-name:close-up-animation;
-animation-duration:.6s;
+animation-duration:.3s;
 animation-fill-mode: forwards;
 /*animation-timing-function:linear;*/
 animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
@@ -95,11 +90,12 @@ animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
 		transform: rotate(360deg);
 	}
 }
+/*
 .perfom {
 	animation-name: animation-transform;
 	animation-duration: 5s;
 } 
- 
+ */
 </style>
 
 </head>
@@ -107,11 +103,11 @@ animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
 <div>
 	<h1>ngHide and  ngShow + animation.css</h1>
 	<div>
-		<button ng-click="animateCss('.pstyle','open-down',doneRun)">open.pstyle</button>
-		<button ng-click="animateCss('.pstyle','close-up',doneGo)">close.pstyle</button>
+		<button ng-click="animateCss('.pstyle','open-down',done_open_down)">open.pstyle</button>
+		<button ng-click="animateCss('.pstyle','close-up',done_close_up)">close.pstyle</button>
 		
-		<button ng-click="animateCss('.uniPopup','open-down',doneRun)">open.uniPopup</button>
-		<button ng-click="animateCss('.uniPopup','close-up',doneGo)">close.uniPopup</button>
+		<button ng-click="animateCss('.uniPopup','open-down',done_open_down)">open.uniPopup</button>
+		<button ng-click="animateCss('.uniPopup','close-up',done_close_up)">close.uniPopup</button>
 		
 		<div id="tgPopup" class="uniPopup">
 			<table class="tgTable">
@@ -202,10 +198,10 @@ $scope.animateCss = function (_se, _cname,_cb) {
 		console.log("==>animateCss: animationClassName:'%s'  _se:'%s'",_cname,_se);
 };
 
-$scope.doneRun = function(_se) {console.log("==>doneRun:open-down _se:'%s'",_se);$(_se).css('max-height','100%');};
-$scope.doneGo  = function(_se) {console.log("==>doneGo:close-up   _se:'%s'",_se);$(_se).css('max-height','0');};
+$scope.done_open_down = function(_se) {console.log("==>done_open_down _se:'%s'",_se);$(_se).css('max-height','100%');};
+$scope.done_close_up  = function(_se) {console.log("==>done_close_up   _se:'%s'",_se);$(_se).css('max-height','0');};
 
-
+/*
 $scope.run =false;
 $scope.go =false;
 $scope.Run = function() {    //	$scope.Run()
@@ -216,7 +212,7 @@ $scope.Go = function() {    //	$scope.Go()
 	console.log("==>Go");
 	$scope.go = true;
 };
-  
+ */ 
 	  
 	  
 }]);

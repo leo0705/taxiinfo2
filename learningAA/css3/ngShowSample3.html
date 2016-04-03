@@ -1,4 +1,6 @@
-<!--
+<!--		не работает !!!!
+
+
 		ngHide and  ngShow directives
 		-----------------------------
    when the element is going to be hidde ===>  ADD     ng-hide-add    &  ng-hide-add-active    classes
@@ -9,7 +11,7 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
 <head>
-<title>ngHide and  ngShow 3 </title>
+<title>ngShowSample3.html 11.00 </title>
 </head>
 <body>
 <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet" />
@@ -24,39 +26,67 @@
 
 -------------------------------------------------------------------------------------*/
 
-.ngIncludeRelative {
+.Relative {
 	position: relative;	height: 100%;
 }
 .animate-show {
-	position: absolute;	width: 100%;	display: block;
+	position: absolute;	width: 30%;	display: block;
 }
-.animate-show.ng-enter,
-.animate-show.ng-leave {
+
+.animate-show.ng-hide-remove, 
+.animate-show.ng-hide-add {
 	transition: 1000ms linear all;
 }
-.animate-show.ng-enter {
-	/*top: 100%;*/
+.animate-show.ng-hide-remove  {
 	transform: translateX(100%);
 }
-.animate-show.ng-enter-active {
-	/*top: 0;*/
+.animate-show.ng-hide-remove-active {
 	transform: translateX(0%);
 }
-.animate-show.ng-leave {
-	/*top: 0;*/
+.animate-show.ng-hide-add {
 	transform: translateX(0%);
 }
-.animate-show.ng-leave-active {
-	/*top: -100%;*/
+.animate-show.ng-hide-add-active {
 	transform: translateX(-100%);
 }
 </style>
 
 
 Click me: <input type="checkbox" ng-model="checked" aria-label="Toggle ngHide"><br/>
-<div class="ngIncludeRelative" >
-		<ng-include class="animate-show"  src="'first.html'" ng-show="checked"></ng-include>
-		<ng-include class="animate-show"  src="'second.html'" ng-show="!checked"></ng-include>
+<div ng-controller="ExampleController"  class="Relative" ng-include="url">
+	<!-- <div class="animate-show" ng-show="url"> -->
+		<!-- <ng-include  src="url"></ng-include> -->
+	
+<!--	
+	<h2>First page</h2>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			Cras consectetur dui nunc, vel feugiat lectus imperdiet et.
+			In hac habitasse platea dictumst. In rutrum malesuada justo,
+			sed porttitor dolor rutrum eu. Sed condimentum tempus est at
+			euismod. Donec in faucibus urna. Fusce fermentum in mauris
+			at pretium. Aenean ut orci nunc. Nulla id velit interdum
+			nibh feugiat ultricies eu fermentum dolor. Pellentesque
+			lobortis rhoncus nisi, imperdiet viverra leo ullamcorper
+			sed. Donec condimentum tincidunt mollis. Curabitur lorem
+			nibh, mattis non euismod quis, pharetra eu nibh.
+		</p>
+	</div>
+<div class="animate-show"  ng-show="!checked">
+	<h2>Second page</h2>
+	<p>
+		Ut eu metus vel ipsum tristique fringilla. Proin hendrerit
+		augue quis nisl pellentesque posuere. Aliquam sollicitudin
+		ligula elit, sit amet placerat augue pulvinar eget. Aliquam
+		bibendum pulvinar nisi, quis commodo lorem volutpat in.
+		Donec et felis sit amet mauris venenatis feugiat non id
+		metus. Fusce leo elit, egestas non turpis sed, tincidunt
+		consequat tellus. Fusce quis auctor neque, a ultricies urna.
+		Cras varius purus id sagittis luctus. Sed id lectus
+		tristique, euismod ipsum ut, congue augue.
+	</p>
+</div>
+-->
 </div>
 		<!-- 
 	<div>
@@ -118,12 +148,19 @@ Click me: <input type="checkbox" ng-model="checked" aria-label="Toggle ngHide"><
 <script>
 var app = angular.module('myApp', ['ngAnimate'])
 .controller('ExampleController', ['$scope', function($scope) {
-$scope.checked =false;
 $scope.toggleVisibility = function() {    //	toggleVisibility(true)
 
 };
   
-	  
+
+$scope.count = 0;
+$scope.checked =true;
+$scope.url;
+
+var timer = setInterval(function() {
+	$scope.url = ($scope.count++%2)?'first.html':'second.html';
+	console.log("==>setInterval  url='%s'",$scope.url);
+							}, 7000);
 	  
 }]);
 </script>
