@@ -3,13 +3,13 @@
  *  Copyriqht (C) 2013-2015  Leonid L.Voitenko All Rights Reserved  http://www.inet-apps.ru/                          
  *	version: 1.12 (2015-03-18)
  */
-angular.module("TaxiInfoApp", [ "ngAnimate","UniClientBase"])   //  ,
+angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase']) 
 //.controller("mainCtrl", function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 	
 	$scope.displayMode = 'params';
-	$scope.newWinWidth = $window.outerWidth;
-	$scope.currentlUrl = 'params/paramsView.html';				// Url for current view for transient animation	
+	$scope.newWinWidth = $window.innerWidth;
+	$scope.currentUrl = 'params/paramsView.html';				// Url for current view for transient animation	
 	
 	
 	$scope.$watchGroup(['newWinWidth', 'displayMode'], function(newValues, oldValues, scope) {
@@ -18,42 +18,34 @@ angular.module("TaxiInfoApp", [ "ngAnimate","UniClientBase"])   //  ,
 //$scope.$watch("newWinWidth", function(newWidth, oldWidth){
 console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displayMode:'%s'   old-displayMode:'%s' ",
 							newValues[0],		 oldValues[0],          newValues[1],			oldValues[1] );
-		/*--- code bgn ---
-		if(newWidth <= 400){
-			//scope.deviceSize = "smallDevice";
-		}else if(newWidth >400 && newWidth <=767){
-			//scope.deviceSize = "mediumDevice";
-		}else{
-			//scope.deviceSize = "largeDevice";
-		}
-		--- code end ---*/
+		
 		switch(true) {
 			case newValues[0] < 768 &&  newValues[1] == 'rezult':
-				$scope.currentlUrl = 'rezult/sm-tableView.html';
+				$scope.currentUrl = 'rezult/sm-tableView.html';
 			break;
 			
 			case newValues[0] >= 768 &&  newValues[1] == 'rezult':
-				$scope.currentlUrl = 'rezult/md-tableView.html';
+				$scope.currentUrl = 'rezult/md-tableView.html';
 			break;
 			
 				//$scope.displayMode = ($scope.displayMode=='params')?'params/paramsinfo':'params';
-			//case  newValues[1] == 'params/paramsinfo' && $scope.currentlUrl == 'params/paramsinfo/sm-paramsinfo.html' :
-			//	$scope.currentlUrl = 'params/paramsView.html';
+			//case  newValues[1] == 'params/paramsinfo' && $scope.currentUrl == 'params/paramsinfo/sm-paramsinfo.html' :
+			//	$scope.currentUrl = 'params/paramsView.html';
 			//break;
 			
 			case  newValues[1] == 'params' :
-				$scope.currentlUrl = 'params/paramsView.html';
+				$scope.currentUrl = 'params/paramsView.html';
 			break;
 			
 			case newValues[0] < 768 &&  newValues[1] == 'params/paramsinfo':
-				$scope.currentlUrl = 'params/paramsinfo/sm-paramsinfo.html';
+				$scope.currentUrl = 'params/paramsinfo/sm-paramsinfo.html';
 			break;
 			
 			case newValues[0] >= 768 &&  newValues[1] == 'params/paramsinfo':
-				$scope.currentlUrl = 'params/paramsinfo/md-paramsinfo.html';
+				$scope.currentUrl = 'params/paramsinfo/md-paramsinfo.html';
 			break;
 		}
-		console.log("<----$watch   currentlUrl:'%s'", $scope.currentlUrl );
+		console.log("<----$watch   currentUrl:'%s'", $scope.currentUrl );
 	});		
 	
 	angular.element($window).bind('resize',function(){
@@ -71,8 +63,12 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 			<ng-include src="'params/paramsinfo/md-paramsinfo.html'" ng-show="newWinWidth >= 768 && displayMode == 'params/paramsinfo'"></ng-include>
 				*/
 	
-	$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '20px';	 	// мин/мах значния для анимации иображений
-	$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '30px';
+	//$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '20px';	 	// мин/мах значния для анимации иображений
+	//$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '30px';
+	$scope.test1 = function (_m, _t)  {
+		console.log("-->$scope.test1:  _m:'%s':  _t:'%s'",_m, _t)
+		
+	}
 	
 	$scope.curRegNum = {};	// $scope.curRegNum = {Name:'М0'};
 	$scope.curBrand = {};	// $scope.curBrand = {Name:'AUDI'};
@@ -86,21 +82,27 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 	{id:'txtName',col:'Name',op:'%'}];
 	
 	$scope.$watch('curRegNum.Name', function (newValue) {
-		if ($scope._scope) {
-			console.log("$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
-			$scope.arrayname = [];
-			$scope.UniPopup.popupShow('RegNum',true);
+		console.log("-->$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
+		if (newValue) {
+			if ($scope._scope.from = 'RegNum') {
+				console.log("$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
+				$scope.arrayname = [];
+				$scope.UniPopup.popupShow('RegNum',true);
+			}
+			$scope.loadCount();
 		}
-		if (newValue) $scope.loadCount();
 	});
 	
 	$scope.$watch('curName.Name', function (newValue) {
-		if ($scope._scope) {
-			console.log("$scope.$watch:  $scope.curName.Name='%s'",newValue);
-			$scope.arrayname = [];
-			$scope.UniPopup.popupShow('Name',true);
+		console.log("-->$scope.$watch:  $scope.curName.Name='%s'",newValue);
+		if (newValue) {
+			if ($scope._scope.from = 'Name') {
+				console.log("$scope.$watch:  $scope.curName.Name='%s'",newValue);
+				$scope.arrayname = [];
+				$scope.UniPopup.popupShow('Name',true);
+			}
+			$scope.loadCount();
 		}
-		if (newValue) $scope.loadCount();
 	});
 	
 	$scope.$watch('ajaxSuccess', function (newValue) {
@@ -360,5 +362,5 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 	};
 	
 //	$scope.displayMode = 'params';
-	
+	$scope.UniPopup.setChildScope($scope);
 }]);

@@ -134,6 +134,101 @@ ENUM_FLAG 			: 256, 		// Field is a enum field
 AUTO_INCREMENT_FLAG : 512, 		// Field is a autoincrement field
 TIMESTAMP_FLAG 		: 1024, 	// Field is a timestamp
 table_col_names: [],
+
+	
+getExecutionMsc: function (strtDate) {
+	console.log("UniWebClient.getExecutionMsc: ---strtDate:'%s'---->",strtDate);
+	var today = new Date();
+	var diff = today.valueOf() - strtDate;
+	console.log("UniWebClient.getExecutionMsc: <---Math.floor(diff):'%s'----",Math.floor(diff));
+	return Math.floor(diff);
+},
+
+getExecutionTime: function () 	{
+	console.log("UniWebClient.getExecutionTime: ------->");
+	if (this.startDate == null) return "";
+	var ms = this.getExecutionMsc(this.startDate),	days, hrs, mins, secs,output = "";
+	if (ms >= 0) 
+	{
+	  days = Math.floor(ms / this.oneDay);
+		ms -= this.oneDay * days;
+		hrs = Math.floor(ms / this.oneHour);
+		ms -= this.oneHour * hrs;
+		mins = Math.floor(ms / this.oneMinute);
+		ms -= this.oneMinute * mins;
+		secs = Math.floor(ms/1000);
+		ms -= 1000 * secs;
+		output += hrs + ":" + mins + ":" + secs + "." + ms;
+	} 
+		else 
+		{
+			output += "The time is < 1 msc";
+		}
+	if (output.StartsWith('0:0:'))	output = output.slice(4);
+	console.log("UniWebClient.getExecutionTime: <---output:'%s'----",output);
+	return output;
+},
+
+obj2arrobj : function (obj, outpropname,novaluerepeat) {		//   UniWebClient.obj2arrobj(obj,'Name');
+	console.log("UniWebClient.obj2arrobj: ---obj.length:'%s'---outpropname:'%s'--->",obj.length, outpropname);
+
+//	{														
+//		"Амьен":"Пикардия",			outpropname = 'Name'	   [{"Name":"Пикардия"},
+//		"Анже":"Долина Луары",	========================>		{"Name":"Долина Луары"},
+//		"Аржантьер":"Рона-Альпы",								{"Name":"Рона-Альпы"},
+//		"Безансон":"Франш-Конте",								{"Name":"Франш-Конте"},
+//		"Бордо":"Аквитания"										{"Name":"Аквитания"}]
+//															
+//	}
+	var output=[], newobj,norepeat=[];
+	for (var prop in obj) {
+		//if ( String(obj[prop]) == "–" ) continue;
+		if ( /*String(obj[prop]) != "–"   &&*/  prop!=obj[prop]  &&    ( !novaluerepeat  || norepeat.indexOf(obj[prop])<0 )  )	{
+		newobj = {};
+		newobj[outpropname] = obj[prop]; 
+		output.push(newobj);
+		norepeat.push(obj[prop]);
+		}
+	}
+	console.log("UniWebClient.obj2arrobj: <---output.length:'%s'------",output.length);
+	return output;
+
+},
+
+printarr: function (arr, arrname) {				//	UniWebClient.printarr(arr, arrname);
+	console.log("printarr:-------------------name:%s-----length:%s--------------------->",arrname,arr.length);
+	arr.forEach(function(item, index, array)	{
+	console.log("%s",item);
+		});
+	console.log("printarr:<------------------name:%s-----length:%s---------------------",arrname,arr.length);
+},
+
+printobj: function (obj, objname) {				//	UniWebClient.printobj(obj, objname);
+	console.log("printobj:-------------------name:%s---------------------->",objname);
+	for (var prop in obj) {
+		console.log('"' + prop + '" = "' + obj[prop] + '"');
+	}
+	arr.forEach(function(item, index, array)	{
+	console.log("%s",item);
+		});
+	console.log("printobj:<------------------name:%s----------------------",objname);
+},
+
+printarrobj: function (arr, arrname) {				//	UniWebClient.printarrobj(arr, arrname);
+	console.log("printarrobj:-------------------name:%s-----length:%s--------------------->",arrname,arr.length);
+	var row,newobj;
+	arr.forEach(function(item, index, array)	{
+			row = '';
+			for (var prop in item) {
+				row += ',"' + prop + '" = "' + item[prop] + '"';
+				//newobj[outpropname] = obj[prop]; 
+				//output.push(newobj);
+			}
+			console.log(row.substr(1));
+		});
+	console.log("printarrobj:<------------------name:%s-----length:%s---------------------",arrname,arr.length);
+},
+		
 		
 addPostParam : function (sParams, sParamName, sParamValue) {
 	if (sParams.length > 0) {sParams += "&";}
@@ -315,7 +410,7 @@ colname : {							//	UniDic.colname continent
 			template: function () {
 						var tmp =
 '<div id="tgPopup" class="uniPopup"><table class="tgTable"><tbody ><tr ng-repeat="item in arrayname">'+
-'<td class="tgCell" ng-click="selectedItem(item)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)">'+'{{item.Name}}</td></tr></tbody></table></div>';
+'<td class="tgCell" ng-click="selectedItem(item)">'+'{{item.Name}}</td></tr></tbody></table></div>';
 						//console.log("unipopupdiv:    tmp:'%s'",tmp);
 						return tmp;
 						}
@@ -955,6 +1050,7 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 }//$scope.send
 
 /////////////////////////////////////////////////////////////////////////////////  button animation
+/*
 $scope.btnToolbarNorm = {
 	idToolbarTimer: null,
 	localDiction:	[],
@@ -1085,29 +1181,39 @@ $scope.btnToolbarNorm = {
 				
 	}
 };
-
+*/
 //////////////////////////////////////////////////////////////////////////////////     UniPopup   
 $scope.UniPopup = {	
 popupHeight: 460,    	   //  20 x 17px = 340 +1 = 341px    20 x 23px + 1 = 461px
 localDiction: [],
 lastWhere: '',
+$this: null,
+/*	
 	
-	handleEvent: function (e) {				//  UniPopup.handleEvent(e)
-		//console.log("UniPopup.handleEvent:--------e.type='%s'---------------->", e.type);
+	handleEvent: function (e) {				//  UniPopup.handleEvent(e)==> UniPopup.popupShow('Brand',true);
+		console.log("UniPopup.handleEvent:--------e.type='%s'---------------->", e.type);
 		// ng-controller="mainCtrl"  $(e.target).parents("div[ng-controller]")[0]
 		if (e.target) $this = $(e.target);
 		if (!$scope._scope) {
 			$scope._scope = angular.element(  $this.parents("div[ng-controller]")[0]  ).scope();
 			console.log("UniPopup.handleEvent:  $scope._scope created");
 		}
-		if (e.type == "mouseenter") $this.addClass('hover');
-		if (e.type == "mouseleave") $this.removeClass('hover');
-		if (e.type == "mousedown") $this.addClass('mdown');
-		if (e.type == "mouseup") $this.removeClass('mdown');
+		//if (e.type == "mouseenter") $this.addClass('hover');
+		//if (e.type == "mouseleave") $this.removeClass('hover');
+		//if (e.type == "mousedown") $this.addClass('mdown');
+		//if (e.type == "mouseup") $this.removeClass('mdown');
 		if (e.type == "click") this.popupShow(e.target.id.substr(3),true);
 		
 		e.preventDefault();
 		e.stopPropagation();
+	},
+*/	
+	
+	setChildScope: function (_childScope) {				//  UniPopup.setChildScope($scope);
+		if (!$scope._scope) {
+			$scope._scope = _childScope;
+			console.log("UniPopup.setChildScope:  $scope._scope created");
+		}
 	},
 	
 	clearText: function (_from) {				//  $scope.UniPopup.clearText(_from);
@@ -1160,7 +1266,14 @@ lastWhere: '',
  *	$scope.UniPopup.popupShow(from) 	- использовать массив с именем from если он существует, если нет - загрузить из БД
  *	$scope.UniPopup.popupShow(from,true)- загрузить массив из БД даже если он существует ( существует - значит уже загружен)
  */		
-		console.log("popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
+		//if (!$scope._scope) {
+		//	console.log("popupShow:  $scope._scope is absent");
+		//	$this = $('#txt' + _from); //$this = $('txt'+_from);
+		//	$scope._scope = angular.element(  $this.parents("div[ng-controller]")[0]  ).scope();
+		//}
+		
+		console.log("popupShow:  $scope._scope created?  %s",($scope._scope)?true:false);
+		console.log("--->popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
 		
 		//	закрыть показанный чужой список
 		//this.closAlienOpenPopup(_from);
@@ -1174,12 +1287,14 @@ lastWhere: '',
 			//$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);	// закрыть показанный  свой список 
 			//this.localDiction['_arrayname'] = $scope._scope.arrayname;
 			//this.localDiction['_from'] = $scope._scope.from;
+			$('div.uniPopup').css({'max-height': '0px'});
 			$scope._scope.arrayname = [];				
 			$scope._scope.from = '';			
 			console.log("popupShow: закрыть показанный свой список");
 			return;
 		}
-		
+				
+
 		// проверить, загружен ли массив  
 		if (_from) $scope._scope.from = _from;
 				//console.log("popupShow:  from:'%s'",$scope._scope.from); 
@@ -1203,28 +1318,11 @@ lastWhere: '',
 				return;
 			}
 		}
-/*		
-		var popupPos = this.getPopupPosition($th)
-			,style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:auto;top:{2}px;left:{3}px;"
-					.Format(popupPos[2],popupPos[1],popupPos[0])
-					
-			,timeoutId = setTimeout(function() {
-				var thleft = $scope.UniPopup.getViewportOffset($th[0]).left			// input param left offset
-				   ,tgleft = $scope.UniPopup.getViewportOffset($tgPopup[0]).left	// div popup left offset
-				   ,delta = tgleft - thleft;
-										console.log("timeoutId:---> $th.left:'%s'  $tgPopup.left:'%s'  delta:'%s",
-																	thleft, 		tgleft, 			delta);
-				$tgPopup.css('left',thleft);	// the final correction
-		}, 150);	
-		
-		
-*/	
 		var popupPos = this.getViewportOffset($th[0])  //  have got popupPos.left, popupPos.top
 		,	style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:{4}px;top:{2}px;left:{3}px;overflow-y:auto;overflow-x:hidden;"
-					.Format($this.outerWidth(), popupPos.top + $th.outerHeight(), popupPos.left,this.popupHeight);
+					.Format($th.outerWidth(), popupPos.top + $th.outerHeight(), popupPos.left,this.popupHeight);
 
 		//$tgPopup.attr('style',style).show();    //   ********************************************* show popup
-		
 		// show popup
 		$tgPopup.attr('style',style);
 		$scope.animateCss('.uniPopup','open-down',$scope.done_open_down);
@@ -1357,7 +1455,7 @@ lastWhere: '',
 		////this.localDiction['txt' + $scope._scope.from] = item['Name']; 	console.log("selectedItemBase: from:'%s'   value='%s'",'txt' + $scope._scope.from, this.localDiction['txt' + $scope._scope.from]);
 		$scope._scope.arrayname = [];	    //   ********************* item selected ************************ hide popup
 		$scope._scope.from = '';
-
+		$('div.uniPopup').css({'max-height': '0px'});
 		//var timeoutId = setTimeout(function go() {
 		//		$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);
 		//}, 10);	

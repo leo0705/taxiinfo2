@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	
-	
+							<!-- How do you disable browser Autocomplete on web form field / input tag? -->
 	
 	<div class="row">
 		<div class="col-sm-1">
@@ -34,47 +34,47 @@
 		</div>
 	</div>	
 	
-	<form role="form" >
+	<form role="form" autocomplete="off">
 		<fieldset>
-			<div class="row">			<!-- button  для загрузки данных -->
+			<div class="row">			<!-- button  для загрузки данных   ng-mouseenter="btnToolbarNorm.handleEvent($event)" -->
 				<div class="form-group col-sm-4">
 					<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
 					title="кликни для загрузки данных после настройки параметров поиска" 	ng-click="selectMode('rezult')" 
-					ng-mouseenter="btnToolbarNorm.handleEvent($event)" >
+					>
 					<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД</button>
 				</div>
 			</div>
 	
 			<div class="row">
-				<div class="form-group col-sm-4">			<!-- Brand -->															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->
+				<div class="form-group col-sm-4">			<!-- ng-click="UniPopup.popupShow('Brand','true')"  readonly Brand ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)"-->															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->
 					<label class="control-label" for="txtBrand">Марка:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curBrand.Name" ng-click="unselectBrand()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control facaretdown unipopinput" id="txtBrand" type="text" name="txtBrand" readonly
-					ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
+					<input class="form-control facaretdown unipopinput" id="txtBrand" type="text" name="txtBrand" autocomplete="off"
+					ng-click="UniPopup.popupShow('Brand','true')" 
 					ng-model="curBrand.Name" 
 					/>
 					<div>
 					</div>
 				</div>
-				<div class="form-group col-sm-4">			<!-- Model -->
+				<div class="form-group col-sm-4">			<!-- ng-click="UniPopup.popupShow('Model','true')"  readonly Model ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)"-->
 					<label class="control-label" for="txtModel">Модель:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curModel.Name" ng-click="unselectModel()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control facaretdown unipopinput" id="txtModel" type="text" name="txtModel" readonly
-					ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" 
+					<input class="form-control facaretdown unipopinput" id="txtModel" type="text" name="txtModel" autocomplete="off"
+					ng-click="UniPopup.popupShow('Model','true')" 
 					ng-model="curModel.Name" 
 					/>
 				</div>
-				<div class="form-group col-sm-4">			<!-- RegNum -->
-					<label class="control-label" for="txtRegNum">Регистрационный номер:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curRegNum.Name" ng-click="unselectRegNum()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control unipopinput" id="txtRegNum" type="text" name="txtRegNum"
-					ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)" 
+				<div class="form-group col-sm-4">			<!-- RegNum ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)"-->
+					<label class="control-label" for="txtRegNum">Регистрацион. номер:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curRegNum.Name" ng-click="unselectRegNum()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control unipopinput" id="txtRegNum" type="text" name="txtRegNum" autocomplete="off"
+					ng-click="UniPopup.popupShow('RegNum','true')"  
 					ng-model="curRegNum.Name" 
 					/>
 				</div>
 			</div>	
 			<div class="row">	
-				<div class="form-group col-sm-12">			<!-- Name -->
+				<div class="form-group col-sm-12">			<!-- Name ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)"-->
 					<label class="control-label" for="txtName">Перевозчик:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curName.Name" ng-click="unselectName()"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
-					<input class="form-control unipopinput" id="txtName" type="text" name="txtName" 
-					ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)" 
+					<input class="form-control unipopinput" id="txtName" type="text" name="txtName" autocomplete="off"
+					ng-click="UniPopup.popupShow('Name',true)"  
 					ng-model="curName.Name" 
 					/>
 				</div>
