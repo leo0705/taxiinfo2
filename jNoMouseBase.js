@@ -1185,7 +1185,7 @@ $scope.btnToolbarNorm = {
 //////////////////////////////////////////////////////////////////////////////////     UniPopup   
 $scope.UniPopup = {	
 popupHeight: 460,    	   //  20 x 17px = 340 +1 = 341px    20 x 23px + 1 = 461px
-localDiction: [],
+//localDiction: [],
 lastWhere: '',
 $this: null,
 /*	
@@ -1216,12 +1216,12 @@ $this: null,
 		}
 	},
 	
-	clearText: function (_from) {				//  $scope.UniPopup.clearText(_from);
-		this.localDiction['txt' + _from] = '';	console.log("UniPopup.clearText:------  _from='%s'----->",_from);
-		this.closeAnyOpenPopup();
-		//var sid = '#txt' + e.target.id.substr(3);		console.log("UniPopup.clearText:   sid='%s'",sid);
-		//$(sid).val('');
-	},
+	//clearText: function (_from) {				//  $scope.UniPopup.clearText(_from);
+	//	this.localDiction['txt' + _from] = '';	console.log("UniPopup.clearText:------  _from='%s'----->",_from);
+	//	this.closeAnyOpenPopup();
+	//	//var sid = '#txt' + e.target.id.substr(3);		console.log("UniPopup.clearText:   sid='%s'",sid);
+	//	//$(sid).val('');
+	//},
 
 	closeAnyOpenPopup: function()	{	//	$scope.UniPopup.closeAnyOpenPopup() 	закрыть любое открытое выпадающее окно
 		console.log("UniPopup.closeAnyOpenPopup:----------->");

@@ -61,7 +61,7 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 			
 			<ng-include src="'params/paramsinfo/sm-paramsinfo.html'" ng-show="newWinWidth < 768  && displayMode == 'params/paramsinfo'"></ng-include>
 			<ng-include src="'params/paramsinfo/md-paramsinfo.html'" ng-show="newWinWidth >= 768 && displayMode == 'params/paramsinfo'"></ng-include>
-				*/
+				
 	
 	//$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '20px';	 	// мин/мах значния для анимации иображений
 	//$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '30px';
@@ -69,6 +69,7 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 		console.log("-->$scope.test1:  _m:'%s':  _t:'%s'",_m, _t)
 		
 	}
+	*/
 	
 	$scope.curRegNum = {};	// $scope.curRegNum = {Name:'М0'};
 	$scope.curBrand = {};	// $scope.curBrand = {Name:'AUDI'};
@@ -328,10 +329,13 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 	$scope.unselectBrand = function() 	{		console.log("unselectBrand:  -------->");
 				angular.element(document.getElementById('txtBrand')).val('');				
 				$scope.curBrand ={};
-				$scope.curModel ={};
 				$scope.Brand = [];
+				$scope.curModel ={};
 				$scope.Model = [];
-				$scope.UniPopup.clearText('Brand');
+				$scope.curRegNum ={};
+				$scope.RegNum = [];	
+				//$scope.UniPopup.clearText('Brand');
+				$scope.UniPopup.closeAnyOpenPopup()
 				$scope.loadCount();
 	};
 	
@@ -339,9 +343,10 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 				angular.element(document.getElementById('txtModel')).val('');				
 				$scope.curModel ={};
 				$scope.Model = [];
-				//$scope.RegNum = [];
+				$scope.RegNum = [];
 				//$scope.Name = [];
-				$scope.UniPopup.clearText('Model');
+				//$scope.UniPopup.clearText('Model');
+				$scope.UniPopup.closeAnyOpenPopup()
 				$scope.loadCount();
 	};
 	
@@ -349,7 +354,8 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 				angular.element(document.getElementById('txtRegNum')).val('');				
 				$scope.curRegNum ={};
 				$scope.RegNum = [];	
-				$scope.UniPopup.clearText('RegNum');
+				//$scope.UniPopup.clearText('RegNum');
+				$scope.UniPopup.closeAnyOpenPopup()
 				$scope.loadCount();
 	};
 	
@@ -357,7 +363,8 @@ console.log("---->$watch 	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displa
 				angular.element(document.getElementById('txtName')).val('');				
 				$scope.curName ={};
 				$scope.Name = [];
-				$scope.UniPopup.clearText('Name');
+				//$scope.UniPopup.clearText('Name');
+				$scope.UniPopup.closeAnyOpenPopup()
 				$scope.loadCount();
 	};
 	
