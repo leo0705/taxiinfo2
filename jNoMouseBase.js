@@ -1,12 +1,11 @@
 ﻿/*! 	
  * 	jUniClientBase.js - taxiinfo application (AngularJS base code)
- *  Copyriqht (C) 2013-2015  Leonid L.Voitenko All Rights Reserved  http://www.inet-apps.ru/                          
- *	version: 1.12 (2015-03-18)
+ *  Copyriqht (C) 2013-2016  Leonid L.Voitenko All Rights Reserved  http://www.inet-apps.ru/                          
  */
 angular.module("UniClientBase", [])
 	//.constant("UNIURL", "http://localhost/site/www/Engine/PHP/SimplQueryEngineJS.php")
-	//.constant("UNIURL", "../../SimplQueryEngineJS.ashx")
-	.constant("UNIURL", "http://localhost:3000/Engine")
+	.constant("UNIURL", "../../SimplQueryEngineJS.ashx")
+	//.constant("UNIURL", "http://localhost:3000/Engine")
 	.factory("UniWebClient", function () {							// --------------------UniWebClient	
 /*
 /////////////////////////////////////////////////////////////////////////////Math 
@@ -229,7 +228,6 @@ printarrobj: function (arr, arrname) {				//	UniWebClient.printarrobj(arr, arrna
 	console.log("printarrobj:<------------------name:%s-----length:%s---------------------",arrname,arr.length);
 },
 		
-		
 addPostParam : function (sParams, sParamName, sParamValue) {
 	if (sParams.length > 0) {sParams += "&";}
 	return sParams + encodeURIComponent(sParamName) +  "=" + encodeURIComponent(sParamValue);
@@ -311,13 +309,10 @@ csvToJson : function (sCsv) {		//sCsv.substr(4)
     .factory("UniDic", function () {								// --------------------UniDic
         return {
 en2ru : function (input, objDict) {	//	UniDic.en2ru
-   	//var input = (inputsp.EndsWith(' '))?inputsp.Trim():inputsp;						
-	//console.log("en2ru: ----input:'%s'---->",input);
 	var output = input;
 	for (var prop in objDict) {
 		//console.log("prop:'%s'   input:'%s' objDict[prop]:'%s'",prop,input,objDict[prop]);
 		if (input == prop  && objDict[prop] != '???') {
-		//if (input.StartsWith(prop) && objDict[prop] != '???') {
 			output = objDict[prop];
 			break;
 		}
@@ -357,10 +352,7 @@ colname : {							//	UniDic.colname continent
 			 }//link
 		 };
 	})
-	.directive("unipopupbtn", function (UniWebClient) { //Table 16-2. The Properties Defined by Directive Definition Objects p.415
-		//   <div unipopupbtn="City" placeholder="Город" size="32"  clearimgsrc ="../../images/clear12button.PNG"></div>
-		//   <img id="btnClearText" class="imgToolbarNorm" src="/images/clear12button.PNG"  width="12"  height="12" title="удалить комментируемый текст" alt=""/>
-		// <input type="button" id="btn{1}" class="btnPopup" {6}  ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)" ng-mouseleave="UniPopup.handleEvent($event)"  ng-mousedown="UniPopup.handleEvent($event)" ng-mouseup="UniPopup.handleEvent($event)"/>
+	.directive("unipopupbtn", function (UniWebClient) { 
 	return {
 			restrict: "A",
 			replace: true,
@@ -383,7 +375,6 @@ colname : {							//	UniDic.colname continent
 		}
 	})
 	.directive("unipopupkey", function (UniWebClient) { 
-//   <div unipopupkey="CityByName" placeholder="Город по имени" size="32" model="countrybyname.Name"></div>
 		return {
 			restrict: "A",
 			replace: true,
@@ -403,7 +394,6 @@ colname : {							//	UniDic.colname continent
 		}
 	})
 	.directive("unipopupdiv", function (UniWebClient) { 
-//   unipopupdiv
 		return {
 			restrict: "A",
 			replace: true,
@@ -418,78 +408,6 @@ colname : {							//	UniDic.colname continent
 	})
 //.controller("commonCtrl", function ($scope, $http, $document,$timeout,$window,UNIURL,UniWebClient,UniDic) {
 .controller("commonCtrl", ['$scope', '$http', '$document','$timeout','$window','UNIURL','UniWebClient','UniDic',function ($scope, $http, $document,$timeout,$window,UNIURL,UniWebClient,UniDic) {
-/*
-/////////////////////////////////////////////////////////////////////////    form validation
-// params=[	
-//			{sel:'input#Population',type:'req',textlifetime:1000,text:'<p id="errmes">Требуется ввод значения</p>'},
-//			{sel:'input#Population',type:'interval',min:10,max:1000,textlifetime:4000,text:'<p id="errmes">Разрешены числа в интервале от 100 до 20000000 </p>'},
-//			{sel:'input#Name',type:'req',textlifetime:1000,text:'<p id="errmes">Требуется ввод значения</p>'},
-//			{sel:'input#Name',type:'regx',regx:/^([a-zA-Z\s]{1,32})$/,textlifetime:4000,textlifetime=1000,text:'<p id="errmes">Разрешены символы: a-z,A-Z и пробел (макс. 32)</p>'},
-//			{sel:'input#District',type:'req',textlifetime:1000,text:'<p id="errmes">Требуется ввод значения</p>'},
-//			{sel:'input#District',type:'regx',regx:/^([a-zA-Z\s]{1,32})$/,textlifetime:4000,text:'<p id="errmes">Разрешены символы: a-z,A-Z и пробел (макс. 32)</p>'}
-//			{sel:'input#Password2',type:'req',textlifetime:1000,text:'<p id="errmes">Требуется ввод значения</p>'},
-//			{sel:'input#Password2',type:'pass2',pass1:'input#Password1',textlifetime:4000,,text:'<p id="errmes">В обоих полях "Пароль" значения должны совпадать</p>'}
-//		  ]
-$scope.validFldAll = function (params)  {  //$scope.validFldAll(params);
-	console.log("validFldAll:----params.length:'%s'---->",params.length);
-	var item,i,rezult = true; 
-	for(i=0;i<params.length;i++)    {
-		var item = $(params[i].sel);
-		console.log("validFldAll:    params[i].sel:'%s'   ",params[i].sel,item.attr('id'));
-		switch(params[i].type)  {
-			case 'req':
-				rezult &= $scope.validFn_req(item,params[i]);
-				if (rezult) $scope.setBorderColor(item, true);	
-			break;
-			
-			case 'interval':
-				rezult &= $scope.validFn_interval(item,params[i]);
-				if (rezult) $scope.setBorderColor(item, true);	
-			break;
-			
-			case 'regx':
-				rezult &= $scope.validFn_regx(item,params[i]);
-				if (rezult) $scope.setBorderColor(item, true);	
-			break;
-		}//switch
-		if (!rezult) break;
-	}//for
-	if (!rezult)	{
-		$scope.setBorderColor(item, false);	
-		$timeout(function(){
-			$scope.validMessage(item, params[i].text, params[i].textlifetime);
-		}, 1000);
-		
-	}
-	console.log("validFldAll:<----rezult:'%s'----",rezult);
-	return rezult;
-};
-	
-$scope.validFn_req = function (item, param) {   // $scope.validFn_req(item,params[i])
-		console.log("validFn_req: ---------item.id='%s'--text='%s'----->", item.attr('id'), param.text);
-		var value = item.val();
-		return (value.length == 0) ? false : true; 
-};
-	
-$scope.validFn_regx = function (item, param) {   // $scope.validFn_regx(item,params[i])
-		console.log("validFn_regx: ---------item.id='%s'--text='%s'----->", item.attr('id'), param.text);
-		var value = item.val();
-		return ((value.search(param.regx) == -1) ? false : true);
-	};	
-	
-$scope.validFn_interval = function (item, param) {   // $scope.validFn_interval(item,params[i])
-		console.log("validFn_interval: ---------item.id='%s'--text='%s'--param.min='%s'--param.max='%s'--->", item.attr('id'),param.text,param.min,param.max);
-		var value = item.val();		// angular.isNumber(value)
-		return ( isNaN(value) || Number(value) < param.min  || Number(value) > param.max) ? false : true;
-	};	
-	
-$scope.validFn_pass2 = function (item, param) {   // $scope.validFn_pass2(item,params[i])
-		console.log("validFn_pass2: ---------item.id='%s'--text='%s'----->", item.attr('id'), param.text);
-		var valpass2=item.val();
-		var valpass1=$(param.pass1).val();
-		return (valpass1!=valpass2)?false:true;
-	};	
-*/	
 /////////////////////////////////////////////////////////////////////////    form validation
 // params=[	
 //	{popname:'Population',type:'req',textlifetime:1000,text:'<p id="errmes">Требуется ввод значения</p>'},
@@ -594,7 +512,7 @@ $scope.validMessage = function (item,text,timeout) {   // $scope.validMessage(it
 		,timeout);
 	};	
 
-	
+/*	
 //	use the window.onresize API to manage a responsive state
 //----------------------------------------------------------------------	
 $scope.getWidth = function () {		//	get width of browser window
@@ -610,8 +528,7 @@ $scope.getWidth = function () {		//	get width of browser window
 			}
 	return x;
 };	
-	
-	
+*/	
 /////////////////////////////////////////////////////////////////////////    ajax
 //	var opts = {
 //		eventname:	'cyties.load.OK',		// * opts['eventname'] 
@@ -721,14 +638,10 @@ $scope.toggleHover = function (e) {				//toggleHover(e)
 	if (e.target) $this = $(e.target);
 	if (e.type == "mouseenter") $this.addClass('hover');
 	if (e.type == "mouseleave") $this.removeClass('hover');
-	// if (e.type == "mousedown") $this.addClass('mdown');
-	// if (e.type == "mouseup") $this.removeClass('mdown');
-	// if (e.type == "click") this.popupShow(e.target.id.substr(3));
 };
 
 $scope.getDBtableName = function (sqlSelectText)  {
 	console.log("getDBtableName:---'%s'--->",sqlSelectText);											
-	// select ID,Name,CountryCode,District,Population from `inet-19_world`.city where CountryCode = 'BGR' limit 0,230
 	var sel = sqlSelectText.split(' '); 
 	do {var word = sel.shift();} while(word!='from');   console.log("getDBtableName:---'%s'---",sel[0]);
 	return sel[0];
@@ -860,17 +773,6 @@ $scope.getItemFace = function(obj,face)		{			// $scope.getItemFace(obj)
 		if (face.id) 		{
 			text += face.id + ' = ' + obj[face.id];
 		} 
-		else  
-		{
-			
-			//var names = _scope.Face.primkeyNames;
-			//var values = $scope.getPrimKeyValues(_scope,objOld);     // objOld содержит не измененные значения ключей 
-			//for (j = 0; j < _scope.Face.primkeyInds.length; j++)
-			//{
-			//	text += (j>0)?" AND ":" ";
-			//	text += names[j] + " = '" + values[j] + "'";
-			//}
-		}
 		console.log("getItemFace<---%s---",text);                                                                
 		return text;
 }
@@ -905,7 +807,6 @@ $scope.createFace = function (_scope,data)  {
 		_scope.Face.cols.push(new_item);
 	}
 
-	// _scope.Face.id = cols[0].id  если  (cols[0].flags & AUTO_INCREMENT_FLAG) == true
 	if (_scope.Face.cols[0].flags & UniWebClient.AUTO_INCREMENT_FLAG )   {
 		_scope.Face.id = _scope.Face.cols[0].id;
 		_scope.Face.cols[0].readonly = true;
@@ -920,15 +821,8 @@ $scope.TranslateToRU = function (_scope,arrname,dictname,prop) {
 				});
 };
 
-$scope.ajaxSuccessInner = function (data,paramExt,opts,_scope) {		/////////////////////////////////////////////////	ajaxSuccessInner
+$scope.ajaxSuccessInner = function (data,paramExt,opts,_scope) {/////////////////////////////////////////	ajaxSuccessInner
 	console.log("ajaxSuccessInner:---->");
-	//$scope.Name1 = [ //  select Name,Code as CountryCode,Continent from `world`.country  limit 0,130
-	//	{ Name: "Russian \"ooo\" Federation", CountryCode: "RUS",Continent:"Europe" },
-	//	{ Name: "Sweden", CountryCode: "SWE",Continent:"Europe" },
-	//	{ Name: "Brazil", CountryCode: "BRA",Continent:"South America" },
-	//	{ Name: "Egypt", CountryCode: "EGY",Continent:"Africa"},
-	//	{ Name: "Venezuela", CountryCode: "VEN",Continent:"South America"}];
-	
 		console.log("opts['arrayname']:'%s'  ", opts['arrayname']);
 		if (opts['arrayname'])  { 
 		_scope[opts['arrayname']] = UniWebClient.csvToJson(data.csv.substr(4));		// set json array to $scope
@@ -1021,23 +915,8 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 						if (_scope.Face.id) _scope[opts['curitemname']][_scope.Face.id] = data.insert_id;
 						_scope[opts['arrayname']].push(_scope[opts['curitemname']]);
 						_scope['ajaxSuccess'] = opts['eventname'];
-
-						//var selector = "#{1} #td{2}-0".replace(/\{1\}/g, DBTableEditor.tableOpts.tableId)
-						//								.replace(/\{2\}/g, (this.tableRowsCount).toString());
-						//								//.replace(/\{3\}/g, (this.getKeyColNum()).toString())
-						//if (DBTableEditor.tableOpts.cols[0].flags & AUTO_INCREMENT_FLAG   && 
-						//											data.insert_id > 0    ) $(selector).text(data.insert_id);
-						//else $(selector).text("*");
-						//this.tableRowsCount++;
-						//SimleToolBar.enable('#btnInsertRow');
 					break;
 					
-					//case data.mode == 'DESC': 											////// DESC  //////
-					//	console.log("DBTableEditor.ajaxsuccess:---data.types='%s'---->",data.types);  // logs  ?varchar?text?varchar?varchar?text?varchar
-					//	console.log("DBTableEditor.ajaxsuccess:---data.flags='%s'---->",data.flags);  // logs  ?1?17?1?1?16?1
-					//	console.log("DBTableEditor.ajaxsuccess:---data.csv='%s'---->",data.csv);   	// logs  @SSC???Field?Type?Null?Key?Default?Extra???Continent?enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America')?NO??Asia?
-					//	DBTableEditor.createEnumDescription(data.sqlText, data.types, data.flags,data.csv);
-					//break;
 				}  
 			}	
 			else
@@ -1049,165 +928,11 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 	}//real query to server
 }//$scope.send
 
-/////////////////////////////////////////////////////////////////////////////////  button animation
-/*
-$scope.btnToolbarNorm = {
-	idToolbarTimer: null,
-	localDiction:	[],
-	imageminsize: [],		// 	$scope.btnToolbarNorm.imageminsize['paramsinfo'] = '48px';	 		
-	imagemaxsize: [],		// 	$scope.btnToolbarNorm.imagemaxsize['paramsinfo'] = '64px';			
-	defaultminsize: '12px',
-	defaultmaxsize: '20px',
-	
-	handleEvent: function (e) {			//	btnToolbarNorm.handleEvent(e)
-		$this = $(e.target);
-		if (e.type == "mouseenter") this.mouseoverToolbar($this);
-		if (e.type == "mouseleave") this.mouseoutToolbar($this);
-		if (e.type == "mousedown") 	this.mousedownToolbar($this);
-		if (e.type == "mouseup") 	this.mouseupToolbar($this);
-	},
-
-    enable: function (_id){         // btnToolbarNorm.enable(_id);
-				console.log("btnToolbarNorm.enable: _id='%s'", _id);
-				var $this = $('.btnToolbarNorm#'+_id);
-				$this.removeAttr('disabled').css({"background-position":"0px -28px", "color":"#000"});
-	},		
-	
-    disable: function (_id)		{		//	btnToolbarNorm.disable(_id);
-				console.log("btnToolbarNorm.disable: _id='%s'", _id);
-				var $this = $('.btnToolbarNorm#'+_id);
-				$this.attr('disabled','disabled').css({"background-position":"0px 0px", "color":"#999"});
-	},		
-	
-	mouseoverToolbar: function ($this)	{
-		var thisid = $($this).attr('id'),	
-			maxsize = (this.imagemaxsize[thisid])?this.imagemaxsize[thisid]:this.defaultmaxsize;
-		console.log("mouseoverToolbar:--thisid='%s'---maxsize='%s'----->",thisid,maxsize);
-		this.idToolbarTimer = window.setTimeout(function()			// setTimeout
-		{
-			if ($this.hasClass("btnToolbarNorm"))
-			{
-				$this.addClass("btnToolbarHover").css("background-position","0 -56px").animate(
-								{
-									fontSize: '17px',
-								},
-								300
-								, 
-								function () 
-								{
-								  //$this.addClass("btnToolbarHover");
-								  this.idToolbarTimer = null;
-								}	
-							);
-			}// End btnToolbarNorm
-			if ($this.hasClass("imgToolbarNorm"))
-			{
-				$this.addClass("btnToolbarHover").animate(
-														{
-															width: maxsize, //,this.imagemaxwidth'20px',
-															height:maxsize
-														},
-														300
-													);
-			}// End imgToolbarNorma
-		},
-	400);//setTimeout
-		
-		//this.idToolbarTimer
-						//console.log("mouseoverToolbar:-------%s-------",this.idToolbarTimer );
-
-	},		
-
-    mouseoutToolbar: function ($this)	{
-		var that = this.localDiction,
-			thisid = $($this).attr('id'),	
-			minsize = (this.imageminsize[thisid])?this.imageminsize[thisid]:this.defaultminsize;
-		console.log("mouseoutToolbar:--thisid='%s'---minsize='%s'----->",thisid,minsize);
-		if (this.idToolbarTimer != null)
-		{
-			clearTimeout(this.idToolbarTimer);
-			this.idToolbarTimer = null;
-		}
-		if ($this.hasClass("btnToolbarHover"))
-		{
-			if ($this.hasClass("btnToolbarNorm"))
-			{
-					$this.animate(
-									{
-									fontSize: '12px'
-									},
-									300, 
-										function () //если требуется, то сделать кнопку Disabled
-										{
-											$this.removeClass("btnToolbarHover").css("background-position","0 -28px"); 
-											if(that[this.id + 'DisableAfterMouseOut'])	{
-												window.setTimeout(function()	{	
-													this.disable(id);
-													this.localDiction[id + 'DisableAfterMouseOut'] = false;
-												},400);
-											}
-										}								  
-									)
-			}// End btnToolbarNorm
-			
-			if ($this.hasClass("imgToolbarNorm"))
-			{
-					$this.animate(
-									{
-										width: minsize, //,this.imageminwidth'12px',
-										height: minsize
-									},
-									300,
-										function () //если требуется, то сделать кнопку Disabled
-										{
-											$this.removeClass("btnToolbarHover");
-										}								  
-									);
-			}// End imgToolbarNorm
-		}
-	},
-	
-    mousedownToolbar: function ($this){
-				//var $this = $(this);
-				//if ($this.hasClass("btnToolbarDis")) return;
-				$this.css("background-position","0 -84px"); 
-
-	},		
-
-    mouseupToolbar: function ($this){
-				//var $this = $(this);
-				//if ($this.hasClass("btnToolbarDis")) return;
-				$this.css("background-position","0 -56px"); 
-				
-	}
-};
-*/
 //////////////////////////////////////////////////////////////////////////////////     UniPopup   
 $scope.UniPopup = {	
 popupHeight: 460,    	   //  20 x 17px = 340 +1 = 341px    20 x 23px + 1 = 461px
-//localDiction: [],
 lastWhere: '',
 $this: null,
-/*	
-	
-	handleEvent: function (e) {				//  UniPopup.handleEvent(e)==> UniPopup.popupShow('Brand',true);
-		console.log("UniPopup.handleEvent:--------e.type='%s'---------------->", e.type);
-		// ng-controller="mainCtrl"  $(e.target).parents("div[ng-controller]")[0]
-		if (e.target) $this = $(e.target);
-		if (!$scope._scope) {
-			$scope._scope = angular.element(  $this.parents("div[ng-controller]")[0]  ).scope();
-			console.log("UniPopup.handleEvent:  $scope._scope created");
-		}
-		//if (e.type == "mouseenter") $this.addClass('hover');
-		//if (e.type == "mouseleave") $this.removeClass('hover');
-		//if (e.type == "mousedown") $this.addClass('mdown');
-		//if (e.type == "mouseup") $this.removeClass('mdown');
-		if (e.type == "click") this.popupShow(e.target.id.substr(3),true);
-		
-		e.preventDefault();
-		e.stopPropagation();
-	},
-*/	
 	
 	setChildScope: function (_childScope) {				//  UniPopup.setChildScope($scope);
 		if (!$scope._scope) {
@@ -1216,13 +941,6 @@ $this: null,
 		}
 	},
 	
-	//clearText: function (_from) {				//  $scope.UniPopup.clearText(_from);
-	//	this.localDiction['txt' + _from] = '';	console.log("UniPopup.clearText:------  _from='%s'----->",_from);
-	//	this.closeAnyOpenPopup();
-	//	//var sid = '#txt' + e.target.id.substr(3);		console.log("UniPopup.clearText:   sid='%s'",sid);
-	//	//$(sid).val('');
-	//},
-
 	closeAnyOpenPopup: function()	{	//	$scope.UniPopup.closeAnyOpenPopup() 	закрыть любое открытое выпадающее окно
 		console.log("UniPopup.closeAnyOpenPopup:----------->");
 		var _from = this.getOpenPopup();
@@ -1266,11 +984,6 @@ $this: null,
  *	$scope.UniPopup.popupShow(from) 	- использовать массив с именем from если он существует, если нет - загрузить из БД
  *	$scope.UniPopup.popupShow(from,true)- загрузить массив из БД даже если он существует ( существует - значит уже загружен)
  */		
-		//if (!$scope._scope) {
-		//	console.log("popupShow:  $scope._scope is absent");
-		//	$this = $('#txt' + _from); //$this = $('txt'+_from);
-		//	$scope._scope = angular.element(  $this.parents("div[ng-controller]")[0]  ).scope();
-		//}
 		
 		console.log("popupShow:  $scope._scope created?  %s",($scope._scope)?true:false);
 		console.log("--->popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
@@ -1284,9 +997,6 @@ $this: null,
 		
 		//	закрыть показанный свой список
 		if ($scope._scope.arrayname && $scope._scope.arrayname.length && $scope._scope.from == _from)	 {
-			//$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);	// закрыть показанный  свой список 
-			//this.localDiction['_arrayname'] = $scope._scope.arrayname;
-			//this.localDiction['_from'] = $scope._scope.from;
 			$('div.uniPopup').css({'max-height': '0px'});
 			$scope._scope.arrayname = [];				
 			$scope._scope.from = '';			
@@ -1299,15 +1009,14 @@ $this: null,
 		if (_from) $scope._scope.from = _from;
 				//console.log("popupShow:  from:'%s'",$scope._scope.from); 
 		if ($scope._scope[$scope._scope.from] && !refresh) $scope._scope.arrayname = $scope._scope[$scope._scope.from];
-		else
-		{
+		else  		{
 			$scope._scope.$eval('load'+_from)(); // загрузить массив из БД
 			return; 
 		}
 		
 		// показать массив в окне   (если массив содержит только одно значение - особый случай)
 		var $th = $('#txt'+$scope._scope.from)
-			,$tgPopup = $('#tgPopup');
+		,	$tgPopup = $('#tgPopup');
 
 				console.log("popupShow: arrayname.length:'%s' from:'%s'",$scope._scope.arrayname.length, $scope._scope.from); 
 		if ($scope._scope.arrayname.length == 1)  	{
@@ -1363,102 +1072,13 @@ $this: null,
 		return { left: left, top: top };
 	},
 
-/*	
-	getPopupPosition: function ($this) {		//  has a shift to right
-		var popupPos = []; // возвращаем [left,top,width,height]           // [left,top,width,height]
-		//var $this = $("#" + UniPopup.Opts.target);
-		var id = $this.attr('id');
-		var targetPos = $this.offset();
-		var targetH = $this.outerHeight();
-		var targetW = $this.outerWidth(),
-			targetWi = $this.innerWidth(),
-			targetWw = $this.width(),
-			targetWc = $this.css("width"),
-			leftdelta =(targetWi - targetWw)/2 ;
-			if ($('body').hasClass('bootstrap') && this.lastWhere.length == 0 )  leftdelta += 0;
-			
-			//console.log("getPopupPosition:-->id='%s' targetW=%s targetWi=%s targetWw=%s targetWc=%s  leftdelta=%s this.lastWhere.length=%s",
-			//			id, targetW, targetWi, targetWw,targetWc, leftdelta, this.lastWhere.length );
-			
-			//popupPos[0] = targetPos.left;
-		popupPos[2] = targetW;
-		popupPos[3] = this.popupHeight;
-		//screenW = $(window).width();
-		// documentH = $(document).height();
-		var scrollLeft = $(document).scrollLeft();
-		var scrollTop = $(document).scrollTop(); console.log("getPopupPosition:-->id='%s' targetPos.top=%s targetH=%s scrollTop=%s",id, targetPos.top, targetH, scrollTop);
-
-		//if (scrollTop > 0 ) {
-		//  popupPos[1] = targetPos.top - UniPopup._Height - scrollTop - 10;   //console.log("delta:%s ",popupPos[1], targetPos.top + targetH);
-		if (scrollTop > 0 && targetPos.top - scrollTop > this.popupHeight) {
-		  popupPos[1] = targetPos.top - this.popupHeight - scrollTop - 10;   //console.log("delta:%s ",popupPos[1], targetPos.top + targetH);
-		} else {
-		  popupPos[1] = targetPos.top + targetH - scrollTop; //+10 ;
-		}
-		if (scrollLeft > 0) {
-		  popupPos[0] = targetPos.left - scrollLeft; // - 10;
-		} else {
-		  popupPos[0] = targetPos.left;
-		}
-		//popupPos[0] = popupPos[0] - leftdelta;
-		console.log("getPopupPosition:<--left=%s  top=%s  wi=%s hi=%s",popupPos[0],popupPos[1],popupPos[2],popupPos[3]);
-		return popupPos;
-	},
-	
-	 XY: function(o) {   						// exact the same as getPopupPosition()
-		var z=o, x=0,y=0, c; 
-		while(z && !isNaN(z.offsetLeft) && !isNaN(z.offsetTop)) {        
-		c = isNaN(window.globalStorage)?0:window.getComputedStyle(z,null); 
-		x += z.offsetLeft-z.scrollLeft+(c?parseInt(c.getPropertyValue('border-left-width'),10):0);
-		y += z.offsetTop-z.scrollTop+(c?parseInt(c.getPropertyValue('border-top-width'),10):0);
-		z = z.offsetParent;
-		} 
-		//return {x:o.X=x,y:o.Y=y};
-		return { left:x, top:y};
-	},
-
-	getPosition: function (el) {   				// exact the same as getPopupPosition()
-		var isNotFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') == -1;
-		var xPosition = 0;
-		var yPosition = 0;
-		while(el) {
-			xPosition += (el.offsetLeft-el.scrollLeft);
-			yPosition += (el.offsetTop-el.scrollTop);
-			if (isNotFirefox) {
-				xPosition += el.clientLeft;
-				yPosition += el.clientTop;
-			}
-			el = el.offsetParent;
-		}
-		return { left: xPosition, top: yPosition };
-	},	
-	
-	
-	getOffset:	function(elem) 	{  				// exact the same as getPopupPosition()
-		var box = elem.getBoundingClientRect()
-		, body = document.body
-		, docElem = document.documentElement
-		, scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop
-		, scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft
-		, clientTop = docElem.clientTop || body.clientTop || 0
-		, clientLeft = docElem.clientLeft || body.clientLeft || 0
-		, top  = box.top +  scrollTop - clientTop
-		, left = box.left + scrollLeft - clientLeft;
-	     
-	    return { top: Math.round(top), left: Math.round(left) };
-	},
-*/
-	
 	selectedItemBase: function(_scope,item) {
 		console.log("selectedItemBase:  from:'%s'  popupValue:'%s'",$scope._scope.from,item['Name']);
 		$scope._scope['cur' + $scope._scope.from].Name = item['Name'];
-		////this.localDiction['txt' + $scope._scope.from] = item['Name']; 	console.log("selectedItemBase: from:'%s'   value='%s'",'txt' + $scope._scope.from, this.localDiction['txt' + $scope._scope.from]);
 		$scope._scope.arrayname = [];	    //   ********************* item selected ************************ hide popup
 		$scope._scope.from = '';
 		$('div.uniPopup').css({'max-height': '0px'});
-		//var timeoutId = setTimeout(function go() {
 		//		$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);
-		//}, 10);	
 		
 		
 	},

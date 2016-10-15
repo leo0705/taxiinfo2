@@ -1,6 +1,0 @@
-﻿#  To ignore files in taxiinfo
-#-------------------------
-*.css
-bootstrap-3.3.6/
-dist/
-src/1pxdeep/less/
