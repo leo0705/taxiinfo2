@@ -1,0 +1,119 @@
+
+tbody {padding:0px;margin:0px;}
+div.panel-body {background: #51775A;}
+
+
+.tgTable {font-size: 1em; font-family:sans-serif;width:100%;padding:0px;margin:0px;border-collapse:collapse;border:1px solid black;}
+.tgCell {padding:0px 5px;border:1px solid black;/*height:17px;*/background-color:white;color: black;}
+td.tgCell.hover{  color:white;background-color: steelblue; cursor:default;}
+
+
+input.form-control.unipopinput {border-color: #3c6d48;cursor:default;}
+.facaretdown{background-position: 97% 50%;background-image: url(fa-caret-down.png);background-repeat: no-repeat;}
+
+button#btnReply {background: #79925f;border: 1px solid #3c6d48;} 
+
+h2#paramstitle {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:center;color: #f6f9f7;}
+div#mes        {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:left;}
+div#mes {margin-left:0;margin-bottom:5px;margin-top:5px;width:100%;text-align:left; background-color:#777;border:1px solid #666;border-radius:6px;}
+span#mestext{ color:#fff;font-size:12pt; font-family:Georgia, 'Times New Roman', Times, serif; cursor: pointer;vertical-align: text-top; }
+span#mestextmark { color:#fff;font-size:12pt; font-family:Georgia, 'Times New Roman', Times, serif; cursor: default;}
+
+
+table#DBInfo th,
+table#DBInfo td		{border: 1px solid lightcoral}
+table#DBInfo td.hover {background-color: #8ca177;}
+
+span#paramsinfo.badge {
+	background-color: #79925f;
+    color: #ffffff;
+    border: 1px solid #3c6d48;
+	cursor: pointer;
+	margin-bottom: 1em;
+}
+
+ /*div#paramsinfo table { width: 100%;  border: 0}*/
+div#paramsinfo {border: 1px solid #3c6d48;border-radius: 10px;overflow: hidden;}
+.thisImportant {color:Maroon;font-weight:600}
+
+span.badge.label-danger {font-size: 1em}
+code {font-size: 1.1em}	
+
+div#md-paramsinfo table {width: 94%;margin:0 3%;border: 0;}	
+div#md-paramsinfo table caption h2>{color: #fff;}	
+div#md-paramsinfo table td	{width: 50%; text-align: justify;vertical-align: top;}
+
+
+/*-----------------------------------------------------------------------*/
+
+.ngIncludeRelative {
+	position: relative;	height: 100%;
+}
+.ngIncludeItem {
+	position: absolute;	width: 100%;	display: block;
+}
+.ngIncludeItem.ng-enter,
+.ngIncludeItem.ng-leave {
+	transition: 450ms linear all;
+}
+.ngIncludeItem.ng-enter {
+	transform: translateX(100%);
+}
+.ngIncludeItem.ng-enter-active {
+	transform: translateX(0%);
+}
+.ngIncludeItem.ng-leave {
+	transform: translateX(0%);
+}
+.ngIncludeItem.ng-leave-active {
+	transform: translateX(-100%);
+}
+
+/*-----------------------------------------------------------------------*/
+/*div.uniPopup{display:none;overflow-y:auto;overflow-x:hidden;height:341px;}*/
+.uniPopup {
+	/*display:none;overflow-y:auto;overflow-x:hidden;	height:341px;*/
+	width: 30%;
+	height: 460px;
+	max-height: 0px;
+	overflow: hidden;
+}
+
+
+@keyframes open-down-animation {
+	0% {
+		max-height: 0px;
+		overflow: hidden;
+	}
+	100% {
+		max-height: 460px;
+	}
+}
+.open-down {
+animation-name:open-down-animation;
+animation-duration:.3s;
+animation-fill-mode: forwards;
+/*animation-timing-function:linear;*/
+animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
+}
+
+
+@keyframes close-up-animation {
+	0% {
+		max-height: 460px;
+		overflow: hidden;
+	}
+	100% {
+		max-height: 0px;
+		overflow: hidden;
+	}
+}
+.close-up {
+animation-name:close-up-animation;
+animation-duration:.3s;
+animation-fill-mode: forwards;
+/*animation-timing-function:linear;*/
+animation-timing-function : cubic-bezier (0.25, 0.1, 0.25, 1)
+}
+
+
