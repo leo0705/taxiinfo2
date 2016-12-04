@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html ng-app="TaxiInfoApp">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>TaxiInfo2</title>
+	<link href="../../../images/tree.ico"  rel="icon" />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.css" />
+
+<!-- <link rel="stylesheet" type="text/css" href="jquery.jgrowl.css" /> -->
+<!-- <script src="jquery.jgrowl.js"></script> -->
+	
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="bootstrap-1pxdeep-min.css" type="text/css"  rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<style type="text/css">
+.jGrowl-closer,		
+.jGrowl-notification {
+    background-color: #008080;   /*#2E8B57;#3c6d48*/
+	color: white;
+    opacity: 0.9;			
+}
+.jGrowl-closer { 
+width:50px;
+height: 48px;
+margin-top: 10px;
+margin-left: 100px;
+border-radius: 21px;
+font-size: 1px;
+}
+			
+</style>
+
+
+	
+</head>
+<!-- <body ng-controller="commonCtrl" onload="jWhocomein.ashxOnloadReg('taxiinfo','load');">  -->
+<body > 														
+																<div id="jGrowl" class="top-left jGrowl">
+																	<div class="jGrowl-notification">
+																	</div>
+																</div>
+																 
+	<div class="container"  ng-controller="commonCtrl">
+		<div id="mainCtrl" ng-controller="mainCtrl" class="row">
+			<!-- <ng-include src="currentUrl"></ng-include> -->
+			<div id = "rootview" class="ngIncludeRelative">
+				<div class="ngIncludeItem" ng-include="currentUrl"></div>
+			</div>
+		</div>
+	</div>
+<script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script>
+<script src="hammer.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script>
+<script src="jNoMouseBase.js"></script>
+<script src="jMain.js"></script>
+<script type="text/javascript">
+														//(function($){
+	jQuery(function() {
+		jQuery.jGrowl.defaults.pool = 5;  				// max number of notifications  top-right
+	//	jQuery.jGrowl.defaults.life = 5000;  			// 
+	//	jQuery.jGrowl.defaults.closer = false;  	// 
+		jQuery.jGrowl.defaults.sticky = true;	// sticky = false;
+	});
+
+var itracer = function() { 		//UniWebClient.tracer(txt)
+	console.log("===>itracer");
+	var smes = arguments[0]		
+	,	regexp = new RegExp("%s")
+	,	isTouchDevice = ('ontouchstart' in document.documentElement)
+	,	isNotes = true
+	,	txt = ''
+	;
+	//console.log("===>tracer   arguments[1]['group']:'%s'   ",arguments[1]['group']);
+	for (var i = 1; i < arguments.length; i++) 			{
+		smes = smes.replace(regexp, arguments[i]);
+	}
+// не забыть исправить !isTouchDevice <==> isTouchDevice для траировки на тач девайсе !!!
+//------------------------------------------------------------------------------------------
+//					   isNotes        -	уведомления выводятся
+//					   !isNotes		  - уведомления НЕ выводятся
+//					   !isTouchDevice -	уведомления выводятся только на  mouse экран
+//					   isTouchDevice  - уведомления выводятся только на  touch экран 
+	if (isTouchDevice && !isNotes)  {  			
+		//console.log("jGrowl(rezult) ... ");
+		jQuery('div.top-left').jGrowl(smes);
+	}
+	else		{	console.log('*** ' + smes);	}
+};
+
+itracer('jGrowl OK ! ');
+	
+	</script>
+
+</body>
+</html>
