@@ -79,7 +79,7 @@ Math.LN10
 // 		var age = '20 years';
 // 		age = parseInt(age,10); //20//
 */
-	//	Format - аналог функции С sprinf: подставляет в строку значения произвольного числа указанных параметров (либо массив)
+	//	Format - аналог функции С sprintf: подставляет в строку значения произвольного числа указанных параметров (либо массив)
 	String.prototype.Format = function () { 
 		//console.log("Format:--'%s'-->",this);
 		var rezult = this;
@@ -119,6 +119,7 @@ Math.LN10
 	//var t20 = "      джентельмены предпочитают блондинок     "; console.log(t20.Trim());
 
 	
+	
         return {
 		                        //   mySQL field flags:
 NOT_NULL_FLAG 		: 1, 		// Field can't be NULL
@@ -133,8 +134,53 @@ ENUM_FLAG 			: 256, 		// Field is a enum field
 AUTO_INCREMENT_FLAG : 512, 		// Field is a autoincrement field
 TIMESTAMP_FLAG 		: 1024, 	// Field is a timestamp
 table_col_names: [],
+trace_arr: [],
 
+
+tracer: function() { 		//UniWebClient.tracer(txt)
+	console.log("===>UniWebClient.tracer");
+	/*
+	var rezult = arguments[0]		
+	,	regexp = new RegExp("%s")
+	//,	opt = (arguments[1])?{group: '556d3c'}:{ group: 'bc-teal' }	// arguments[1],'bc-teal' - css class for background setting
+	,	isTouchDevice = ('ontouchstart' in document.documentElement)
+	//,	mesElement = document.getElementById('mestext')
+	,	txt = ''
+	;
+	//console.log("===>tracer   arguments[1]['group']:'%s'   ",arguments[1]['group']);
+	for (var i = 1; i < arguments.length; i++) 			{
+		rezult = rezult.replace(regexp, arguments[i]);
+	}
+	if (!isTouchDevice)  {  console.log("jGrowl(rezult) ... "); //$('div.top-right').jGrowl(rezult);//  window.jGrowl_helper(rezult);      }
+		//if ( rezult.substr(0,1) == '!')  {
+		//	//$('div.top-right').jGrowl(rezult,{group: '556d3c'});
+		//	//txt = (mesElement.textContent.length > 2) ? (mesElement.textContent + '\n' +  rezult) : rezult; 
+		//	$('#mestext').text(rezult);		//mesElement.textContent = rezult;
+		//}
+		//else	this.addMes(rezult);						$('div.top-right').jGrowl(rezult);	
+	//}
+	else				{	console.log(rezult);	}
+	return rezult; 
+	*/
+},
+
+
+/*
+addMes: function (_mes) {
+	console.log("===>UniWebClient.addMes: _mes:'%s'",_mes);
+	this.trace_arr.unshift(_mes);
+},
 	
+isMes: function (_mes) {		//   if (UniWebClient.isMes())  UniWebClient.tracer(txt)
+	console.log("===>UniWebClient.isMes: _mes:'%s'",_mes);
+	return (this.trace_arr.length) ? true : false;
+},
+	
+getMes: function (_mes) {								//	UniWebClient.getMes();
+	console.log("===>UniWebClient.getMes: _mes:'%s'",_mes);
+	return (this.trace_arr.length) ? this.trace_arr.shift() : '';
+},
+*/
 getExecutionMsc: function (strtDate) {
 	console.log("UniWebClient.getExecutionMsc: ---strtDate:'%s'---->",strtDate);
 	var today = new Date();
@@ -400,7 +446,7 @@ colname : {							//	UniDic.colname continent
 			template: function () {
 						var tmp =
 '<div id="tgPopup" class="uniPopup"><table class="tgTable"><tbody ><tr ng-repeat="item in arrayname">'+
-'<td class="tgCell" ng-click="selectedItem(item)">'+'{{item.Name}}</td></tr></tbody></table></div>';
+'<td class="tgCell">'+'{{item.Name}}</td></tr></tbody></table></div>';
 						//console.log("unipopupdiv:    tmp:'%s'",tmp);
 						return tmp;
 						}
@@ -408,6 +454,23 @@ colname : {							//	UniDic.colname continent
 	})
 //.controller("commonCtrl", function ($scope, $http, $document,$timeout,$window,UNIURL,UniWebClient,UniDic) {
 .controller("commonCtrl", ['$scope', '$http', '$document','$timeout','$window','UNIURL','UniWebClient','UniDic',function ($scope, $http, $document,$timeout,$window,UNIURL,UniWebClient,UniDic) {
+/*
+tracer = function() { 
+			var rezult = arguments[0]		
+			,	regexp = new RegExp("%s")
+			//,	opt = (arguments[1])?{group: '556d3c'}:{ group: 'bc-teal' }	// arguments[1],'bc-teal' - css class for background setting
+			,	isTouchDevice = ('ontouchstart' in document.documentElement)
+			;
+			//console.log("===>tracer   arguments[1]['group']:'%s'   ",arguments[1]['group']);
+			for (var i = 1; i < arguments.length; i++) 			{
+				rezult = rezult.replace(regexp, arguments[i]);
+			}
+			if (!isTouchDevice)  {	$('div.top-right').jGrowl(rezult);	}
+			else				{	console.log(rezult);	}
+				return rezult; 
+};
+*/
+
 /////////////////////////////////////////////////////////////////////////    form validation
 // params=[	
 //	{popname:'Population',type:'req',textlifetime:1000,text:'<p id="errmes">Требуется ввод значения</p>'},
@@ -822,8 +885,7 @@ $scope.TranslateToRU = function (_scope,arrname,dictname,prop) {
 };
 
 $scope.ajaxSuccessInner = function (data,paramExt,opts,_scope) {/////////////////////////////////////////	ajaxSuccessInner
-	console.log("ajaxSuccessInner:---->");
-		console.log("opts['arrayname']:'%s'  ", opts['arrayname']);
+		console.log("==>ajaxSuccessInner  opts['arrayname']:'%s'  ", opts['arrayname']);
 		if (opts['arrayname'])  { 
 		_scope[opts['arrayname']] = UniWebClient.csvToJson(data.csv.substr(4));		// set json array to $scope
 						//_scope[opts['arrayname']] = $scope.Name1;
@@ -844,19 +906,19 @@ $scope.ajaxSuccessInner = function (data,paramExt,opts,_scope) {////////////////
 				_scope[opts['colnames']][index] = UniDic.en2ru(en_colname,opts['colnamesDic']);
 			});
 		}
-		
+		itracer("==>ajaxSuccessInner  '%s'  '%s'",opts['arrayname'], _scope[opts['arrayname']].length );
 		if (data.mode == 'SE') $scope.createFace(_scope,data);
 		
 		_scope['ajaxSuccess'] = opts['eventname'];
 	};									//////////////////////////////////////////////////     ajaxSuccessInner
   
 $scope.send = function (controller_scope,paramExt, opts, configExt) {
-	console.log("send:---paramExt.sqlText:'%s'----->", paramExt.sqlText);
+	//itracer("==>send   paramExt.sqlText:'%s'", paramExt.sqlText);
 	var _scope = controller_scope,
 		hrs = {}, 
 		url=$scope.configDefualt.url;
 	//var _scope = angular.element(document.getElementById(opts['id'])).scope();
-	_scope['ajaxSuccess'] = '...';
+	//_scope['ajaxSuccess'] = '...';
     if (paramExt.sqlText.StartsWith("enum:"))		{								// 'enum:'
 		var enumdata = {csv:'@SSC'+paramExt.sqlText.TrimStart("enum:"),mode:'SP'};
 		$scope.ajaxSuccessInner(enumdata,paramExt,opts,_scope);
@@ -889,16 +951,20 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 			{
 				console.log("send.success:---data.mode='%s'---->",data.mode);   // insert_id 
 				console.log("send.success:---data.sqlText=%s---->",data.sqlText);   
-				console.log("send.success:---data.affected_rows='%s'---->",data.affected_rows);  
+				console.log("send.success:---data.affected_rows='%s'---->",data.affected_rows); 
 				switch (true) 
 				{
 					case data.mode == 'SE' || data.mode == 'SP': 						////// SE,SP  //////
 						console.log("send.success:---data.types='%s'---->",data.types);   
 						console.log("send.success:---data.flags='%s'---->",data.flags);   
 						console.log("send.success:---data.csv='%s'---->",data.csv);
-						// mstext = (data.affected_rows>0)? 'успешно загружено {1} зап.'.Format( data.affected_rows):'не загружено НИ ОДНОЙ записи';
-						// if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
-						// else $scope.mesPost(mstext);
+						//mstext = (data.affected_rows>0)? 'успешно загружено {1} зап.'.Format( data.affected_rows):'не загружено НИ ОДНОЙ записи';
+						//if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
+						//else $scope.mesPost(mstext);
+						if (data.affected_rows == 0)	{
+							mstext = 'не загружено НИ ОДНОЙ записи';
+							$scope.mesPost(mstext);
+						}
 						$scope.ajaxSuccessInner(data,paramExt,opts,_scope);		
 					break;
 						
@@ -939,6 +1005,7 @@ $this: null,
 			$scope._scope = _childScope;
 			console.log("UniPopup.setChildScope:  $scope._scope created");
 		}
+		return $scope;
 	},
 	
 	closeAnyOpenPopup: function()	{	//	$scope.UniPopup.closeAnyOpenPopup() 	закрыть любое открытое выпадающее окно
@@ -986,7 +1053,7 @@ $this: null,
  */		
 		
 		console.log("popupShow:  $scope._scope created?  %s",($scope._scope)?true:false);
-		console.log("--->popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
+		itracer("==>popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
 		
 		//	закрыть показанный чужой список
 		//this.closAlienOpenPopup(_from);
@@ -998,9 +1065,10 @@ $this: null,
 		//	закрыть показанный свой список
 		if ($scope._scope.arrayname && $scope._scope.arrayname.length && $scope._scope.from == _from)	 {
 			$('div.uniPopup').css({'max-height': '0px'});
+			//$scope._scope.clearArr();
 			$scope._scope.arrayname = [];				
 			$scope._scope.from = '';			
-			console.log("popupShow: закрыть показанный свой список");
+			console.log("popupShow: закрыть показанный свой список   arr.length:'%s'",$scope._scope.arrayname.length);
 			return;
 		}
 				
@@ -1031,15 +1099,16 @@ $this: null,
 		,	style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:{4}px;top:{2}px;left:{3}px;overflow-y:auto;overflow-x:hidden;"
 					.Format($th.outerWidth(), popupPos.top + $th.outerHeight(), popupPos.left,this.popupHeight);
 
-		//$tgPopup.attr('style',style).show();    //   ********************************************* show popup
+		$tgPopup.attr('style',style).show();    //   ********************************************* show popup
 		// show popup
+		style += 'max-height: 460px;';
 		$tgPopup.attr('style',style);
-		$scope.animateCss('.uniPopup','open-down',$scope.done_open_down);
+		//$scope.animateCss('.uniPopup','open-down',$scope.done_open_down);
 	},
 
 	getViewportOffset: function (element) {   	//  OK, this is the best !!!
 		var node = element
-		,   left = node.offsetLeft
+		,   left = node.offsetLeft		
 		,   top = node.offsetTop
 		;
 
@@ -1068,14 +1137,15 @@ $this: null,
 		}
 		//console.log("node.nodeName:'%s'",node.nodeName);// 'DIV' 'FIELDSET'  'BODY' 'HTML'	
 		} while (node.nodeName == 'DIV' || node.nodeName == 'FIELDSET' || node.nodeName == 'BODY');	// element.nodeName == "TD"
-		console.log("getViewportOffset:<--- left:'%s'  top:'%s'", left, top);
+		itracer("<===getViewportOffset:  left:'%s'  top:'%s'", left, top);
 		return { left: left, top: top };
 	},
 
 	selectedItemBase: function(_scope,item) {
 		console.log("selectedItemBase:  from:'%s'  popupValue:'%s'",$scope._scope.from,item['Name']);
 		$scope._scope['cur' + $scope._scope.from].Name = item['Name'];
-		$scope._scope.arrayname = [];	    //   ********************* item selected ************************ hide popup
+		//$scope._scope.arrayname = [];	    //   ********************* item selected ************************ hide popup
+		$scope._scope.$eval($scope._scope.arrayname = []);
 		$scope._scope.from = '';
 		$('div.uniPopup').css({'max-height': '0px'});
 		//		$scope.animateCss('.uniPopup','close_up',$scope.done_close_up_self);

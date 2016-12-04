@@ -2,10 +2,149 @@
  * 	jMain.js - taxiinfo application (main)
  *  Copyriqht (C) 2013-2016  Leonid L.Voitenko All Rights Reserved  http://www.inet-apps.ru/                          
  */
-angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase']) 
+angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase']) 
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
+	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
+	setTimeout(function () {
+			$scope.mesPost('ver 03-12-2016 14:20');
+		}
+		, 500);		
+	var	rootviewElement = document.getElementById('rootview')
+	,	mc = new Hammer(rootviewElement)
+	;
+//	document.getElementById("txtName").addEventListener("blur", function(){
+//			document.getElementById("txtName").setAttribute("readonly", true);
+//});					
+
+	// listen to mouse & touch  events...   'div.container'
+	mc.on("hammer.input", function(_ev) {
+		var item = {}
+		,	elem = null
+	//	,	mes	= "==>mc.on  isFirst:'{1}'  isFinal:'{2}'  eventType:'{3}'  deltaTime:'{3}'  tag:'{5}'  id:'{6}' "
+		,	ms	= "==>mc.on  isFirst:'%s'  isFinal:'%s'  eventType:'%s'  deltaTime:'%s'  tag:'%s'  id:'%s' "
+		;
+		//console.log(mes.Format(_ev.isFirst, _ev.isFinal,  _ev.eventType,  _ev.deltaTime,  _ev.target.tagName, _ev.target.id));
+		//window.jGrowl_helper("  from Main.js OK ");
+		//window.jQuery('div.top-left').jGrowl(" window.jQuery('div.top-left').jGrowl(txt)  from Main.js  OK!!! ");
+		//return;		
+		if ( _ev.isFirst )	{
+				itracer(ms, _ev.isFirst, _ev.isFinal,  _ev.eventType,  _ev.deltaTime,  _ev.target.tagName, _ev.target.id);
+			switch(true) {
+				case _ev.target.tagName == 'SPAN'  && _ev.target.id == 'mestext' :
+					$scope.$apply($scope.mesClear());
+				break;
+				
+				case (_ev.target.tagName == 'SPAN' && _ev.target.id == 'show-paramsinfo') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-question') >= 0) :
+					//$scope.selectMode('show-paramsinfo', function(){ $scope.$apply(); });
+					$scope.$apply($scope.selectMode('show-paramsinfo'));
+				break;
+				
+				case (_ev.target.tagName == 'SPAN'  && _ev.target.id == 'hide-paramsinfo') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-close') >= 0) :
+					//$scope.selectMode('hide-paramsinfo', function(){ $scope.$apply(); });
+					$scope.$apply($scope.selectMode('hide-paramsinfo'));
+				break;
+				
+				case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'btnReply') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-car') >= 0)  :	
+					//$scope.selectMode('rezult');
+					$scope.$apply($scope.selectMode('rezult'));
+				break;
+				
+				case  _ev.target.tagName == 'BUTTON'  && _ev.target.id == 'btnParams' :			
+					//$scope.selectMode('params');
+					$scope.$apply($scope.selectMode('params'));
+				break;
+				/*--------------------------------------------unselect------------------------------------------------------*/
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'unselectBrand') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'unselectBrand') :
+					$scope.$apply($scope.unselectBrand());
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'unselectModel') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'unselectModel') :
+					$scope.$apply($scope.unselectModel());
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'unselectRegNum') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'unselectRegNum') :
+					$scope.$apply($scope.unselectRegNum());
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'unselectName') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'unselectName') :
+					$scope.$apply($scope.unselectName());
+				break;
+				/*---------------------------------------------down-------------------------------------------------------*/
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'downBrand') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'downBrand') :
+					$scope.$apply($scope.UniPopup.popupShow('Brand','true' ));
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'downModel') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'downModel') :
+					$scope.$apply($scope.UniPopup.popupShow('Model','true' ));
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'downRegNum') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'downRegNum') :
+					$scope.$apply($scope.UniPopup.popupShow('RegNum','true' ));
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'downName') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'downName') :
+					$scope.$apply($scope.UniPopup.popupShow('Name','true' ));
+				break;
+				/*---------------------------------------------focus-------------------------------------------------------*/
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'focusRegNum') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'focusRegNum') :
+					if (	document.getElementById("txtRegNum").hasAttribute("readonly")	)  {
+						document.getElementById("txtRegNum").removeAttribute("readonly");
+						//elem = document.getElementById("txtRegNum");   
+						//elem.removeAttribute("readonly");
+						setTimeout(function () {
+							document.getElementById("txtRegNum").focus();
+							//elem.focus();
+						}
+						, 500);	
+					}
+				break;
+				
+				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'focusName') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'focusName') :
+					if (	document.getElementById("txtName").hasAttribute("readonly")	)  {
+						document.getElementById("txtName").removeAttribute("readonly");
+						setTimeout(function () {
+							document.getElementById("txtName").focus();
+						}
+						, 500);		
+					}
+				break;
+				
+/*				
+				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtBrand' :	
+					//$scope.UniPopup.popupShow('Brand','true' );
+					$scope.$apply($scope.UniPopup.popupShow('Brand','true' )); 
+				break;
+				
+				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtModel' :
+					//$scope.UniPopup.popupShow('Model','true');
+					$scope.$apply($scope.UniPopup.popupShow('Model','true' ));
+				break;
+				
+				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtRegNum' :	
+					//$scope.UniPopup.popupShow('RegNum','true');
+					$scope.$apply($scope.UniPopup.popupShow('RegNum','true' ));
+				break;
+				
+				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtName' :	
+					//$scope.UniPopup.popupShow('Name','true');
+					$scope.$apply($scope.UniPopup.popupShow('Name','true' ));
+				break;
+*/				
+				case  _ev.target.tagName == 'TD'  && _ev.target.className.indexOf('tgCell') == 0 :	
+					item['Name'] = _ev.target.textContent;
+					$scope.$apply($scope.selectedItem(item)); 
+				break;
+					
+				}
+				//if (UniWebClient.isMes  && $scope.mestext.length == 0)	{ 	$scope.$apply($scope.mesPost(UniWebClient.getMes())); }
+		}																																																						
+	});
 	
-	$scope.displayMode = 'params';
+/*-----------------------------------------------------------------------------------------------------*/	
+	
+	$scope.Brand = [];
+	
+	$scope.displayMode = 'params';								// 	'params' or 'rezult'
 	$scope.newWinWidth = $window.innerWidth;
 	$scope.currentUrl = 'params/paramsView.html';				// Url for current view for transient animation	
 	
@@ -27,16 +166,46 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 				$scope.currentUrl = 'params/paramsView.html';
 			break;
 			
-			case newValues[0] < 768 &&  newValues[1] == 'params/paramsinfo':
+			case newValues[0] < 768 &&  newValues[1] == 'paramsinfo':
 				$scope.currentUrl = 'params/paramsinfo/sm-paramsinfo.html';
 			break;
 			
-			case newValues[0] >= 768 &&  newValues[1] == 'params/paramsinfo':
+			case newValues[0] >= 768 &&  newValues[1] == 'paramsinfo':
 				$scope.currentUrl = 'params/paramsinfo/md-paramsinfo.html';
 			break;
 		}
 		console.log("<----$watch   currentUrl:'%s'", $scope.currentUrl );
 	});		
+	
+	$scope.selectMode = function (button, cb)	{
+		//console.log("selectMode: -----button:'%s'---->",button);   //$scope.displayMode:   'params' 	'rezult'	'paramsinfo'
+		itracer("==>selectMode:     button:'%s' ",button);   //$scope.displayMode:   'params' 	'rezult'	'paramsinfo'
+		switch(button)  	{
+			
+			case 'rezult':   
+				$scope.loadDBInfo();	//	for  $scope.displayMode = 'rezult';   see $scope.$watch('ajaxSuccess', .....   
+			break;
+			
+			case 'show-rezult':   
+				$scope.displayMode = 'rezult';	    
+			break;
+			
+			case 'params':            
+				$scope.displayMode = 'params';
+				$scope.from = null;		// 	закрыть любое открытое выпадающее окно
+			break;
+			
+			case 'show-paramsinfo':
+				$scope.displayMode = 'paramsinfo';
+			break;
+			
+			case 'hide-paramsinfo':
+				$scope.displayMode = 'params';
+			break;
+		}
+		//console.log("selectMode:     $scope.displayMode:'%s'",$scope.displayMode);
+		itracer("<==selectMode:      $scope.displayMode:'%s'",$scope.displayMode);
+	};
 	
 	angular.element($window).bind('resize',function(){
 		$scope.$apply(function(){
@@ -56,8 +225,8 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	{id:'txtName',col:'Name',op:'%'}];
 	
 	$scope.$watch('curRegNum.Name', function (newValue) {
-		console.log("-->$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
-		if (newValue) {
+		itracer("==>$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
+		if (newValue != undefined) {
 			if ($scope._scope.from = 'RegNum') {
 				console.log("$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
 				$scope.arrayname = [];
@@ -68,8 +237,8 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	});
 	
 	$scope.$watch('curName.Name', function (newValue) {
-		console.log("-->$scope.$watch:  $scope.curName.Name='%s'",newValue);
-		if (newValue) {
+		itracer("==>$scope.$watch:  $scope.curName.Name='%s'",newValue);
+		if (newValue != undefined) {
 			if ($scope._scope.from = 'Name') {
 				console.log("$scope.$watch:  $scope.curName.Name='%s'",newValue);
 				$scope.arrayname = [];
@@ -80,21 +249,26 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	});
 	
 	$scope.$watch('ajaxSuccess', function (newValue) {
-		console.log("$scope.$watch:    $scope.ajaxSuccess='%s'",newValue);  //$scope.ajaxSuccess
+		itracer("==>$scope.$watch:    $scope.ajaxSuccess='%s'",newValue);  //$scope.ajaxSuccess
+		console.log("--scope.$watch:    $scope.ajaxSuccess='%s'",newValue);  //$scope.ajaxSuccess
 		var mstext;
 		switch(newValue)
 		{
 			case "Count.load.OK": 
-				mstext = ($scope.Count[0]['affected_rows'])? 'найдено {1} зап.'.Format( $scope.Count[0]['affected_rows']):'не найдено НИ ОДНОЙ записи';
+				console.log("--scope.$watch:   $scope.Count[0]['affected_rows']='%s'---->",$scope.Count[0]['affected_rows']);
+				mstext = (  parseInt( $scope.Count[0]['affected_rows']) )? 'найдено {1} зап.'.Format( $scope.Count[0]['affected_rows']):'не найдено НИ ОДНОЙ записи';
 				$scope.mesPost(mstext);
 			break;
 		
 			case "smDBInfo.load.OK": 
-				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
-				if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
-				else $scope.mesPost(mstext);
-				$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
-				$scope.displayMode = 'rezult';
+				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length) : '';//:'не загружено НИ ОДНОЙ записи';
+				//mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
+				if (mstext) {
+					if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
+					else $scope.mesPost(mstext);
+					$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
+					$scope.selectMode('show-rezult');	
+				}		else 	{	itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
 			break;
 		
 			case "Brand.load.OK":  
@@ -113,30 +287,17 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 				$scope.UniPopup.popupShow('Name');
 			break;
 		}
+		$scope['ajaxSuccess'] = '';
 });
-	
-	$scope.selectMode = function (button)	{
-		console.log("selectMode: -----button:'%s'---->",button);   //$scope.displayMode:   'params' 	'rezult'
-		switch(button)  	{
-			
-			case 'rezult':   
-				$scope.loadDBInfo();
-			break;
-			
-			case 'params':            
-				$scope.displayMode = 'params';
-				$scope.from = null;		// 	закрыть любое открытое выпадающее окно
-			break;
-			
-			case 'params/paramsinfo':
-				$scope.displayMode = ($scope.displayMode=='params')?'params/paramsinfo':'params';
-			break;
-			
-		}
-	};
+		
+	//$scope.clearArr()  = function() {
+				//console.log("==>clearArr");
+				//$scope.arrayname = [];
+	//};
+
 	
 	$scope.loadDBInfo = function () {
-		console.log("loadDBInfo: -------->");
+		itracer("==>loadDBInfo");
 		var opts = {
 			eventname:	'smDBInfo.load.OK',
 			colnames: 	'colnames', 
@@ -160,7 +321,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadCount = function () {
-		console.log("loadCount: -------->");
+		itracer("==>loadCount");
 		var opts = {
 			eventname:	'Count.load.OK',
 			colnames: 	'colnames', 
@@ -184,7 +345,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadName = function () {
-		console.log("loadName: -------->");
+		itracer("==>loadName");
 		var opts = {
 			eventname:	'Name.load.OK',	
 			arrayname: 	'Name' 	
@@ -203,7 +364,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadRegNum = function () {
-		console.log("loadRegNum: -------->");
+		itracer("==>loadRegNum");
 		var opts = {
 			eventname:	'RegNum.load.OK',	
 			arrayname: 	'RegNum' 	
@@ -223,7 +384,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadBrand = function () {
-		console.log("loadBrand: -------->");
+		itracer("==>loadBrand");
 		var opts = {
 			eventname:	'Brand.load.OK',	
 			arrayname: 	'Brand' 	
@@ -242,7 +403,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadModel = function () {
-		console.log("loadModel: -------->",$scope.curBrand.Name);
+		itracer("==>loadModel",$scope.curBrand.Name);
 		var opts = {
 			eventname:	'Model.load.OK',	
 			arrayname: 	'Model' 	
@@ -260,7 +421,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	};
 	
 	$scope.selectedItem = function(item) 	{
-		console.log("selectedItem:  from:'%s'  popupValue:'%s'",$scope.from,item['Name']); 
+		itracer("==>selectedItem:  from:'%s'  popupValue:'%s'",$scope.from,item['Name']); 
 		//angular.element(document.getElementById('txt'+$scope.from)).val(item['Name']);				
 		switch($scope.from)	{
 			case "Brand":
@@ -283,7 +444,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 		$scope.loadCount();
 	};
 	
-	$scope.unselectBrand = function() 	{		console.log("unselectBrand:  -------->");
+	$scope.unselectBrand = function() 	{		itracer("==>unselectBrand");
 				angular.element(document.getElementById('txtBrand')).val('');				
 				$scope.curBrand ={};
 				$scope.Brand = [];
@@ -295,7 +456,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 				$scope.loadCount();
 	};
 	
-	$scope.unselectModel = function() 	{		console.log("unselectModel:  -------->");
+	$scope.unselectModel = function() 	{		itracer("==>unselectModel");
 				angular.element(document.getElementById('txtModel')).val('');				
 				$scope.curModel ={};
 				$scope.Model = [];
@@ -304,7 +465,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 				$scope.loadCount();
 	};
 	
-	$scope.unselectRegNum = function() 	{		console.log("unselectRegNum:  -------->");
+	$scope.unselectRegNum = function() 	{		itracer("==>unselectRegNum");
 				angular.element(document.getElementById('txtRegNum')).val('');				
 				$scope.curRegNum ={};
 				$scope.RegNum = [];	
@@ -312,7 +473,7 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 				$scope.loadCount();
 	};
 	
-	$scope.unselectName = function() 	{		console.log("unselectName:  -------->");
+	$scope.unselectName = function() 	{		itracer("==>unselectName");
 				angular.element(document.getElementById('txtName')).val('');				
 				$scope.curName ={};
 				$scope.Name = [];
@@ -322,4 +483,6 @@ angular.module("TaxiInfoApp", [ 'ngTouch','ngAnimate','UniClientBase'])
 	
 //	$scope.displayMode = 'params';
 	$scope.UniPopup.setChildScope($scope);
+		
+
 }]);

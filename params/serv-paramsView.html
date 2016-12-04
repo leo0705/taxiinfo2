@@ -1,0 +1,79 @@
+﻿<div class="animate-show form-group"  ng-show="'true'">
+<!-- 	
+				<div class="row">
+					<div class="col-sm-12">
+						<div id="jGrowl" class="top-right jGrowl">
+							<div class="jGrowl-notification">
+							</div>
+						</div>
+				  
+					</div>
+				</div>
+	
+ -->	<div class="row">
+		<div class="form-group col-sm-12">
+			<div   id="mes">
+				&nbsp;&nbsp;<span  class="fa fa-caret-right">&nbsp;&nbsp;</span><span id="mestext" title="кликни для очистки"></span><br>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="row">
+		<div class="col-sm-1">
+			<span id="show-paramsinfo" class="badge"
+				title="Показать пояснения по вводу параметров запроса"
+			>
+				&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-question "></i>&nbsp;&nbsp;&nbsp;
+			</span>
+		</div>
+	
+		<div class="col-sm-11">
+			<h2 id="paramstitle">Настройка параметров поиска в БД</h2>
+		</div>
+	</div>	
+	
+	<form role="form" autocomplete="off">
+		<fieldset>
+			<div class="row">			<!-- button  для загрузки данных   -->
+				<div class="form-group col-sm-4">
+					<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
+					title="кликни для загрузки данных после настройки параметров поиска" 
+					>
+					<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-4">			<!-- ng-click="UniPopup.popupShow('Brand','true')"  readonly Brand ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)"-->															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->
+				<!-- <label class="control-label" for="txtBrand">Марка:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curBrand.Name"  id="unselectBrand"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span> -->
+					<label class="control-label" for="txtBrand">Марка:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curBrand.Name"  id="unselectBrand"  class="badge" 	title="сброс введенного значения" >&nbsp;&nbsp;&nbsp;<i class="fa fa-lg fa-remove"></i>&nbsp;&nbsp;&nbsp;</span>
+					<input class="form-control facaretdown unipopinput" readonly style="touch-action: auto;" id="txtBrand" type="text" name="txtBrand" autocomplete="off"
+					ng-model="curBrand.Name" 
+					/>
+				</div>
+				<div class="form-group col-sm-4">			<!-- ng-click="UniPopup.popupShow('Model','true')"  readonly Model ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)"-->
+					<label class="control-label" for="txtModel">Модель:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curModel.Name"  id="unselectModel"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control facaretdown unipopinput" readonly style="touch-action: auto;" id="txtModel" type="text" name="txtModel" autocomplete="off"
+					ng-model="curModel.Name" 
+					/>
+				</div>
+				<div class="form-group col-sm-4">			<!-- RegNum ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)"-->
+					<!-- <label class="control-label" for="txtRegNum">Рег. номер:</label><small>(буквы русские)</small>&nbsp;&nbsp;&nbsp;<span ng-show="curRegNum.Name"  id="unselectRegNum"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span> -->
+					<label class="control-label" for="txtRegNum">Регистр. номер:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curRegNum.Name"  id="unselectRegNum"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span><small>{{curRegNum.Name}}</small>
+					<input class="form-control unipopinput" id="txtRegNum" type="text" name="txtRegNum" autocomplete="off" placeholder="буквы русские"
+					ng-model="curRegNum.Name" 
+					/>
+				</div>
+			</div>	
+			<div class="row">	
+				<div class="form-group col-sm-12">			<!-- Name ng-click="UniPopup.handleEvent($event)" ng-focus="UniPopup.handleEvent($event)"-->
+					<label class="control-label" for="txtName">Перевозчик:</label>&nbsp;&nbsp;&nbsp;<span ng-show="curName.Name" id="unselectName"><img src="trash.png"  style="cursor:pointer;border-width:0px"/></span>
+					<input class="form-control unipopinput" id="txtName" type="text" name="txtName" autocomplete="off"
+					ng-model="curName.Name" 
+					/>
+				</div>
+			</div>	
+		</fieldset>
+	</form>
+	<div unipopupdiv></div> 
+</div>	
