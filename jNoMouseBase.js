@@ -445,9 +445,23 @@ colname : {							//	UniDic.colname continent
 			replace: true,
 			template: function () {
 						var tmp =
-'<div id="tgPopup" class="uniPopup"><table class="tgTable"><tbody ><tr ng-repeat="item in arrayname">'+
-'<td class="tgCell">'+'{{item.Name}}</td></tr></tbody></table></div>';
-						//console.log("unipopupdiv:    tmp:'%s'",tmp);
+		'<div id="tgPopup" class="uniPopup"><table class="tgTable"><tbody >' +
+		'<tr ng-repeat="item in arrayname track by $index"><td  class="tgCell">' +
+			//'<img  id="btn{{$index}}" src="power-off-44x23.PNG"  alt = "кликни для выбора значения" style="width:44px; border:0;" />' +			
+			//'<img  id="btn{{$index}}" src="empty-44x23.PNG"  alt = "кликни для выбора значения" style="width:44px; border:0;" />' +			
+			//'<img  id="btn{{$index}}" src="check-44x23.PNG"  alt = "кликни для выбора значения" style="width:44px; border:0;" />' +			
+			
+			
+			
+			
+		//'<a class="ai btn-xs" href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-power-off"></i> &nbsp;&nbsp;&nbsp;</a>' +			
+		'<button type="button"  id="btni{{$index}}" class="btn-xs ai">&nbsp;&nbsp;&nbsp;<i class="fa fa-power-off"></i>&nbsp;&nbsp;&nbsp;</button>' +			
+			
+			
+			//'<button type="button" class="btn btn-xs btni"><i class="fa fa-power-off"></i></button>' +
+			//'<span id="btn{{$index}}" class="badge hasi" title="кликни для выбора значения" >&nbsp;<i class="fa fa-power-off"  ></i>&nbsp;</span>' +
+			'<span id="txt{{$index}}" class="selvalue" title="выбираемое значение" >{{item.Name}}</span>' +
+		'</td></tr></tbody></table></div>';
 						return tmp;
 						}
 		}

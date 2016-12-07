@@ -6,11 +6,12 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
-			$scope.mesPost('ver 03-12-2016 14:20');
+			$scope.mesPost('ver 07-12-2016 10:16');
 		}
 		, 500);		
 	var	rootviewElement = document.getElementById('rootview')
 	,	mc = new Hammer(rootviewElement)
+	, 	popup_selected_value = ''
 	;
 //	document.getElementById("txtName").addEventListener("blur", function(){
 //			document.getElementById("txtName").setAttribute("readonly", true);
@@ -19,6 +20,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	// listen to mouse & touch  events...   'div.container'
 	mc.on("hammer.input", function(_ev) {
 		var item = {}
+		, 	id = ''
 		,	elem = null
 	//	,	mes	= "==>mc.on  isFirst:'{1}'  isFinal:'{2}'  eventType:'{3}'  deltaTime:'{3}'  tag:'{5}'  id:'{6}' "
 		,	ms	= "==>mc.on  isFirst:'%s'  isFinal:'%s'  eventType:'%s'  deltaTime:'%s'  tag:'%s'  id:'%s' "
@@ -129,10 +131,36 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 					//$scope.UniPopup.popupShow('Name','true');
 					$scope.$apply($scope.UniPopup.popupShow('Name','true' ));
 				break;
-*/				
+				
+				
 				case  _ev.target.tagName == 'TD'  && _ev.target.className.indexOf('tgCell') == 0 :	
 					item['Name'] = _ev.target.textContent;
 					$scope.$apply($scope.selectedItem(item)); 
+				break;
+*/				
+				
+				case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id.substr(0,4) == 'btni') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-power-off') >= 0) :	
+					id = _ev.target.tagName == 'BUTTON'  ? _ev.target.id
+							: _ev.target.tagName == 'I'	 ? 	_ev.target.parentElement.id
+								: '';
+					if (id)	{
+						//document.getElementById(id).setAttribute("style", "background-color:lightsalmon;border:0;");
+						console.log("--mc.on   sid:'%s'   innerHTML:'%s'",id,document.getElementById(id).innerHTML );
+						document.getElementById(id).disabled = true; 
+						//document.getElementById(id).parentElement.setAttribute("style", "background-color:lightsalmon;"); 
+						document.getElementById(id).innerHTML = '&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;'; 
+						
+						//console.log("--mc.on   sid:'%s'   innerHTML:'%s'",id,document.getElementById(id).innerHTML );
+						id = 'txt' + id.substr(4);		 
+						popup_selected_value =	document.getElementById(id).textContent;	console.log("--mc.on   sid:'%s'   popup_selected_value:'%s'",id,popup_selected_value );
+						document.getElementById(id).setAttribute("style", "background-color:steelblue;color:#fff;font-weight:600;"); //lightsalmon
+						setTimeout(function () {
+							item['Name'] = popup_selected_value;//_ev.target.textContent;
+							
+							$scope.$apply($scope.selectedItem(item)); 
+						}
+						, 500);		
+					}
 				break;
 					
 				}
@@ -142,11 +170,10 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	
 /*-----------------------------------------------------------------------------------------------------*/	
 	
-	$scope.Brand = [];
 	
 	$scope.displayMode = 'params';								// 	'params' or 'rezult'
 	$scope.newWinWidth = $window.innerWidth;
-	$scope.currentUrl = 'params/paramsView.html';				// Url for current view for transient animation	
+	$scope.currentUrl = 'params/sm-paramsView.html';				// Url for current view for transient animation	
 	
 	
 	$scope.$watchGroup(['newWinWidth', 'displayMode'], function(newValues, oldValues, scope) {
@@ -162,15 +189,19 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				$scope.currentUrl = 'rezult/md-tableView.html';
 			break;
 			
-			case  newValues[1] == 'params' :
-				$scope.currentUrl = 'params/paramsView.html';
+			case  newValues[0] < 768 &&  newValues[1] == 'params' :
+				$scope.currentUrl = 'params/sm-paramsView.html';
 			break;
 			
-			case newValues[0] < 768 &&  newValues[1] == 'paramsinfo':
+			case  newValues[0] >= 768 &&  newValues[1] == 'params' :
+				$scope.currentUrl = 'params/md-paramsView.html';
+			break;
+			
+			case newValues[0] < 768 &&  newValues[1] == 'sm-paramsinfo':
 				$scope.currentUrl = 'params/paramsinfo/sm-paramsinfo.html';
 			break;
 			
-			case newValues[0] >= 768 &&  newValues[1] == 'paramsinfo':
+			case newValues[0] >= 768 &&  newValues[1] == 'md-paramsinfo':
 				$scope.currentUrl = 'params/paramsinfo/md-paramsinfo.html';
 			break;
 		}
@@ -213,6 +244,11 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		})
 	});
 	
+	$scope.Brand = [];
+	$scope.Model = [];
+	$scope.RegNum = [];
+	$scope.Name = [];
+
 	$scope.curRegNum = {};	// $scope.curRegNum = {Name:'М0'};
 	$scope.curBrand = {};	// $scope.curBrand = {Name:'AUDI'};
 	$scope.curModel = {};	// $scope.curModel = {Name:'A4'};
