@@ -257,7 +257,7 @@
 			o.themeState = (o.themeState === '') ? '' : 'ui-state-' + o.themeState;
 
 			var notification = $('<div/>')
-				.addClass('jGrowl-notification alert ' + o.themeState + ' ui-corner-all' + ((o.group !== undefined && o.group !== '') ? ' ' + o.group : ''))
+				.addClass('jGrowl-notification alert' + o.themeState + ' ui-corner-all' + ((o.group !== undefined && o.group !== '') ? ' ' + o.group : ''))
 				.append($('<button/>').addClass('jGrowl-close').html(o.closeTemplate))
 				.append($('<div/>').addClass('jGrowl-header').html(o.header))
 				.append($('<div/>').addClass('jGrowl-message').html(message))

@@ -20,7 +20,11 @@
 <style type="text/css">
 .jGrowl-closer,		
 .jGrowl-notification {
-    background-color: #008080;   /*#2E8B57;#3c6d48*/
+	font-size: 12pt;
+    font-family: Georgia, 'Times New Roman', Times, serif;    
+	background-color: #777;
+    border: 1px solid #616161;
+    border-radius: 6px;
 	color: white;
     opacity: 0.9;			
 }
@@ -40,10 +44,10 @@ font-size: 1px;
 </head>
 <!-- <body ng-controller="commonCtrl" onload="jWhocomein.ashxOnloadReg('taxiinfo','load');">  -->
 <body > 														
-																<div id="jGrowl" class="top-left jGrowl">
-																	<div class="jGrowl-notification">
-																	</div>
-																</div>
+	<div id="jGrowl" class="top-left jGrowl">
+		<div class="jGrowl-notification">
+		</div>
+	</div>
 																 
 	<div class="container"  ng-controller="commonCtrl">
 		<div id="mainCtrl" ng-controller="mainCtrl" class="row">
@@ -54,7 +58,8 @@ font-size: 1px;
 		</div>
 	</div>
 <script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>
-<script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script>
+<script src="jquery.jgrowl.js"></script>
+<!-- <script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script> -->
 <script src="hammer.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script>
@@ -64,11 +69,40 @@ font-size: 1px;
 														//(function($){
 	jQuery(function() {
 		jQuery.jGrowl.defaults.pool = 5;  				// max number of notifications  top-right
-	//	jQuery.jGrowl.defaults.life = 5000;  			// 
+		jQuery.jGrowl.defaults.life = 1500;  			// 
 	//	jQuery.jGrowl.defaults.closer = false;  	// 
-		jQuery.jGrowl.defaults.sticky = true;	// sticky = false;
+		jQuery.jGrowl.defaults.sticky = false;	// sticky = false;
+		jQuery.jGrowl.defaults.closer = false;	 
 	});
 
+	
+var notifier = function() { 		//UniWebClient.tracer(txt)
+	console.log("===>notifier");
+	var smes = arguments[0]		
+	,	regexp = new RegExp("%s")
+	,	isTouchDevice = ('ontouchstart' in document.documentElement)
+	,	isNotes = true
+	,	txt = ''
+	;
+	for (var i = 1; i < arguments.length; i++) 			{
+		smes = smes.replace(regexp, arguments[i]);
+	}
+// не забыть исправить !isTouchDevice <==> isTouchDevice для траировки на тач девайсе !!!
+//------------------------------------------------------------------------------------------
+//					   isNotes        -	уведомления выводятся
+//					   !isNotes		  - уведомления НЕ выводятся
+//					   !isTouchDevice -	уведомления выводятся только на  mouse экран
+//					   isTouchDevice  - уведомления выводятся только на  touch экран 
+	if (!isTouchDevice && isNotes)  {  			
+		//console.log("jGrowl(rezult) ... ");
+		jQuery('div.top-left').jGrowl(smes);		// $(this).trigger('jGrowl.beforeClose');
+	}
+	else		{	console.log('*** ' + smes);	}
+};
+
+
+
+	
 var itracer = function() { 		//UniWebClient.tracer(txt)
 	console.log("===>itracer");
 	var smes = arguments[0]		
@@ -93,6 +127,12 @@ var itracer = function() { 		//UniWebClient.tracer(txt)
 	}
 	else		{	console.log('*** ' + smes);	}
 };
+
+
+
+
+
+
 
 itracer('jGrowl OK ! ');
 	

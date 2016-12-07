@@ -7,6 +7,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
 			$scope.mesPost('ver 07-12-2016 10:16');
+			notifier('ver 07-12-2016 10:16');
 		}
 		, 500);		
 	var	rootviewElement = document.getElementById('rootview')
@@ -294,6 +295,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				console.log("--scope.$watch:   $scope.Count[0]['affected_rows']='%s'---->",$scope.Count[0]['affected_rows']);
 				mstext = (  parseInt( $scope.Count[0]['affected_rows']) )? 'найдено {1} зап.'.Format( $scope.Count[0]['affected_rows']):'не найдено НИ ОДНОЙ записи';
 				$scope.mesPost(mstext);
+				notifier(mstext);
 			break;
 		
 			case "smDBInfo.load.OK": 
