@@ -7,7 +7,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
 			//$scope.mesPost('ver 08-12-2016 18:58');
-			pub.notifier('ver 12-12-2016 13:57');
+			pub.notifier('дата сборки: 13-12-2016 12:12');
 		}
 		, 800);		
 	var	rootviewElement = document.getElementById('rootview')
@@ -322,8 +322,10 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length) : '';//:'не загружено НИ ОДНОЙ записи';
 				//mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
 				if (mstext) {
-					if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
-					else $scope.mesPost(mstext);
+					//if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
+					//else $scope.mesPost(mstext);
+					$scope.mesPost(mstext);
+					pub.notifier(mstext);
 					$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
 					$scope.selectMode('show-rezult');	
 				}		else 	{	pub.itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
