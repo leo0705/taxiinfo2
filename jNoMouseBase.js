@@ -920,14 +920,14 @@ $scope.ajaxSuccessInner = function (data,paramExt,opts,_scope) {////////////////
 				_scope[opts['colnames']][index] = UniDic.en2ru(en_colname,opts['colnamesDic']);
 			});
 		}
-		itracer("==>ajaxSuccessInner  '%s'  '%s'",opts['arrayname'], _scope[opts['arrayname']].length );
+		pub.itracer("==>ajaxSuccessInner  '%s'  '%s'",opts['arrayname'], _scope[opts['arrayname']].length );
 		if (data.mode == 'SE') $scope.createFace(_scope,data);
 		
 		_scope['ajaxSuccess'] = opts['eventname'];
 	};									//////////////////////////////////////////////////     ajaxSuccessInner
   
 $scope.send = function (controller_scope,paramExt, opts, configExt) {
-	//itracer("==>send   paramExt.sqlText:'%s'", paramExt.sqlText);
+	//pub.itracer("==>send   paramExt.sqlText:'%s'", paramExt.sqlText);
 	var _scope = controller_scope,
 		hrs = {}, 
 		url=$scope.configDefualt.url;
@@ -1067,7 +1067,7 @@ $this: null,
  */		
 		
 		console.log("popupShow:  $scope._scope created?  %s",($scope._scope)?true:false);
-		itracer("==>popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
+		pub.itracer("==>popupShow:  _from:'%s'  arrayname.length:'%s'  from:'%s'   refresh:'%s'",_from,(($scope._scope.arrayname)?($scope._scope.arrayname.length):('$scope.arrayname undefined')),$scope._scope.from, refresh);
 		
 		//	закрыть показанный чужой список
 		//this.closAlienOpenPopup(_from);
@@ -1098,7 +1098,8 @@ $this: null,
 		
 		// показать массив в окне   (если массив содержит только одно значение - особый случай)
 		var $th = $('#txt'+$scope._scope.from)
-		,	$tgPopup = $('#tgPopup');
+		,	$tgPopup = $('#tgPopup')
+		;
 
 				console.log("popupShow: arrayname.length:'%s' from:'%s'",$scope._scope.arrayname.length, $scope._scope.from); 
 		if ($scope._scope.arrayname.length == 1)  	{
@@ -1110,8 +1111,9 @@ $this: null,
 			}
 		}
 		var popupPos = this.getViewportOffset($th[0])  //  have got popupPos.left, popupPos.top
-		,	style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:{4}px;top:{2}px;left:{3}px;overflow-y:auto;overflow-x:hidden;"
-					.Format($th.outerWidth(), popupPos.top + $th.outerHeight(), popupPos.left,this.popupHeight);
+		,	style = "position:absolute;z-index:1001;outline:0px;width:{1}px;height:auto;top:{2}px;left:{3}px;overflow-y:auto;overflow-x:hidden;"
+					.Format($th.outerWidth(), popupPos.top + $th.outerHeight(), popupPos.left  /*, this.popupHeight*/)
+		;
 
 		$tgPopup.attr('style',style).show();    //   ********************************************* show popup
 		// show popup
@@ -1151,7 +1153,7 @@ $this: null,
 		}
 		//console.log("node.nodeName:'%s'",node.nodeName);// 'DIV' 'FIELDSET'  'BODY' 'HTML'	
 		} while (node.nodeName == 'DIV' || node.nodeName == 'FIELDSET' || node.nodeName == 'BODY');	// element.nodeName == "TD"
-		itracer("<===getViewportOffset:  left:'%s'  top:'%s'", left, top);
+		pub.itracer("<===getViewportOffset:  left:'%s'  top:'%s'", left, top);
 		return { left: left, top: top };
 	},
 

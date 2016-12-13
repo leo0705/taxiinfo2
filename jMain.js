@@ -6,10 +6,10 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
-			$scope.mesPost('ver 07-12-2016 10:16');
-			notifier('ver 07-12-2016 10:16');
+			//$scope.mesPost('ver 08-12-2016 18:58');
+			pub.notifier('ver 12-12-2016 13:57');
 		}
-		, 500);		
+		, 800);		
 	var	rootviewElement = document.getElementById('rootview')
 	,	mc = new Hammer(rootviewElement)
 	, 	popup_selected_value = ''
@@ -31,7 +31,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		//window.jQuery('div.top-left').jGrowl(" window.jQuery('div.top-left').jGrowl(txt)  from Main.js  OK!!! ");
 		//return;		
 		if ( _ev.isFirst )	{
-				itracer(ms, _ev.isFirst, _ev.isFinal,  _ev.eventType,  _ev.deltaTime,  _ev.target.tagName, _ev.target.id);
+				pub.itracer(ms, _ev.isFirst, _ev.isFinal,  _ev.eventType,  _ev.deltaTime,  _ev.target.tagName, _ev.target.id);
 			switch(true) {
 				case _ev.target.tagName == 'SPAN'  && _ev.target.id == 'mestext' :
 					$scope.$apply($scope.mesClear());
@@ -175,6 +175,10 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	$scope.displayMode = 'params';								// 	'params' or 'rezult'
 	$scope.newWinWidth = $window.innerWidth;
 	$scope.currentUrl = 'params/sm-paramsView.html';				// Url for current view for transient animation	
+	setTimeout(function () {
+		$scope.$apply($scope.selectMode('params1'));
+	}, 
+	1200);	
 	
 	
 	$scope.$watchGroup(['newWinWidth', 'displayMode'], function(newValues, oldValues, scope) {
@@ -190,19 +194,30 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				$scope.currentUrl = 'rezult/md-tableView.html';
 			break;
 			
-			case  newValues[0] < 768 &&  newValues[1] == 'params' :
+			case  newValues[0] < 768 &&  (newValues[1] == 'params' || newValues[1] == 'params1'):
+				if ( !!document.getElementById('labRegNum'))	{
+					document.getElementById('labRegNum').innerHTML = 'Рег. номер:';	
+				}
 				$scope.currentUrl = 'params/sm-paramsView.html';
 			break;
 			
-			case  newValues[0] >= 768 &&  newValues[1] == 'params' :
-				$scope.currentUrl = 'params/md-paramsView.html';
+			case  newValues[0] >= 768 &&  (newValues[1] == 'params' || newValues[1] == 'params1') :
+				if ( !!document.getElementById('labRegNum'))	{
+					if ( newValues[0] < 1004) {
+						document.getElementById('labRegNum').innerHTML = 'Номер:'; 
+					}
+						else	{
+							document.getElementById('labRegNum').innerHTML = 'Рег. номер:';
+						}
+				}
+				$scope.currentUrl = 'params/sm-paramsView.html';
 			break;
 			
-			case newValues[0] < 768 &&  newValues[1] == 'sm-paramsinfo':
+			case newValues[0] < 768 &&  newValues[1] == 'paramsinfo':
 				$scope.currentUrl = 'params/paramsinfo/sm-paramsinfo.html';
 			break;
 			
-			case newValues[0] >= 768 &&  newValues[1] == 'md-paramsinfo':
+			case newValues[0] >= 768 &&  newValues[1] == 'paramsinfo':
 				$scope.currentUrl = 'params/paramsinfo/md-paramsinfo.html';
 			break;
 		}
@@ -211,7 +226,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	
 	$scope.selectMode = function (button, cb)	{
 		//console.log("selectMode: -----button:'%s'---->",button);   //$scope.displayMode:   'params' 	'rezult'	'paramsinfo'
-		itracer("==>selectMode:     button:'%s' ",button);   //$scope.displayMode:   'params' 	'rezult'	'paramsinfo'
+		pub.itracer("==>selectMode:     button:'%s' ",button);   //$scope.displayMode:   'params' 	'rezult'	'paramsinfo'
 		switch(button)  	{
 			
 			case 'rezult':   
@@ -227,6 +242,11 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				$scope.from = null;		// 	закрыть любое открытое выпадающее окно
 			break;
 			
+			case 'params1':            
+				$scope.displayMode = 'params1';
+				$scope.from = null;		// 	закрыть любое открытое выпадающее окно
+			break;
+			
 			case 'show-paramsinfo':
 				$scope.displayMode = 'paramsinfo';
 			break;
@@ -236,7 +256,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			break;
 		}
 		//console.log("selectMode:     $scope.displayMode:'%s'",$scope.displayMode);
-		itracer("<==selectMode:      $scope.displayMode:'%s'",$scope.displayMode);
+		pub.itracer("<==selectMode:      $scope.displayMode:'%s'",$scope.displayMode);
 	};
 	
 	angular.element($window).bind('resize',function(){
@@ -262,7 +282,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	{id:'txtName',col:'Name',op:'%'}];
 	
 	$scope.$watch('curRegNum.Name', function (newValue) {
-		itracer("==>$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
+		pub.itracer("==>$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
 		if (newValue != undefined) {
 			if ($scope._scope.from = 'RegNum') {
 				console.log("$scope.$watch:  $scope.curRegNum.Name='%s'",newValue);
@@ -274,7 +294,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	});
 	
 	$scope.$watch('curName.Name', function (newValue) {
-		itracer("==>$scope.$watch:  $scope.curName.Name='%s'",newValue);
+		pub.itracer("==>$scope.$watch:  $scope.curName.Name='%s'",newValue);
 		if (newValue != undefined) {
 			if ($scope._scope.from = 'Name') {
 				console.log("$scope.$watch:  $scope.curName.Name='%s'",newValue);
@@ -286,7 +306,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	});
 	
 	$scope.$watch('ajaxSuccess', function (newValue) {
-		itracer("==>$scope.$watch:    $scope.ajaxSuccess='%s'",newValue);  //$scope.ajaxSuccess
+		pub.itracer("==>$scope.$watch:    $scope.ajaxSuccess='%s'",newValue);  //$scope.ajaxSuccess
 		console.log("--scope.$watch:    $scope.ajaxSuccess='%s'",newValue);  //$scope.ajaxSuccess
 		var mstext;
 		switch(newValue)
@@ -295,7 +315,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				console.log("--scope.$watch:   $scope.Count[0]['affected_rows']='%s'---->",$scope.Count[0]['affected_rows']);
 				mstext = (  parseInt( $scope.Count[0]['affected_rows']) )? 'найдено {1} зап.'.Format( $scope.Count[0]['affected_rows']):'не найдено НИ ОДНОЙ записи';
 				$scope.mesPost(mstext);
-				notifier(mstext);
+				pub.notifier(mstext);
 			break;
 		
 			case "smDBInfo.load.OK": 
@@ -306,7 +326,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 					else $scope.mesPost(mstext);
 					$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
 					$scope.selectMode('show-rezult');	
-				}		else 	{	itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
+				}		else 	{	pub.itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
 			break;
 		
 			case "Brand.load.OK":  
@@ -335,7 +355,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 
 	
 	$scope.loadDBInfo = function () {
-		itracer("==>loadDBInfo");
+		pub.itracer("==>loadDBInfo");
 		var opts = {
 			eventname:	'smDBInfo.load.OK',
 			colnames: 	'colnames', 
@@ -359,7 +379,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadCount = function () {
-		itracer("==>loadCount");
+		pub.itracer("==>loadCount");
 		var opts = {
 			eventname:	'Count.load.OK',
 			colnames: 	'colnames', 
@@ -383,7 +403,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadName = function () {
-		itracer("==>loadName");
+		pub.itracer("==>loadName");
 		var opts = {
 			eventname:	'Name.load.OK',	
 			arrayname: 	'Name' 	
@@ -402,7 +422,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadRegNum = function () {
-		itracer("==>loadRegNum");
+		pub.itracer("==>loadRegNum");
 		var opts = {
 			eventname:	'RegNum.load.OK',	
 			arrayname: 	'RegNum' 	
@@ -422,7 +442,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadBrand = function () {
-		itracer("==>loadBrand");
+		pub.itracer("==>loadBrand");
 		var opts = {
 			eventname:	'Brand.load.OK',	
 			arrayname: 	'Brand' 	
@@ -441,7 +461,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	};
 	
 	$scope.loadModel = function () {
-		itracer("==>loadModel",$scope.curBrand.Name);
+		pub.itracer("==>loadModel",$scope.curBrand.Name);
 		var opts = {
 			eventname:	'Model.load.OK',	
 			arrayname: 	'Model' 	
@@ -459,7 +479,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	};
 	
 	$scope.selectedItem = function(item) 	{
-		itracer("==>selectedItem:  from:'%s'  popupValue:'%s'",$scope.from,item['Name']); 
+		pub.itracer("==>selectedItem:  from:'%s'  popupValue:'%s'",$scope.from,item['Name']); 
 		//angular.element(document.getElementById('txt'+$scope.from)).val(item['Name']);				
 		switch($scope.from)	{
 			case "Brand":
@@ -482,7 +502,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		$scope.loadCount();
 	};
 	
-	$scope.unselectBrand = function() 	{		itracer("==>unselectBrand");
+	$scope.unselectBrand = function() 	{		pub.itracer("==>unselectBrand");
 				angular.element(document.getElementById('txtBrand')).val('');				
 				$scope.curBrand ={};
 				$scope.Brand = [];
@@ -494,7 +514,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				$scope.loadCount();
 	};
 	
-	$scope.unselectModel = function() 	{		itracer("==>unselectModel");
+	$scope.unselectModel = function() 	{		pub.itracer("==>unselectModel");
 				angular.element(document.getElementById('txtModel')).val('');				
 				$scope.curModel ={};
 				$scope.Model = [];
@@ -503,7 +523,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				$scope.loadCount();
 	};
 	
-	$scope.unselectRegNum = function() 	{		itracer("==>unselectRegNum");
+	$scope.unselectRegNum = function() 	{		pub.itracer("==>unselectRegNum");
 				angular.element(document.getElementById('txtRegNum')).val('');				
 				$scope.curRegNum ={};
 				$scope.RegNum = [];	
@@ -511,7 +531,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				$scope.loadCount();
 	};
 	
-	$scope.unselectName = function() 	{		itracer("==>unselectName");
+	$scope.unselectName = function() 	{		pub.itracer("==>unselectName");
 				angular.element(document.getElementById('txtName')).val('');				
 				$scope.curName ={};
 				$scope.Name = [];

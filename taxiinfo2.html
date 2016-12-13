@@ -9,15 +9,18 @@
 	<link href="../../../images/tree.ico"  rel="icon" />
 
 <link rel="stylesheet" type="text/css" href="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.css" />
-
-<!-- <link rel="stylesheet" type="text/css" href="jquery.jgrowl.css" /> -->
-<!-- <script src="jquery.jgrowl.js"></script> -->
+<link rel="stylesheet" type="text/css" href="./libs/jquery.toast.css" />		<!-- 5.0 KB -->
 	
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="bootstrap-1pxdeep-min.css" type="text/css"  rel="stylesheet" />
 <link href="main.css" rel="stylesheet" />
 <style type="text/css">
+/*-------jGrowl---------*/
+div#jGrowl	{
+position: fixed;
+    top: 0px;
+}
 .jGrowl-closer,		
 .jGrowl-notification {
 	font-size: 12pt;
@@ -26,16 +29,41 @@
     border: 1px solid #616161;
     border-radius: 6px;
 	color: white;
-    opacity: 0.9;			
+    opacity: 1;	
+	margin-top: 0;
+    margin-bottom: 1px;	
 }
 .jGrowl-closer { 
-width:50px;
-height: 48px;
-margin-top: 10px;
-margin-left: 100px;
-border-radius: 21px;
-font-size: 1px;
+	width:50px;
+	height: 48px;
+	margin-top: 10px;
+	margin-left: 100px;
+	border-radius: 21px;
+	font-size: 1px;
 }
+/*-------toast---------*/
+.jq-toast-wrap.top-left {
+    top: 0px;
+    left: 30px;
+}
+.jq-toast-single { 
+	display: block; 
+	width: 100%; 
+	padding: 10px; 
+	margin: 0px 0px 5px; 
+	border-bottom-left-radius: 6px;	/*border-radius: 4px;*/
+    border-bottom-right-radius: 6px;
+	border-top-left-radius: 0;	
+    border-top-right-radius: 0;
+	font-size: 12pt;
+    font-family: Georgia, 'Times New Roman', Times, serif;    
+	line-height: 17px; 
+	position: relative;  
+	pointer-events: all !important; 
+	background-color: #444; /*444444*/
+	color: white; 
+}
+
 			
 </style>
 
@@ -43,12 +71,22 @@ font-size: 1px;
 	
 </head>
 <!-- <body ng-controller="commonCtrl" onload="jWhocomein.ashxOnloadReg('taxiinfo','load');">  -->
-<body > 														
+<body > 
+<!--														
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<div id="jGrowl" class="top-left jGrowl">
+				<div class="jGrowl-notification">
+				</div>
+			</div>
+		</div>
+	</div>
+-->
 	<div id="jGrowl" class="top-left jGrowl">
 		<div class="jGrowl-notification">
 		</div>
 	</div>
-																 
+ 																 
 	<div class="container"  ng-controller="commonCtrl">
 		<div id="mainCtrl" ng-controller="mainCtrl" class="row">
 			<!-- <ng-include src="currentUrl"></ng-include> -->
@@ -57,86 +95,207 @@ font-size: 1px;
 			</div>
 		</div>
 	</div>
-<script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>
-<script src="jquery.jgrowl.js"></script>
-<!-- <script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script> -->
-<script src="hammer.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script>
-<script src="jNoMouseBase.js"></script>
-<script src="jMain.js"></script>
+<script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>								<!--  28 KB-->
+<script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script>	<!--  1.7 KB -->
+<script src="./libs/jquery.toast.js"></script>														<!--  12.4 KB -->
+
+<script src="hammer.min.js"></script>																<!--  20.5 KB -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>		<!--  55.0 KB -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script><!--  9.1 KB -->
+<script src="jNoMouseBase.js"></script>																<!--  55.0 KB -->	
+<script src="jMain.js"></script>																	<!--  22.4 KB -->
 <script type="text/javascript">
-														//(function($){
-	jQuery(function() {
-		jQuery.jGrowl.defaults.pool = 5;  				// max number of notifications  top-right
-		jQuery.jGrowl.defaults.life = 1500;  			// 
-	//	jQuery.jGrowl.defaults.closer = false;  	// 
-		jQuery.jGrowl.defaults.sticky = false;	// sticky = false;
-		jQuery.jGrowl.defaults.closer = false;	 
+$(function() {
+//--------------------------------------jGrowl--------------------------------
+/*
+	$.jGrowl.defaults.pool = 5;  				// max number of notifications  top-right
+	$.jGrowl.defaults.life = 1500;  			// 
+//	$.jGrowl.defaults.closer = false;  	// 
+	$.jGrowl.defaults.sticky = false;	// sticky = false;
+	$.jGrowl.defaults.closer = false;	
+	var subscription = hub.subscribe('/jGrowl/itracer', function(_obj) {		// subscribing to a topic in order to be notified of events:
+										$('div.top-left').jGrowl(_obj.text);	
 	});
-
+	var subscription = hub.subscribe('/jGrowl/notifier', function(_obj) {		// subscribing to a topic in order to be notified of events:
+										$('div.top-left').jGrowl(_obj.text);	
+	});
+*/	
+//--------------------------------------toast--------------------------------
+//$.toast({
+ /* 
+    $.toast.options = {
+        text: '',
+        heading: '',
+        showHideTransition: 'fade',
+        allowToastClose: true,
+        hideAfter: 3000,				// false
+        loader: true,
+        loaderBg: '#9EC600',		// #FFA500	#9EC600
+        stack: 5,
+        position: 'bottom-left',
+        bgColor: false,
+        textColor: false,
+        textAlign: 'left',
+        icon: false,
+        beforeShow: function () {},
+        afterShown: function () {},
+        beforeHide: function () {},
+        afterHidden: function () {}
+    };
+*/
+	var subscription = hub.subscribe('/toast/notifier', function(_obj) {	
+														var ob = {};
+														ob['text'] = _obj.text;
+														ob['allowToastClose'] = false;
+														ob['hideAfter'] = 2000;
+														ob['loaderBg'] = '#FFA500';
+														ob['position'] = 'top-left';
+														ob['showHideTransition'] = 'slide';
+														$.toast(ob);
+	});
+	var subscription = hub.subscribe('/toast/itracer', function(_obj) {	
+										$.toast(_obj.text);	
+	});
 	
-var notifier = function() { 		//UniWebClient.tracer(txt)
-	console.log("===>notifier");
-	var smes = arguments[0]		
-	,	regexp = new RegExp("%s")
-	,	isTouchDevice = ('ontouchstart' in document.documentElement)
-	,	isNotes = true
-	,	txt = ''
-	;
-	for (var i = 1; i < arguments.length; i++) 			{
-		smes = smes.replace(regexp, arguments[i]);
+});
+	
+
+var printobj = function (obj, objname) {				//printobj(obj, objname);
+	console.log("printobj:-------------------name:%s---------------------->",objname);
+	for (var prop in obj) {
+		if (obj.hasOwnProperty(prop)) console.log('"' + prop + '" = "' + obj[prop] + '"');
 	}
-// не забыть исправить !isTouchDevice <==> isTouchDevice для траировки на тач девайсе !!!
-//------------------------------------------------------------------------------------------
-//					   isNotes        -	уведомления выводятся
-//					   !isNotes		  - уведомления НЕ выводятся
-//					   !isTouchDevice -	уведомления выводятся только на  mouse экран
-//					   isTouchDevice  - уведомления выводятся только на  touch экран 
-	if (!isTouchDevice && isNotes)  {  			
-		//console.log("jGrowl(rezult) ... ");
-		jQuery('div.top-left').jGrowl(smes);		// $(this).trigger('jGrowl.beforeClose');
-	}
-	else		{	console.log('*** ' + smes);	}
+	console.log("printobj:<------------------name:%s----------------------",objname);
 };
-
-
-
 	
-var itracer = function() { 		//UniWebClient.tracer(txt)
-	console.log("===>itracer");
-	var smes = arguments[0]		
-	,	regexp = new RegExp("%s")
-	,	isTouchDevice = ('ontouchstart' in document.documentElement)
-	,	isNotes = true
-	,	txt = ''
+	
+
+var hub = (function(){	//	© David Walsh 2007-2016. All code MIT license.	https://davidwalsh.name/pubsub-javascript
+	var topics = {};
+	var hOP = topics.hasOwnProperty;
+
+	return {         
+		subscribe: function(topic, listener) {
+		 
+			if(!hOP.call(topics, topic)) topics[topic] = [];	// Create the topic's object if not yet created
+			var index = topics[topic].push(listener) -1;		// Add the listener to queue
+			return {											// Provide handle back for removal of topic
+			remove: function() {
+			  delete topics[topic][index];
+			}
+			};
+		},
+
+		publish: function(topic, info) {
+			if(!hOP.call(topics, topic)) return;	// If the topic doesn't exist, or there's no listeners in queue, just leave
+
+			topics[topic].forEach(function(item) {		// Cycle through topics queue, fire!
+				item(info != undefined ? info : {});	// 
+			});
+		}
+	};
+})();
+
+var pub = (function(){	
+	var	curmes = ''
 	;
-	//console.log("===>tracer   arguments[1]['group']:'%s'   ",arguments[1]['group']);
-	for (var i = 1; i < arguments.length; i++) 			{
-		smes = smes.replace(regexp, arguments[i]);
-	}
-// не забыть исправить !isTouchDevice <==> isTouchDevice для траировки на тач девайсе !!!
-//------------------------------------------------------------------------------------------
-//					   isNotes        -	уведомления выводятся
-//					   !isNotes		  - уведомления НЕ выводятся
-//					   !isTouchDevice -	уведомления выводятся только на  mouse экран
-//					   isTouchDevice  - уведомления выводятся только на  touch экран 
-	if (isTouchDevice && !isNotes)  {  			
-		//console.log("jGrowl(rezult) ... ");
-		jQuery('div.top-left').jGrowl(smes);
-	}
-	else		{	console.log('*** ' + smes);	}
-};
-
-
-
-
-
-
-
-itracer('jGrowl OK ! ');
+	return {
+		notifier: function() { 		
+			var mes = arguments[0]		
+			,	regexp = new RegExp("%s")
+			,	isTouchDevice = ('ontouchstart' in document.documentElement)
+			,	isNotes = true
+			,	txt = ''
+			;
+			for (var i = 1; i < arguments.length; i++) 		{
+				mes = mes.replace(regexp, arguments[i]);
+			}
+			console.log("'*** ===>notifier     smes:'%s'    curmes:'%s'", mes, curmes );
+			if (mes != curmes)	{
+				curmes = mes;
+				setTimeout(function () {
+					curmes = '';
+					}
+					, 1800);		
+				// не забыть исправить !isTouchDevice <==> isTouchDevice для отправки на тач девайсе !!!
+				//------------------------------------------------------------------------------------------
+				//					   isNotes        -	уведомления выводятся
+				//					   !isNotes		  - уведомления НЕ выводятся
+				//					   !isTouchDevice -	уведомления выводятся только на  mouse экран
+				//					   isTouchDevice  - уведомления выводятся только на  touch экран 
+				/*
+				if (!isTouchDevice && isNotes)  {  	
+					hub.publish('/jGrowl/notifier', {				//	Publishing to a topic
+						text: mes // any argument
+					});
+				*/	
+				if (!isTouchDevice && isNotes)  {  	
+					hub.publish('/toast/notifier', {				//	Publishing to a topic
+						text: mes // any argument
+					});
+					
+					
+					
+					
+					//console.log("notifier call jGrowl ... ");
+					//$('div.top-left').jGrowl(mes);		// $(this).trigger('jGrowl.beforeClose');
+				}
+				//else		{	console.log('*** ' + smes);	}
+				
+			}
+		},
 	
-	</script>
+		itracer: function() { 		
+			console.log("===>itracer");
+			var smes = arguments[0]		
+			,	regexp = new RegExp("%s")
+			,	isTouchDevice = ('ontouchstart' in document.documentElement)
+			,	isNotes = true
+			,	txt = ''
+			;
+			//console.log("===>tracer   arguments[1]['group']:'%s'   ",arguments[1]['group']);
+			for (var i = 1; i < arguments.length; i++) 			{
+				smes = smes.replace(regexp, arguments[i]);
+			}
+		// не забыть исправить !isTouchDevice <==> isTouchDevice для отправки на тач девайсе !!!
+		//------------------------------------------------------------------------------------------
+		//					   isNotes        -	уведомления выводятся
+		//					   !isNotes		  - уведомления НЕ выводятся
+		//					   !isTouchDevice -	уведомления выводятся только на  mouse экран
+		//					   isTouchDevice  - уведомления выводятся только на  touch экран 
+			if (isTouchDevice && !isNotes)  {  			
+				if (!isTouchDevice && isNotes)  {  	
+					/*
+					hub.publish('/jGrowl/itracer', {				//	Publishing to a topic
+						text: smes // any argument
+					});
+					*/
+					hub.publish('/toast/itracer', {				//	Publishing to a topic
+						text: smes // any argument
+					});
+				////console.log("jGrowl(rezult) ... ");
+				//$('div.top-left').jGrowl(smes);
+				}
+			}
+			else		{	console.log('*** ' + smes);	}
+		}
+	};
+})();
 
+//$.toast("toast OK !")
+//$.toast({ 
+//  text : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad molestias illo illum, modi, ...", 
+//  position:			'top-left',
+//  showHideTransition : 'slide'
+//});
+pub.itracer('jGrowl OK ! ');
+/*
+$.toast("toast OK !")
+setTimeout(function () {
+	pub.notifier('notifier OK ! ');	//$('div.top-left').jGrowl('notifier OK!!!');	
+}
+, 800);		
+*/
+</script>
 </body>
 </html>

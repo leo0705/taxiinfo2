@@ -45,7 +45,7 @@ td.tgCell button.btni i.fa {
 input.form-control.unipopinput {border-color: #3c6d48;cursor:default;}
 /*.facaretdown{background-position: 97% 50%;background-image: url(fa-caret-down.png);background-repeat: no-repeat;}*/
 
-button#btnReply,button#btnParams {background: #79925f;border: 1px solid #3c6d48;} 
+button#btnReply,button#btnParams {background: #79925f;border: 1px solid #3c6d48;border-radius: 17px;} 
 
 h2#paramstitle {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:center;color: #f6f9f7;}
 div#mes        {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:left;}
