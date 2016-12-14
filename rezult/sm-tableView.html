@@ -16,6 +16,7 @@
 	
 	<div class="row">		<!--  параметры btn-default btn-success  -->
 		<div class="form-group col-sm-4">
+			<a id="first"></a>
 			<button type="button" id="btnParams" class="btn btn-default btn-sm btn-block form-control" 
 				title="настроить параметры поиска в БД"
 			>	
@@ -93,7 +94,8 @@
 			<div class="col-sm-12">	
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>Перевозчик:&nbsp;&nbsp;&nbsp;</strong>{{item.Name}}</h3>
+						<h3 class="panel-title"><strong>Перевозчик:&nbsp;&nbsp;&nbsp;</strong> {{item.Name}}</h3>
+						<a href="#first" id="arrow-up" class="badge hasi" title="перейти в начало">&nbsp;&nbsp;<i class="fa fa-lg fa-arrow-up"></i>&nbsp;&nbsp;</a>						
 					</div>
 					<div class="panel-body">
 						<table id="DBInfo" class="table table-condensed table-bordered">
@@ -108,8 +110,11 @@
 									<tr><td><strong>Номер бланка лицензии</strong></td>	<td>{{item.BlankNum}}</td></tr>
 							</tbody>
 						</table>
-<!-- 					
-						<strong>Марка автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Brand}}<br>
+<!-- 
+						<a href="#first" id="arrow-up" class="badge hasi" title="перейти в начало">&nbsp;&nbsp;<i class="fa fa-lg fa-arrow-up"></i>&nbsp;&nbsp;</a>
+						<span            id="arrow-up" class="badge hasi" title="перейти в начало">&nbsp;&nbsp;<i class="fa fa-lg fa-arrow-up"></i>&nbsp;&nbsp;</span>
+						
+						<strong>Марка автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Brand}}<br>		&#xf062;   <i class="fa fa-lg fa-arrow-up"></i>
 						<strong>Модель автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Model}}<br>
 						<strong>Регистрационный номер:&nbsp;&nbsp;&nbsp;</strong>{{item.RegNum}}<br>
 						<strong>Год выпуска автомобиля:&nbsp;&nbsp;&nbsp;</strong>{{item.Year}}<br>

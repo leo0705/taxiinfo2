@@ -7,7 +7,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
 			//$scope.mesPost('ver 08-12-2016 18:58');
-			pub.notifier('дата сборки: 13-12-2016 12:12');
+			pub.notifier('дата сборки: 14-12-2016 13:18');
 		}
 		, 800);		
 	var	rootviewElement = document.getElementById('rootview')
@@ -37,13 +37,15 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 					$scope.$apply($scope.mesClear());
 				break;
 				
+				case (_ev.target.tagName == 'A' && _ev.target.id == 'arrow-up') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-arrow-up') >= 0) :
+					$(window).scrollTop(0);
+				break;
+				
 				case (_ev.target.tagName == 'SPAN' && _ev.target.id == 'show-paramsinfo') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-question') >= 0) :
-					//$scope.selectMode('show-paramsinfo', function(){ $scope.$apply(); });
 					$scope.$apply($scope.selectMode('show-paramsinfo'));
 				break;
 				
 				case (_ev.target.tagName == 'SPAN'  && _ev.target.id == 'hide-paramsinfo') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-close') >= 0) :
-					//$scope.selectMode('hide-paramsinfo', function(){ $scope.$apply(); });
 					$scope.$apply($scope.selectMode('hide-paramsinfo'));
 				break;
 				
@@ -53,7 +55,6 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				break;
 				
 				case  _ev.target.tagName == 'BUTTON'  && _ev.target.id == 'btnParams' :			
-					//$scope.selectMode('params');
 					$scope.$apply($scope.selectMode('params'));
 				break;
 				/*--------------------------------------------unselect------------------------------------------------------*/
@@ -165,7 +166,6 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				break;
 					
 				}
-				//if (UniWebClient.isMes  && $scope.mestext.length == 0)	{ 	$scope.$apply($scope.mesPost(UniWebClient.getMes())); }
 		}																																																						
 	});
 	

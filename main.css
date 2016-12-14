@@ -45,7 +45,7 @@ td.tgCell button.btni i.fa {
 input.form-control.unipopinput {border-color: #3c6d48;cursor:default;}
 /*.facaretdown{background-position: 97% 50%;background-image: url(fa-caret-down.png);background-repeat: no-repeat;}*/
 
-button#btnReply,button#btnParams {background: #79925f;border: 1px solid #3c6d48;border-radius: 17px;} 
+button#btnReply,button#_btnReply,button#btnParamsbutton#_btnParams {background: #79925f;border: 1px solid #3c6d48;border-radius: 17px;} 
 
 h2#paramstitle {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:center;color: #f6f9f7;}
 div#mes        {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:left;}
@@ -58,19 +58,23 @@ table#DBInfo th,
 table#DBInfo td		{border: 1px solid lightcoral}
 table#DBInfo td.hover {background-color: #8ca177;}
 
-span#paramsinfo.badge {
+span#show-paramsinfo.badge,span#hide-paramsinfo.badge {
 	background-color: #79925f;
     color: #ffffff;
     border: 1px solid #3c6d48;
 	cursor: pointer;
-	margin-bottom: 1em;
+	margin-bottom: 0;
 }
+div#md-paramsinfo table {width: 94%;margin:0 3%;border: 0;}	
+div#md-paramsinfo table caption h2 {color: #fff;}	
+div#md-paramsinfo table td	{width: 50%; text-align: justify; vertical-align: top;}
+
 
  /*div#paramsinfo table { width: 100%;  border: 0}*/
 /*span#show-paramsinfo, span#hide-paramsinfo*/ 
 
 span.hasi {background: #8ca177;  border: 1px solid #3c6d48;border-radius: 10px;overflow: hidden;cursor: pointer;margin-top: 10px;}
-span.hasi#downBrand,span.hasi#downModel,span.hasi#downRegNum,span.hasi#downName 	{background: #5f9291;}
+span.hasi#downBrand,span.hasi#_downBrand,span.hasi#downModel,span.hasi#downRegNum,span.hasi#downName 	{background: #5f9291;}
 span.hasi#unselectBrand,span.hasi#unselectModel,span.hasi#unselectRegNum,span.hasi#unselectName	{background: #cd5c5c;} /* #fa8072 #ff6347 */
 span.hasi#focusRegNum,span.hasi#focusRegNum,span.hasi#focusName	{background: #b17a2b;}
 
@@ -81,9 +85,6 @@ span.hasi#focusRegNum,span.hasi#focusRegNum,span.hasi#focusName	{background: #b1
 span.badge.label-danger {font-size: 1em}
 code {font-size: 1.1em}	
 
-div#md-paramsinfo table {width: 94%;margin:0 3%;border: 0;}	
-div#md-paramsinfo table caption h2 {color: #fff;}	
-div#md-paramsinfo table td	{width: 50%; text-align: justify; vertical-align: top;}
 
 input#txtBrand:read-only,input#txtModel:read-only,input#txtRegNum:read-only,input#txtName:read-only	{background-color:#d0d0d0;}
 
