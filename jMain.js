@@ -7,7 +7,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
 			//$scope.mesPost('ver 08-12-2016 18:58');
-			pub.notifier('дата сборки: 14-12-2016 13:18');
+			pub.notifier('дата сборки: 16-12-2016 11:08');
 		}
 		, 800);		
 	var	rootviewElement = document.getElementById('rootview')
@@ -180,10 +180,15 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	}, 
 	1200);	
 	
+	$scope.well1_style = {};	//		params/paramsinfo/md-paramsinfo.html 	<div class="well"  ng-style="well1_style">
+	$scope.well2_style = {};	//		params/paramsinfo/md-paramsinfo.html 	<div class="well"  ng-style="well2_style">
 	
 	$scope.$watchGroup(['newWinWidth', 'displayMode'], function(newValues, oldValues, scope) {
 	console.log("---->$watch   	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displayMode:'%s'   old-displayMode:'%s' ",
 							newValues[0],		 oldValues[0],          newValues[1],			oldValues[1] );
+		var hi1	=	0	//	$scope.well1_style = {height: hi1 + 'px'};		
+		,	hi2	=	0	//	$scope.well2_style = {height: hi2 + 'px'};
+		;
 		
 		switch(true) {
 			case newValues[0] < 768 &&  newValues[1] == 'rezult':
@@ -218,6 +223,11 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			break;
 			
 			case newValues[0] >= 768 &&  newValues[1] == 'paramsinfo':
+				if	(newValues[0] <= 1001 )  {  hi1 = 940; hi2 = 390;  }		
+					else if	(newValues[0] <= 1210	&& newValues[0] > 1001 )  		{  hi1 = 794;  	hi2 = 312;  } 
+							else	if (newValues[0] > 1210 ) 	 					{  hi1 = 724; 	hi2 = 282;  } 
+				$scope.well1_style = {height: hi1 + 'px'};
+				$scope.well2_style = {height: hi2 + 'px'};
 				$scope.currentUrl = 'params/paramsinfo/md-paramsinfo.html';
 			break;
 		}

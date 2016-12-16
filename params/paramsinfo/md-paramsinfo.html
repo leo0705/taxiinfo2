@@ -1,143 +1,171 @@
-	
-	<!-- md-paramsinfo.html >-->
-<div id ="md-paramsinfo" class="ngIncludeItem"  ng-show="'true'">	
-<!--
+﻿<!-- 
+<div  id="paramsinfo" class="bc-dff0d8">
+ -->
+ 
+	<!-- sm-paramsinfo.html -->
+<div  id="sm-paramsinfo" class="ngIncludeItem"  ng-show="'true'">
+
 	<div class="row">
 		<div class="col-sm-1">
-			<span id="paramsinfo" class="badge"
-				ng-click="selectMode('params/paramsinfo')" 	title="Скрыть пояснения по вводу параметров запроса"
+			<span id="hide-paramsinfo" class="badge"
+			title="Скрыть пояснения по вводу параметров запроса"
 			>
-				&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-close "></i>&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;<i class="fa fa-lg fa-close "></i>&nbsp;&nbsp;&nbsp;
 			</span>
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="col-sm-12">
-			<h2 id="paramstitle">Пояснения по вводу параметров запроса</h2>
+			<h2 id="paramstitle">Пояснения и рекомендации по использованию</h2>
 		</div>
 	</div>
+<!-- 
 	<div class="row">
 		<div class="col-sm-12">
-				<span id="paramsinfo" class="badge"
-					ng-click="selectMode('params/paramsinfo')" 	title="Скрыть пояснения по вводу параметров запроса"
-				>
-					&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-close "></i>&nbsp;&nbsp;&nbsp;
-				<!-- <h2 id="paramstitle">&nbsp;&nbsp;&nbsp;Пояснения по вводу параметров запроса</h2> -- >			
-			</span>
-		</div>
-	</div>
--->
-	
-	<div class="row">
-		<table >
-			<caption>
+			<span>		
 				<span id="hide-paramsinfo" class="badge hasi"
 					title="Скрыть пояснения по вводу параметров запроса"
 				>
 					&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-close "></i>&nbsp;&nbsp;&nbsp;
 				</span>
-				<h2 id="paramstitle">Пояснения по вводу параметров запроса</h2>
-			</caption>
-			<tr>
-				<td class="MainTableCol"  colspan="2"  >
-				<img src="md-paramsinfo-fig.PNG"  alt = "Основные элементы управления интерфейса пользователя" 
-							 style="width:100%;" />
-			   </td>
-			</tr>
-			<tr>
-				<td style="padding-right: 18px;">
-					<p class="text-justify"  style="margin-bottom:inherit;">
-						<span class="badge label-danger">1</span>
-						Кнопка "загрузка" посылает запрос на поиск и переключает видимость на панель с результатами 
-						запроса.
-						<br>
-						<code>Использование: кликнуть для просмотра результатов выполнения запроса.</code>
-					</p>
-					<p class="text-justify"  style="margin-bottom:inherit;">
-						<span class="badge label-danger">2</span>
-						Поля "Регистрационный номер" и "Перевозчик" позволяют использовать для ввода и мышь и клавиатуру.  
-						<code>Использование: кликнуть внутри поля</code>, выпадающее окно закроется 
-						(если оно открыто), либо откроется (если оно закрыто) содержащее список значений параметра, 
-						попадающих в результат запроса(не более 100).
-						<code>Использование: Вводить с клавиатуры требуемое значение, 
-						начиная с его первого символа (буквы русские).</code> В выпадающем окне выводится список возможных значений, 
-						первые символы которых совпадают с указанными Вами.
-						<code>Использование: в выпадающем окне кликнуть требуемое значение</code>, выпадающее окно закроется.  
-						<br>В любой момент Вы можете прекратить ввод и кликнуть кнопку "загрузка". При этом если в поле ввода остались 
-						только символы, введенные Вами с клавиатуры, то в результат запроса будут включено все, что было в выпадающем окне. 
-						Если же Вы перед тем, как кликнуть кнопку "загрузка", выбрали из выпадающего окна конкретное значение, то в результат 
-						запроса будет включено только оно.
-					</p>
-				</td>
+				<h2 id="paramstitle">&nbsp;&nbsp;&nbsp;Пояснения по вводу параметров запроса</h2>			
+			</span>
+		</div>
+	</div>
 
-				<td style="padding-left: 18px;">
-				<p class="text-justify"  style="margin-bottom:inherit;">
-						<span class="badge label-danger">3</span>
-					Поля "Марка" и "Модель" открывают и закрывают выпадающее окно,
-					содержащее список возможных значений параметра запроса.<br>
-					<code>Использование: кликнуть внутри поля и в выпадающем окне кликнуть требуемое значение.</code><br>					
-					Если Вы желаете изменить уже введенное значение, то предварительно поле надо очистить
-					(т.е. сбросить старое значение с использованием кнопки <span class="badge label-danger">4</span>).<br>
-					Открытое выпадающее окно закрывается в трех случаях: 
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<img src="sm-paramsinfo-fig.PNG"  alt = "Основные элементы управления интерфейса пользователя" 
+			 style="width:100%; border-width:1px" />
+		</div>
+	</div>
+
+ -->	
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="well"  ng-style="well1_style">
+				<p class="text-justify"  style="margin-bottom:inherit;"><span class="badge label-danger">1</span>
+					Кнопка
+						<button id="_btnReply" class="btn btn-default btn-xs btn-block form-control" type="button" 
+											title="кликни для загрузки данных после настройки параметров поиска" 
+											>
+											<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД
+						</button>
+					посылает запрос на поиск и переключает видимость на панель с результатами запроса.
+					<br><code>Использование: кликнуть для просмотра результатов выполнения запроса.</code>
+				</p>
+				<p class="text-justify"  style="margin-bottom:0;"><span class="badge label-danger">2</span>
+					Кнопка
+					<span  id="_downBrand" class="badge hasi" title="показать/спрятать список для выбора значения"
+					style="margin-top: 5px;margin-bottom: 3px;">&nbsp;&nbsp;<i class="fa fa-lg fa-list"></i>&nbsp;&nbsp;</span>		
+					управляет списком для выбора значения параметров.
+					<br><code>Использование: кликнуть</code>, выпадающее окно закроется (если оно открыто), 
+					либо откроется содержащее список значений параметра, попадающих в результат запроса (не более 100).
+					<br>Открытое выпадающее окно закрывается в трех случаях: 
 				</p>
 				<ul> 
 					<li style="margin-bottom:inherit;">
 						после выбора значения из списка;
 					</li>
 					<li style="margin-bottom:inherit;padding-right: inherit;">
-						после клика внутри поля, используемого для ввода этого либо любого другого параметра; 
+						после клика по данной кнопке, используемой для этого либо любого другого параметра; 
 					</li>
 					<li style="margin-bottom:inherit;">
 						после клика по кнопке "загрузка";
 					</li>
 				</ul>
-				<br>
-				<p class="text-justify"  style="margin-bottom:inherit;">
-						<span class="badge label-danger">4</span>
-					Кнопка для сброса введенного значения параметра запроса. 
-					<code>Использование: кликнуть, если поле содержит значение, 
-					а Вы не хотите  включать в запрос этот параметр.</code>
+				<p class="text-justify"  style="margin-bottom:inherit;"><span class="badge label-danger">3</span>
+					Кнопка
+					<button type="button" class="btn-xs ai" style="border:0;border-radius:0;color: #555;margin-top: 5px;margin-bottom: 3px;"
+					style="margin-top: 5px;margin-bottom: 3px;"><i class="fa fa-power-off"></i></button>		
+					позволяет выбрать из списка требуемое значение.
+					<br><code>Использование: в выпадающем окне кликнуть кнопку перед требуемым значением</code>, 
+					выпадающее окно закроется.
 				</p>
-				<p class="text-justify"  style="margin-bottom:inherit;">
-						<span class="badge label-danger">5</span>
-					Поле для вывода сообщений о выполнении запроса.
-					После каждого изменения значения любого параметра пересчитывается и выводится количество записей БД,
-					которые попадают в результат запроса.
-					<code>Использование: кликнуть в поле, если Вам захочется его очистить.</code>
+				<p class="text-justify"  style="margin-bottom:inherit;"><span class="badge label-danger">4</span>
+					Кнопка 
+					<span id="_unselectBrand" class="badge hasi" title="сброс введенного значения"
+					style="margin-top: 5px;margin-bottom: 3px;">&nbsp;&nbsp;<i class="fa fa-lg fa-remove"></i>&nbsp;&nbsp;</span>
+					позволяет сбросить введенное значения параметра запроса. 
+					<br><code>Использование: кликнуть, если поле содержит значение, а Вы не хотите включать в запрос этот параметр.</code>
 				</p>
-				</td>
-			</tr>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="well"  ng-style="well1_style">
+				<p class="text-justify"  style="margin-bottom:inherit;"><span class="badge label-danger">5</span>
+					Кнопка 
+					<span id="_focusRegNum" class="badge hasi" title="открыть поле для ввода"
+					style="margin-top: 5px;margin-bottom: 3px;">&nbsp;&nbsp;<i class="fa fa-lg fa-pencil"></i>&nbsp;&nbsp;</span>
+					позволяет открыть поле для ввода c клавиатуры. 
+					<br><code>Использование: кликнуть, затем вводить с клавиатуры требуемое значение, начиная с его первого символа (буквы русские).</code> 
+					<br>В выпадающем окне выводится список возможных значений, первые символы которых совпадают с указанными Вами.
+					
+					<br>Если Вы желаете изменить уже введенное значение, то предварительно поле надо очистить
+					(т.е. сбросить старое значение с использованием кнопки <span class="badge label-danger">4</span>).
+					
+					<br>В любой момент Вы можете прекратить ввод и кликнуть кнопку "загрузить из БД". При этом если в поле ввода остались 
+					только символы, введенные Вами с клавиатуры, то в результат запроса будет включено все, что было в выпадающем окне. 
+					Если же Вы перед тем, как кликнуть кнопку "загрузка", выбрали из выпадающего окна конкретное значение, то в результат 
+					запроса будет включено только оно.
+				</p>
+				<p class="text-justify"  style="margin-bottom:inherit;"><span class="badge label-danger">6</span>
+					Кнопка 
+					<button type="button" id="_btnParams" class="btn btn-default btn-xs btn-block form-control" 
+						title="настроить параметры поиска в БД"
+					>	
+					<i class="fa fa-fw fa-2x fa-car"></i>&nbsp;&nbsp;&nbsp;параметры</button>
+					позволяет при просмотре результатов поиска перейти на панель для ввода параметров поиска.
+					<br><code>Использование: кликнуть для перехода к настройке параметров поиска в БД.</code>
+				</p>
+				<p class="text-justify"  style="margin-bottom:inherit;"><span class="badge label-danger">7</span>
+					Кнопка
+					<a href="#" id="arrow-up" class="badge hasi" title="перейти в начало" style="margin-top: 5px;margin-bottom: 3px;background: #5f9291;">&nbsp;&nbsp;<i class="fa fa-lg fa-arrow-up"></i>&nbsp;&nbsp;</a>						
+					позволяет вернуться к началу страницы.
+					<br><code>Использование: кликнуть для перехода к началу страницы.</code> 
+				</p>
 
-			<tr>
-				<td class="MainTableCol"  colspan="2"  >
-					<h2  style="text-align:center;" >Формирование результата запроса</h2>
-			   </td>
-			</tr>
-			<tr>
-				<td style="padding-right: 18px;"">
-					 <p class="text-justify"  style="margin-bottom:inherit;">
-						<code>Набор введенных значений</code> в поля параметров запроса является 
-						<code>фильтром</code>, который пропускает в результат 
-						только те строки, которые удовлетворяют <code>всем</code> введенным значениям.
-						<br>
-						Если при вводе значения параметра Вы получаете сообщение 
-						<code>"не загружено ни одной записи"</code>, то это означает, что в БД не существует записи, которая 
-						удовлетворяет <code>всем</code> указанным Вами условиям.
-					</p>
-				</td>
+			</div>
+		</div>
+	</div>
 
-				<td style="padding-left: 18px;">
+	<div class="row">
+		<div class="col-sm-12">
+			<h2  id="paramstitle" >Формирование результата запроса</h2>		
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="well"  ng-style="well2_style">
 				 <p class="text-justify"  style="margin-bottom:inherit;">
-					<code>Содержимое списка</code>, которое выводится в выпадающем окне при вводе 
-					каждого из параметров, формируется по <code>точно такому  же алгоритму</code>,
-					как и формирование окончательного результата, т.е. с учетом всех установленных значений для других 
-					параметров (но не более 100 записей для полей "Регистрационный номер" и "Перевозчик", 
-					точное число показывается в поле для вывода сообщений).
-					<br>
-				 </p>
-				</td>
-			</tr>
-		</table>
-	</div>	
+					</code>Набор введенных значений</code> в поля параметров запроса является <code>фильтром</code>, 
+					который пропускает в результат только те строки, которые удовлетворяют <code>всем</code> введенным значениям.
+					
+					<br>После каждого изменения значения любого параметра пересчитывается и выводится количество записей БД,
+					которые попадают в результат запроса.					
+					
+					<br>Если при вводе значения параметра Вы получаете сообщение <code>"не загружено ни одной записи"</code>, 
+					то это означает, что в БД не существует записи, которая удовлетворяет <code>всем</code> указанным Вами условиям.
+				</p>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="well"  ng-style="well2_style">
+					 <p class="text-justify"  style="margin-bottom:inherit;">
+						</code>Содержимое списка</code>, которое выводится в выпадающем окне при вводе 
+						каждого из параметров, формируется по <code>точно такому  же алгоритму</code>,
+						как и формирование окончательного результата, т.е. с учетом всех установленных значений для других 
+						параметров (но не более 100 записей для полей "Регистрационный номер" и "Перевозчик", 
+						точное число показывается в поле для вывода сообщений).
+						<br>
+					 </p>
+					<a href="#" id="arrow-up" class="badge hasi" title="перейти в начало" style="margin-top: 5px;margin-bottom: 3px;background: #5f9291;">&nbsp;&nbsp;<i class="fa fa-lg fa-arrow-up"></i>&nbsp;&nbsp;</a>						
+		  </div>
+		</div>
+	</div>
 </div>
+					

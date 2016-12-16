@@ -45,7 +45,7 @@ td.tgCell button.btni i.fa {
 input.form-control.unipopinput {border-color: #3c6d48;cursor:default;}
 /*.facaretdown{background-position: 97% 50%;background-image: url(fa-caret-down.png);background-repeat: no-repeat;}*/
 
-button#btnReply,button#_btnReply,button#btnParamsbutton#_btnParams {background: #79925f;border: 1px solid #3c6d48;border-radius: 17px;} 
+button#btnReply,button#_btnReply,button#btnParams,button#_btnParams {background: #79925f;border: 1px solid #3c6d48;border-radius: 17px;} 
 
 h2#paramstitle {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:center;color: #f6f9f7;}
 div#mes        {padding-left: 0;font-family: Georgia;font-size: x-large;text-align:left;}
@@ -75,8 +75,8 @@ div#md-paramsinfo table td	{width: 50%; text-align: justify; vertical-align: top
 
 span.hasi {background: #8ca177;  border: 1px solid #3c6d48;border-radius: 10px;overflow: hidden;cursor: pointer;margin-top: 10px;}
 span.hasi#downBrand,span.hasi#_downBrand,span.hasi#downModel,span.hasi#downRegNum,span.hasi#downName 	{background: #5f9291;}
-span.hasi#unselectBrand,span.hasi#unselectModel,span.hasi#unselectRegNum,span.hasi#unselectName	{background: #cd5c5c;} /* #fa8072 #ff6347 */
-span.hasi#focusRegNum,span.hasi#focusRegNum,span.hasi#focusName	{background: #b17a2b;}
+span.hasi#unselectBrand,span.hasi#_unselectBrand,span.hasi#unselectModel,span.hasi#unselectRegNum,span.hasi#unselectName	{background: #cd5c5c;} /* #fa8072 #ff6347 */
+span.hasi#focusRegNum,span.hasi#_focusRegNum,span.hasi#focusName	{background: #b17a2b;}
 
 
 
