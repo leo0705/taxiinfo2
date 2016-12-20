@@ -28,13 +28,64 @@
 	
 	<form role="form" autocomplete="off">
 		<fieldset>
-			<div class="row">			<!-- button  для загрузки данных   -->
+			<div class="row">			<!-- button  для загрузки данных  fa-cog -->
 				<div class="form-group col-sm-4">
 					<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
 					title="кликни для загрузки данных после настройки параметров поиска" 
 					>
-					<i class="fa fa-fw fa-lg fa-car"></i> &nbsp;&nbsp;&nbsp; загрузить из БД</button>
+						<i  ng-show="!spinMode.show"   class="fa fa-fw fa-lg fa-car"></i> 
+						<i  ng-show="spinMode.show"    class="fa fa-fw fa-lg fa-cog fa-spin"></i> 
+						&nbsp;&nbsp;&nbsp; загрузить из БД
+					</button>
+				</div>			
+				
+				<!--------popup---------Подтвердите продолжение выполнения------------->
+				<div class="panel" style="display:none;position:absolute;z-index:999;left:15px;top:90px;width:340px;border:1px solid #3c6d48;"> 
+					  <div class="panel-heading" style="сolor:#f6f9f7;background-color:#77a181;border-bottom:1px solid #556d3c;font-size: 110%;">
+						<p>Подтвердите выполнение<p>
+					  </div> 
+					  <div class="panel-body" style="сolor:#f6f9f7;background-color:#77a181;">
+						<p>Вы не задали никаких параметров поиска, 
+						поэтому из БД будут загружены первые 1000 записей.</p>
+						<p>Вы желаете продолжить выполнение?</p>
+					  </div>
+					  <div class="panel-footer"	style="сolor:f6f9f7;background-color:#77a181; border-top: 1px solid #556d3c;text-align: right;	">
+						<button type="button" id="no" class="btn btn-danger">Нет</button>
+						<button type="button" id="yes" class="btn btn-deffult">Да</button>
+					  </div>
+				</div>				
+				
+				<!--
+				<div id="confirm" class="modal fade" role="dialog">
+				  <div class="modal-dialog" style="margin-top:80px;">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close"
+								data-dismiss="modal">
+						  <span aria-hidden="true">&times;</span>
+						  <span class="sr-only">Close</span>
+						</button>
+						<h4 id="caption" class="modal-title">Подтвердите продолжение выполнения</h4>
+					  </div>
+					  <div class="modal-body">
+						<p>Вы не задали никаких параметров поиска, из БД будут загружены первые 1000 записей.</p>
+						<p>Вы желаете продолжить выполнение?</p>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-danger"
+								data-dismiss="modal">
+						  Нет
+						</button>
+						<button type="button" class="btn btn-default"
+								data-dismiss="modal">
+						  Да
+						</button>
+					  </div>
+					</div>
+				  </div>
 				</div>
+				-->
+				<!------- modal -------------------------->
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-4">			<!--   list  facaretdown  &nbsp;&nbsp;&nbsp;                ng-click="UniPopup.popupShow('Brand','true')"  readonly Brand ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)"-->															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->

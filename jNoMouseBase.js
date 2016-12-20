@@ -663,7 +663,7 @@ $scope.ToArrayByGroup = function (_scope,arrayname,propname,subarray_propname) {
 		propname_value = old_item[propname];
 		subarray_item = old_item;
 		//delete subarray_item[propname];							// !!!!!    24.02.2016
-		console.log("i:'%s'     propname_value:'%s'   groupvalue:'%s'    subarray.length:'%s'",i, propname_value, groupvalue,subarray.length);
+		//console.log("i:'%s'     propname_value:'%s'   groupvalue:'%s'    subarray.length:'%s'",i, propname_value, groupvalue,subarray.length);
 		switch (true) {
 			case i == 0:											// first array item
 				groupvalue = propname_value;
@@ -971,14 +971,14 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 					case data.mode == 'SE' || data.mode == 'SP': 						////// SE,SP  //////
 						console.log("send.success:---data.types='%s'---->",data.types);   
 						console.log("send.success:---data.flags='%s'---->",data.flags);   
-						console.log("send.success:---data.csv='%s'---->",data.csv);
+						console.log("send.success:---data.csv='%s'---->",data.csv.substr(0,512));
 						//mstext = (data.affected_rows>0)? 'успешно загружено {1} зап.'.Format( data.affected_rows):'не загружено НИ ОДНОЙ записи';
 						//if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
 						//else $scope.mesPost(mstext);
-						if (data.affected_rows == 0)	{
-							mstext = 'не загружено НИ ОДНОЙ записи';
-							$scope.mesPost(mstext);
-						}
+						//if (data.affected_rows == 0)	{
+						//	mstext = 'не загружено НИ ОДНОЙ записи';
+						//	$scope.mesPost(mstext);
+						//}
 						$scope.ajaxSuccessInner(data,paramExt,opts,_scope);		
 					break;
 						
@@ -1001,7 +1001,7 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 			}	
 			else
 			{
-				$scope.mestext = 'server error: '+data.error;
+				//$scope.mestext = 'server error: '+data.error;
 				console.log("data.error:%s",data.error);                                                                
 			}
 		});

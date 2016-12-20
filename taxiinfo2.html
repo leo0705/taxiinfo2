@@ -58,7 +58,7 @@ div#jGrowl	{
     border-top-right-radius: 0;
 	font-size: 14pt;
     font-family: Georgia, 'Times New Roman', Times, serif;    
-	line-height: 37px; 
+	line-height: 27px; 
 	/*position: relative; */
 	position: fixed;
 	pointer-events: all !important; 
@@ -107,6 +107,7 @@ div#jGrowl	{
 	</div>
 <script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>								<!--  28 KB-->
 <script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script>	<!--  1.7 KB -->
+<script src="https://yastatic.net/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="./libs/jquery.toast.js"></script>														<!--  12.4 KB -->
 
 <script src="hammer.min.js"></script>																<!--  20.5 KB -->
@@ -153,19 +154,46 @@ $(function() {
         afterHidden: function () {}
     };
 */
-	var subscription = hub.subscribe('/toast/notifier', function(_obj) {	
-														var ob = {};
-														ob['text'] = _obj.text;
+	var	cur_toast_instance = null
+	,	cur_text = ''
+	,	notifier_subscription = hub.subscribe('/toast/notifier', function(_obj) {	
+														var ob = {}
+														;
+														ob['text'] = _obj.text;			// fast query ended 
 														ob['allowToastClose'] = false;
-														ob['hideAfter'] = 2000;
+														ob['hideAfter'] = 1500;
 														ob['loaderBg'] = '#FFA500';
 														ob['position'] = 'top-left';
+														ob['stack'] = 5;
 														ob['showHideTransition'] = 'slide';
-														$.toast(ob);
-	});
-	var subscription = hub.subscribe('/toast/itracer', function(_obj) {	
+														
+														//if (ob['text'].EndsWith('id="i1000"')) {	// for css debug	
+														//	ob['hideAfter'] = false;
+														//}	
+															//ob['hideAfter'] = 2000;
+															//cur_toast_instance = $.toast(ob);
+															//cur_text = ob['text'];
+														/*} else 
+															if (cur_text.EndsWith('...')) {	// slow query ended 	
+																//cur_toast_instance.reset(); 					// remove the toast
+																//ob['hideAfter'] = 2000;
+																//ob['hideAfter'] = (_obj.text.EndsWith('...')) ? false : 2000;
+																cur_toast_instance.update(ob);
+																cur_text = ob['text'];
+																window.setTimeout(function(){
+																	 $.toast().reset('all');
+																}, 2000)																
+																return;
+																}
+														*/		
+																cur_toast_instance = $.toast(ob);	// fast  query ended 
+																cur_text = ob['text'];				// 		or slow query started
+	})
+	
+	, itracer_subscription = hub.subscribe('/toast/itracer', function(_obj) {	
 										$.toast(_obj.text);	
-	});
+	})
+	;
 	
 });
 	
@@ -306,6 +334,19 @@ setTimeout(function () {
 }
 , 800);		
 */
+
+$('#confirm').modal({
+  show: false,
+  backdrop: 'static'
+  //remote: 'dialog.html'
+});
+	
+//var timeoutId = setTimeout(function() {
+//	$('#confirm').modal('show');
+//}, 10000);	
+	
+
+
 </script>
 </body>
 </html>

@@ -6,10 +6,15 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
 	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
-			//$scope.mesPost('ver 08-12-2016 18:58');
-			pub.notifier('дата сборки: 16-12-2016 11:08');
-		}
-		, 800);		
+			pub.notifier('дата сборки: 19-12-2016 13:50');
+	}
+	, 800);
+	
+	setTimeout(function () {
+		$scope.loadCount();	
+	}
+	, 2500);		
+		
 	var	rootviewElement = document.getElementById('rootview')
 	,	mc = new Hammer(rootviewElement)
 	, 	popup_selected_value = ''
@@ -170,8 +175,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	});
 	
 /*-----------------------------------------------------------------------------------------------------*/	
-	
-	
+	$scope.spinMode = {show: false};
 	$scope.displayMode = 'params';								// 	'params' or 'rezult'
 	$scope.newWinWidth = $window.innerWidth;
 	$scope.currentUrl = 'params/sm-paramsView.html';				// Url for current view for transient animation	
@@ -329,16 +333,22 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			break;
 		
 			case "smDBInfo.load.OK": 
-				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length) : '';//:'не загружено НИ ОДНОЙ записи';
+				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length) : 'не загружено НИ ОДНОЙ записи';
 				//mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
-				if (mstext) {
-					//if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
-					//else $scope.mesPost(mstext);
-					$scope.mesPost(mstext);
-					pub.notifier(mstext);
-					$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
-					$scope.selectMode('show-rezult');	
-				}		else 	{	pub.itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
+				//if ($scope.mestext.EndsWith('...')) {
+				//	mstext = $scope.mestext + '<br>успешно загружено {1} зап.'.Format( $scope.smDBInfo.length);
+				//}	
+				$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
+				$scope.selectMode('show-rezult');
+				//$scope.mesPost(mstext);
+				//pub.notifier(mstext);
+																
+				$window.setTimeout(function(){
+						$scope.spinMode.show = false;
+						$scope.mesPost(mstext);
+						pub.notifier(mstext);
+				}, 1500)																
+				//}		else 	{	pub.itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
 			break;
 		
 			case "Brand.load.OK":  
@@ -360,19 +370,15 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		$scope['ajaxSuccess'] = '';
 });
 		
-	//$scope.clearArr()  = function() {
-				//console.log("==>clearArr");
-				//$scope.arrayname = [];
-	//};
-
-	
 	$scope.loadDBInfo = function () {
 		pub.itracer("==>loadDBInfo");
 		var opts = {
 			eventname:	'smDBInfo.load.OK',
 			colnames: 	'colnames', 
 			arrayname: 	'smDBInfo' 	
-		};
+		}
+		,	mstext = '<span id="i1000" style="font-size:14px;">Вы не задали параметров поиска, из БД будут загружены первые 1000 записей</span>'
+		;
 		var sWhere = $scope.UniPopup.getUniWhere($scope, $scope.whereparam);
 		var sTop = (sWhere)?'':'top 1000';	
 		var sqlTempl = "select {1} Name + '   ( ' +OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from [inet-19_guestinfo].[inet-19_student].TaxiInfo {2} order by Name asc"; 
@@ -386,8 +392,19 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			sqlText: sqlTempl.Format(sTop,sWhere)
 		};
 		var config = {url: UNIURL};
-		if (sTop) $scope.mesPost('Вы не задали параметров поиска, из БД будут загружены первые 1000 записей ...');
-		var promise = $scope.send($scope,params,opts,config);
+		if (sTop) 	{					// render the note
+			//$scope.mesPost(mstext);
+			//pub.notifier(mstext);
+			//$scope.spinMode.show = true;
+			
+			//window.setTimeout(function(){	// we want to make a time gap to render the note
+			//	$scope.send($scope,params,opts,config);
+			//}, 2000);																
+			$('#confirm').modal('show');	// show the modal dialog
+		}	else 	{
+			$scope.send($scope,params,opts,config);
+		}
+
 	};
 	
 	$scope.loadCount = function () {
@@ -431,6 +448,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		};
 		var config = {url: UNIURL};
 		var promise = $scope.send($scope,params,opts,config);
+		
 	};
 	
 	$scope.loadRegNum = function () {
@@ -553,6 +571,5 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	
 //	$scope.displayMode = 'params';
 	$scope.UniPopup.setChildScope($scope);
-		
 
 }]);
