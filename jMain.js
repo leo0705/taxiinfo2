@@ -4,29 +4,25 @@
  */
 angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase']) 
 .controller("mainCtrl",['$scope', '$http', '$timeout', '$window', 'UNIURL', 'UniWebClient', 'UniDic',   function ($scope, $http, $timeout, $window, UNIURL, UniWebClient, UniDic) {// , UniWebClient,"ngCommonCtrl"
-	//	test = tracer("--'%s'--'%s'--'%s'--","джентельмены", "предпочитают", "блондинок")  $scope.mesPost('ver 25-11-2016 11:14');
 	setTimeout(function () {
-			pub.notifier('дата сборки: 19-12-2016 13:50');
-	}
-	, 800);
-	
+			pub.notifier('дата сборки: 29-12-2016 11:43');
+		}
+		, 800);		
 	setTimeout(function () {
-		$scope.loadCount();	
-	}
-	, 2500);		
-		
+			$scope.loadCount();
+		}
+		, 2800);		
 	var	rootviewElement = document.getElementById('rootview')
 	,	mc = new Hammer(rootviewElement)
-	, 	popup_selected_value = ''
+	, 	popup_selected_value = ''	//    popup list selected value for Brand,Model,...
 	;
-//	document.getElementById("txtName").addEventListener("blur", function(){
-//			document.getElementById("txtName").setAttribute("readonly", true);
-//});					
 
 	// listen to mouse & touch  events...   'div.container'
 	mc.on("hammer.input", function(_ev) {
+		if (!_ev.isFirst) return;
 		var item = {}
 		, 	id = ''
+		,	anim_player = null
 		,	elem = null
 	//	,	mes	= "==>mc.on  isFirst:'{1}'  isFinal:'{2}'  eventType:'{3}'  deltaTime:'{3}'  tag:'{5}'  id:'{6}' "
 		,	ms	= "==>mc.on  isFirst:'%s'  isFinal:'%s'  eventType:'%s'  deltaTime:'%s'  tag:'%s'  id:'%s' "
@@ -53,16 +49,48 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				case (_ev.target.tagName == 'SPAN'  && _ev.target.id == 'hide-paramsinfo') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-close') >= 0) :
 					$scope.$apply($scope.selectMode('hide-paramsinfo'));
 				break;
-				
+				/*--------------------------------------------show/hide popup element with CSS3 animation----------------------*/
+				case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'confirm-go') :
+					/*
+					elem = document.querySelector("div.confirm");
+					anim_player = cssAnimate.zoomOut(elem, 1);
+					anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+						elem.style.display = 'none';
+					};
+					*/
+					elem = document.querySelector("div.confirm");
+					anim_player = cssAnimate.pulse(elem, 1);
+					anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+						anim_player = cssAnimate.zoomOut(elem, 1);
+						anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+							elem.style.display = 'none';
+						};
+					};
+								//var re = new RegExp("\\{topValue\\}", "g");
+					$scope.params.sqlText = $scope.params.sqlText.replace(new RegExp("\\{topValue\\}", "g"), $scope.topValue);
+					console.log("--mc.on:   _ev.target.id:'%s'	sqlText:'%s'",_ev.target.id,$scope.params.sqlText.substr(0,32)); 
+					
+					$scope.$apply($scope.send($scope,$scope.params,$scope.opts,$scope.config));
+				break;
+					
+				case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'confirm-stop') :
+					elem = document.querySelector("div.confirm");
+					anim_player = cssAnimate.zoomOut(elem, 1);
+					anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+						elem.style.display = 'none';
+					};
+					//document.querySelector("div.confirm").style.display = 'none';
+					console.log("--mc.on:   _ev.target.id:'%s'",_ev.target.id); 
+				break;
+				/*--------------------------------------------change the mode: "set params" <==> "show rezults"----------------*/
 				case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'btnReply') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-car') >= 0)  :	
-					//$scope.selectMode('rezult');
 					$scope.$apply($scope.selectMode('rezult'));
 				break;
 				
 				case  _ev.target.tagName == 'BUTTON'  && _ev.target.id == 'btnParams' :			
 					$scope.$apply($scope.selectMode('params'));
 				break;
-				/*--------------------------------------------unselect------------------------------------------------------*/
+				/*--------------------------------------------unselect the field value-----------------------------------------*/
 				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'unselectBrand') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'unselectBrand') :
 					$scope.$apply($scope.unselectBrand());
 				break;
@@ -78,7 +106,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'unselectName') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'unselectName') :
 					$scope.$apply($scope.unselectName());
 				break;
-				/*---------------------------------------------down-------------------------------------------------------*/
+				/*---------------------------------------------open a popdown list----------------------------------------------*/
 				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'downBrand') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'downBrand') :
 					$scope.$apply($scope.UniPopup.popupShow('Brand','true' ));
 				break;
@@ -94,58 +122,36 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'downName') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'downName') :
 					$scope.$apply($scope.UniPopup.popupShow('Name','true' ));
 				break;
-				/*---------------------------------------------focus-------------------------------------------------------*/
+				/*------------------------------------open a field for keyboard input---------------------------------------------*/
+				
 				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'focusRegNum') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'focusRegNum') :
-					if (	document.getElementById("txtRegNum").hasAttribute("readonly")	)  {
-						document.getElementById("txtRegNum").removeAttribute("readonly");
-						//elem = document.getElementById("txtRegNum");   
-						//elem.removeAttribute("readonly");
+					elem = document.getElementById("txtRegNum");
+					if ( elem.hasAttribute("readonly")	)  {
 						setTimeout(function () {
-							document.getElementById("txtRegNum").focus();
-							//elem.focus();
+							elem.removeAttribute("readonly");							
 						}
-						, 500);	
-					}
+						, 0);		
+						setTimeout(function () {
+							elem.focus();
+						}
+						, 0);		
+					}  
 				break;
 				
 				case(_ev.target.tagName == 'SPAN'  && _ev.target.id == 'focusName') || (_ev.target.tagName == 'I'  && _ev.target.parentElement.id == 'focusName') :
-					if (	document.getElementById("txtName").hasAttribute("readonly")	)  {
-						document.getElementById("txtName").removeAttribute("readonly");
+					elem = document.getElementById("txtName");
+					if ( elem.hasAttribute("readonly")	)  {
 						setTimeout(function () {
-							document.getElementById("txtName").focus();
+							elem.removeAttribute("readonly");							
 						}
-						, 500);		
-					}
+						, 0);		
+						setTimeout(function () {
+							elem.focus();
+						}
+						, 0);		
+					}  
 				break;
-				
-/*				
-				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtBrand' :	
-					//$scope.UniPopup.popupShow('Brand','true' );
-					$scope.$apply($scope.UniPopup.popupShow('Brand','true' )); 
-				break;
-				
-				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtModel' :
-					//$scope.UniPopup.popupShow('Model','true');
-					$scope.$apply($scope.UniPopup.popupShow('Model','true' ));
-				break;
-				
-				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtRegNum' :	
-					//$scope.UniPopup.popupShow('RegNum','true');
-					$scope.$apply($scope.UniPopup.popupShow('RegNum','true' ));
-				break;
-				
-				case  _ev.target.tagName == 'INPUT'  && _ev.target.id == 'txtName' :	
-					//$scope.UniPopup.popupShow('Name','true');
-					$scope.$apply($scope.UniPopup.popupShow('Name','true' ));
-				break;
-				
-				
-				case  _ev.target.tagName == 'TD'  && _ev.target.className.indexOf('tgCell') == 0 :	
-					item['Name'] = _ev.target.textContent;
-					$scope.$apply($scope.selectedItem(item)); 
-				break;
-*/				
-				
+						/*---------------------------s election from popdown list --------------------------------------------*/	
 				case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id.substr(0,4) == 'btni') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-power-off') >= 0) :	
 					id = _ev.target.tagName == 'BUTTON'  ? _ev.target.id
 							: _ev.target.tagName == 'I'	 ? 	_ev.target.parentElement.id
@@ -163,7 +169,6 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 						document.getElementById(id).setAttribute("style", "background-color:steelblue;color:#fff;font-weight:600;"); //lightsalmon
 						setTimeout(function () {
 							item['Name'] = popup_selected_value;//_ev.target.textContent;
-							
 							$scope.$apply($scope.selectedItem(item)); 
 						}
 						, 500);		
@@ -175,10 +180,18 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	});
 	
 /*-----------------------------------------------------------------------------------------------------*/	
-	$scope.spinMode = {show: false};
+	
+	
 	$scope.displayMode = 'params';								// 	'params' or 'rezult'
 	$scope.newWinWidth = $window.innerWidth;
 	$scope.currentUrl = 'params/sm-paramsView.html';				// Url for current view for transient animation	
+	
+	$scope.params = null;									//  used in send() if user don't set any param values
+	$scope.opts = null;										//
+	$scope.config = null;									//
+	
+	$scope.topValue = 1000;			// Number top DB records returned query no params with: 1000, 500, 255, 100
+	
 	setTimeout(function () {
 		$scope.$apply($scope.selectMode('params1'));
 	}, 
@@ -186,13 +199,57 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	
 	$scope.well1_style = {};	//		params/paramsinfo/md-paramsinfo.html 	<div class="well"  ng-style="well1_style">
 	$scope.well2_style = {};	//		params/paramsinfo/md-paramsinfo.html 	<div class="well"  ng-style="well2_style">
+	$scope.panelconfirm_style = {width:'340px'};	//	params/sm-paramsView.html 	<div  class="panel confirm" ng-style="panelconfirm_style">
+													
+	
+	
+	
+	
 	
 	$scope.$watchGroup(['newWinWidth', 'displayMode'], function(newValues, oldValues, scope) {
 	console.log("---->$watch   	new-newWinWidth:'%s' old-newWinWidth:'%s'   new-displayMode:'%s'   old-displayMode:'%s' ",
-							newValues[0],		 oldValues[0],          newValues[1],			oldValues[1] );
+								newValues[0],		 oldValues[0],          newValues[1],			oldValues[1] );
 		var hi1	=	0	//	$scope.well1_style = {height: hi1 + 'px'};		
 		,	hi2	=	0	//	$scope.well2_style = {height: hi2 + 'px'};
+		,	elfrom = document.querySelector("input#txtName")
+		,	wifrom = 0
+		,	elto   = document.querySelector("div.confirm")
+		,	wito   = 0	
+		,	posfrom = null
 		;
+		
+		//	 Number top DB records returned query no params with: 1000, 500, 255, 100
+		if	(newValues[0] < 480 ) {  
+			$scope.topValue = 100;  
+		} else if (newValues[0] < 768) {
+			$scope.topValue = 255; 
+		} else if (newValues[0] < 991) {
+			$scope.topValue = 500;
+		} else {  
+			$scope.topValue = 1000; 
+		}
+		console.log("--$watch   topValue:'%s'", $scope.topValue );
+		
+		// adjust popup element
+		if (elfrom && elto) {
+			$scope.setPopupText();
+			//document.getElementById("paramstitle").addEventListener("click", function(){
+			//	var i =	this.isContentEditable ;
+			//});					
+			
+			// center element elto relatively elfrom 
+			wifrom = elfrom.offsetWidth;		
+			//wito   = elto.offsetWidth;			console.log("--$watch   elto.offsetWidth:'%s'", elto.offsetWidth );	
+			posfrom = $scope.UniPopup.getViewportOffset(elfrom);	// returns { left: left, top: top }
+												//console.log("--$watch   elfrom.left:'%s'", posfrom.left );	
+												console.log("--$watch   elto.attr-style:'%s'", elto.getAttribute("style") );
+			wito   = Number.parseInt($scope.UniPopup.getCssValue(elto.getAttribute('style'), 'width'));
+												console.log("--$watch   wito:'%s'", wito );
+			$scope.panelconfirm_style['left'] = posfrom.left + (wifrom - wito)/2 + 'px';
+			
+			console.log("--$watch   elto.style.left:'%s'  	wito:'%s'  	posfrom.left:'%s'  	wifrom:'%s'",
+										elto.style.left,	wito,		posfrom.left,		wifrom);
+		}
 		
 		switch(true) {
 			case newValues[0] < 768 &&  newValues[1] == 'rezult':
@@ -227,9 +284,13 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			break;
 			
 			case newValues[0] >= 768 &&  newValues[1] == 'paramsinfo':
-				if	(newValues[0] <= 1001 )  {  hi1 = 940; hi2 = 390;  }		
-					else if	(newValues[0] <= 1210	&& newValues[0] > 1001 )  		{  hi1 = 794;  	hi2 = 312;  } 
-							else	if (newValues[0] > 1210 ) 	 					{  hi1 = 724; 	hi2 = 282;  } 
+				if	(newValues[0] <= 1001 ) {  
+					hi1 = 940; hi2 = 390;  
+				} else if (newValues[0] <= 1210) 	{  
+					hi1 = 794; hi2 = 312;  
+				} else if (newValues[0] > 1210 ) 	{  
+					hi1 = 724; hi2 = 282;
+				} 
 				$scope.well1_style = {height: hi1 + 'px'};
 				$scope.well2_style = {height: hi2 + 'px'};
 				$scope.currentUrl = 'params/paramsinfo/md-paramsinfo.html';
@@ -289,6 +350,8 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	$scope.curModel = {};	// $scope.curModel = {Name:'A4'};
 	$scope.curName = {};	// $scope.curName = {Name:'ИВА'};
 	
+	$scope.panelconfirm = {};			//	ng-style="panelconfirm"
+	
 	$scope.whereparam = [
 	{id:'txtBrand',col:'Brand',op:'='},
 	{id:'txtModel',col:'Model',op:'='},
@@ -333,22 +396,20 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			break;
 		
 			case "smDBInfo.load.OK": 
-				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length) : 'не загружено НИ ОДНОЙ записи';
+				mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length) : '';//:'не загружено НИ ОДНОЙ записи';
 				//mstext = ($scope.smDBInfo.length>0)? 'успешно загружено {1} зап.'.Format( $scope.smDBInfo.length):'не загружено НИ ОДНОЙ записи';
-				//if ($scope.mestext.EndsWith('...')) {
-				//	mstext = $scope.mestext + '<br>успешно загружено {1} зап.'.Format( $scope.smDBInfo.length);
-				//}	
-				$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
-				$scope.selectMode('show-rezult');
-				//$scope.mesPost(mstext);
-				//pub.notifier(mstext);
-																
-				$window.setTimeout(function(){
-						$scope.spinMode.show = false;
+				if (mstext) {
+					//if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
+					//else $scope.mesPost(mstext);
+					setTimeout(function () {
 						$scope.mesPost(mstext);
 						pub.notifier(mstext);
-				}, 1500)																
-				//}		else 	{	pub.itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
+						}
+						, 2800);		
+					$scope.DBInfo = $scope.ToArrayByGroup($scope,'smDBInfo','Name','Use');	//if ($scope.newWinWidth >= 768) 
+					$scope.selectMode('show-rezult');	
+				}		else 	{	pub.itracer("--$scope.$watch('ajaxSuccess'):    $scope.smDBInfo.length:0");	}
+			
 			break;
 		
 			case "Brand.load.OK":  
@@ -370,6 +431,13 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		$scope['ajaxSuccess'] = '';
 });
 		
+	$scope.setPopupText = function () {
+		console.log("==>setPopupText   $scope.topValue:'%s'", $scope.topValue );
+		document.querySelector("div.confirm  div.panel-body p")
+		.innerHTML = ('Вы не задали никаких параметров поиска, поэтому из БД будут загружены первые {1} записей.'
+		.Format($scope.topValue));
+	};
+	
 	$scope.loadDBInfo = function () {
 		pub.itracer("==>loadDBInfo");
 		var opts = {
@@ -377,34 +445,53 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 			colnames: 	'colnames', 
 			arrayname: 	'smDBInfo' 	
 		}
-		,	mstext = '<span id="i1000" style="font-size:14px;">Вы не задали параметров поиска, из БД будут загружены первые 1000 записей</span>'
-		;
-		var sWhere = $scope.UniPopup.getUniWhere($scope, $scope.whereparam);
-		var sTop = (sWhere)?'':'top 1000';	
-		var sqlTempl = "select {1} Name + '   ( ' +OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from [inet-19_guestinfo].[inet-19_student].TaxiInfo {2} order by Name asc"; 
-		//var sTop = (sWhere)?'':' limit 1000';									console.log("sTop='%s'",sTop);
-		//var sqlTempl = "select CONCAT(Name,' (',OgrnNum,' / ',OgrnDate,')' ) as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc{1}"; 
-		var params = {
-			Vrwtrace: "True",
-			EntryPointName: "DBTableViewer",
-			ConKey: "guestinfo",
-			mode: 'SP', 
-			sqlText: sqlTempl.Format(sTop,sWhere)
-		};
-		var config = {url: UNIURL};
-		if (sTop) 	{					// render the note
-			//$scope.mesPost(mstext);
-			//pub.notifier(mstext);
-			//$scope.spinMode.show = true;
-			
-			//window.setTimeout(function(){	// we want to make a time gap to render the note
-			//	$scope.send($scope,params,opts,config);
-			//}, 2000);																
-			$('#confirm').modal('show');	// show the modal dialog
-		}	else 	{
-			$scope.send($scope,params,opts,config);
+		, 	sWhere = $scope.UniPopup.getUniWhere($scope, $scope.whereparam)
+		//, 	sTop = (sWhere) ? '' : 	$scope.$eval('top ' + $scope.topValue)_ 					
+		, 	sTop = (sWhere) ? '' : 	'top ' + '{topValue}' 					
+				//  for mySql:  ,	sTop = (sWhere)?'':' limit 1000';		console.log("sTop='%s'",sTop)
+				//				, 	sqlTempl = "select CONCAT(Name,' (',OgrnNum,' / ',OgrnDate,')' ) as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from `inet-19_guestinfo`.`TaxiInfo` {2} order by Name asc{1}"
+		, 	sqlTempl = "select {1} Name + '   ( ' + OgrnNum + ' / ' + OgrnDate + ' )' as Name,Brand,Model,RegNum,Year,LicenseNum,LicenseDate,BlankNum  from [inet-19_guestinfo].[inet-19_student].TaxiInfo {2} order by Name asc"
+		, 	params = {
+				Vrwtrace: "True",
+				EntryPointName: "DBTableViewer",
+				ConKey: "guestinfo",
+				mode: 'SP', 
+				sqlText: sqlTempl.Format(sTop,sWhere)	
 		}
-
+		, 	config = {url: UNIURL}
+		,	elfrom = document.querySelector("input#txtName")
+		,	wifrom = elfrom.offsetWidth	
+		,	elto   = document.querySelector("div.confirm")
+		,	wito   = elto.style.cssText			//elto.offsetWidth
+		//,
+		,	posfrom = null
+		,	anim_player = null
+		;
+		console.log("--loadDBInfo sTop='%s'",sTop);
+		if (sTop) 	{		//$scope.mesPost('Вы не задали параметров поиска, из БД будут загружены первые 1000 записей ...');
+			$scope.params = params;
+			$scope.opts = opts;
+			$scope.config = config;
+			
+			// отцентрировать popup элемент elto относительно elfrom и показать
+			posfrom = $scope.UniPopup.getViewportOffset(elfrom);	// returns { left: left, top: top }
+												//console.log("--loadDBInfo   elfrom.left:'%s'", posfrom.left );	
+												//console.log("--loadDBInfo   elto.attr-style:'%s'", elto.getAttribute("style") );
+			$scope.setPopupText();
+			wito   = Number.parseInt($scope.UniPopup.getCssValue(elto.getAttribute('style'), 'width'));												//console.log("--loadDBInfo   wito:'%s'", wito );
+			elto.style.left = posfrom.left + (wifrom - wito)/2 + 'px';
+			
+						//elto = document.querySelector("div.confirm");
+						//elto.style.display = 'block';
+				//elto.style.display = 'block';
+				//window.zoomIn(elto, 1);		// animate show
+			elto.style.display = 'block';	
+			anim_player = cssAnimate.zoomIn(elto, 1);
+			console.log("--loadDBInfo   elto.style.left:'%s'  	wito:'%s'  	posfrom.left:'%s'  	wifrom:'%s'",
+										elto.style.left,		wito,		posfrom.left,		wifrom);
+			return;
+		}
+		$scope.send($scope,params,opts,config);
 	};
 	
 	$scope.loadCount = function () {
@@ -448,7 +535,6 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 		};
 		var config = {url: UNIURL};
 		var promise = $scope.send($scope,params,opts,config);
-		
 	};
 	
 	$scope.loadRegNum = function () {
@@ -571,5 +657,7 @@ angular.module("TaxiInfoApp", [ 'ngAnimate','UniClientBase'])
 	
 //	$scope.displayMode = 'params';
 	$scope.UniPopup.setChildScope($scope);
+	
+	
 
 }]);

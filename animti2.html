@@ -1,17 +1,21 @@
-﻿<div class="animate-show form-group"  ng-show="'true'">
-<!-- 	
-				<div class="row">
-					<div class="col-sm-12">
-						<div id="jGrowl" class="top-right jGrowl">
-							<div class="jGrowl-notification">
-							</div>
-						</div>
-				  
-					</div>
-				</div>
--->	
- 	
-	
+﻿<!DOCTYPE html>
+<html ng-app="TaxiInfoApp">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>animti2.html </title>
+	<link href="../../../images/tree.ico"  rel="icon" />
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="bootstrap-1pxdeep-min.css" type="text/css"  rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+
+</head>
+<body > 
+
+  <div id="rootview">
 	<div class="row">
 		<div class="col-sm-1">
 			<span id="show-paramsinfo" class="badge hasi"
@@ -33,13 +37,13 @@
 					<button class="btn btn-default btn-xs btn-block form-control" type="button" id="btnReply" 
 					title="кликни для загрузки данных после настройки параметров поиска" 
 					>
-						<i  class="fa fa-fw fa-lg fa-car"></i> 
+						<i  ng-show="!spinMode.show"   class="fa fa-fw fa-lg fa-car"></i> 
 						&nbsp;&nbsp;&nbsp; загрузить из БД
 					</button>
 				</div>			
 				
 				<!--------popup---confirm------Подтвердите продолжение выполнения-----id="panel" -------->
-				<div  class="panel confirm" ng-style="panelconfirm_style"> 	
+				<div  class="panel confirm" style="width: 340px;"> 	
 					  <div class="panel-heading">
 						<p>Подтвердите выполнение<p>
 					  </div> 
@@ -53,38 +57,7 @@
 						<button type="button" id="confirm-go" class="btn btn-deffult">Да</button>
 					  </div>
 				</div>				
-				
-				<!--
-				<div id="confirm" class="modal fade" role="dialog">
-				  <div class="modal-dialog" style="margin-top:80px;">
-					<div class="modal-content">
-					  <div class="modal-header">
-						<button type="button" class="close"
-								data-dismiss="modal">
-						  <span aria-hidden="true">&times;</span>
-						  <span class="sr-only">Close</span>
-						</button>
-						<h4 id="caption" class="modal-title">Подтвердите продолжение выполнения</h4>
-					  </div>
-					  <div class="modal-body">
-						<p>Вы не задали никаких параметров поиска, из БД будут загружены первые 1000 записей.</p>
-						<p>Вы желаете продолжить выполнение?</p>
-					  </div>
-					  <div class="modal-footer">
-						<button type="button" class="btn btn-danger"
-								data-dismiss="modal">
-						  Нет
-						</button>
-						<button type="button" class="btn btn-default"
-								data-dismiss="modal">
-						  Да
-						</button>
-					  </div>
-					</div>
-				  </div>
-				</div>
-				-->
-				<!------- modal -------------------------->
+				<!-- ------------------------------------------------------------------------------------------------- -->
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-4">			<!--   list  facaretdown  &nbsp;&nbsp;&nbsp;                ng-click="UniPopup.popupShow('Brand','true')"  readonly Brand ng-click="UniPopup.handleEvent($event)" ng-mouseenter="UniPopup.handleEvent($event)"-->															<!-- class="fa fa-trash" <img src="trash.png"  style="cursor:pointer;border-width:0px"/>-->
@@ -129,4 +102,95 @@
 		</fieldset>
 	</form>
 	<div unipopupdiv></div> 
-</div>	
+  </div>	
+
+<script src="hammer.min.js"></script>																<!--  20.5 KB -->
+<script type="text/javascript">
+//$(function() {
+var cssAnimate = (function(){	
+	return {
+		zoomIn: function (elem, iterations) {
+			var keyframes = [{transform: 'scale3d(.3, .3, .3)  ', opacity: '0', offset: 0},
+							 {transform: 'none', opacity: '1',                  offset: 1}]
+			,	timing = {duration: 900, iterations: iterations}
+			;
+			return elem.animate(keyframes, timing);        
+		},
+		
+		zoomOut: function (elem, iterations) {
+			var keyframes = [{transform: 'none', opacity: '1',                  offset: 0},
+							 {transform: 'scale3d(.3, .3, .3)  ', opacity: '0', offset: 1}]
+			,	timing = {duration: 900, iterations: iterations}
+			;
+			return elem.animate(keyframes, timing);        
+		},
+		
+		pulse: function (elem, iterations) {
+			var keyframes = [
+			  {transform: 'scale3d(1, 1, 1)',          offset: 0}, 
+			  {transform: 'scale3d(1.05, 1.05, 1.05)', offset: 0.5}, 
+			  {transform: 'scale3d(1, 1, 1)',          offset: 1}];
+			var timing = {duration: 500, iterations: iterations};
+			return elem.animate(keyframes, timing);
+		}
+	}	
+})()
+,	rootviewElement = document.getElementById('rootview')
+,	mc = new Hammer(rootviewElement)
+;
+	mc.on("hammer.input", function(_ev) {
+		var item = {}
+		, 	id = ''
+		,	elem = null
+		,	anim_player
+		,	ms	= "==>mc.on  isFirst:'%s'  isFinal:'%s'  eventType:'%s'  deltaTime:'%s'  tag:'%s'  id:'%s' type:'%s' "
+		;
+			if ( _ev.isFirst )	{
+				console.log(ms,_ev.isFirst, _ev.isFinal,  _ev.eventType,  _ev.deltaTime,  _ev.target.tagName, _ev.target.id, _ev.target.type);
+				switch(true) {
+					case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'confirm-go') :
+						elem = document.querySelector("div.confirm");
+						anim_player = cssAnimate.pulse(elem, 1);
+						anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+							anim_player = cssAnimate.zoomOut(elem, 1);
+							anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+								elem.style.display = 'none';
+							};
+						};
+						console.log("--mc.on:   _ev.target.id:'%s'",_ev.target.id); 
+					break;
+					
+					case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'confirm-stop') :
+					
+						//$('.panel.confirm').removeClass('animated flipInX').addClass('animated flipOutX');
+								//$('.panel.confirm').removeClass('animated lightSpeedIn').addClass('animated lightSpeedOut');
+						//$('.panel.confirm').removeClass('animated rotateIn').addClass('animated rotateOut');
+						//$('.panel.confirm').removeClass('animated rollIn').addClass('animated rollOut');
+						//$('.panel.confirm').removeClass('animated zoomIn').addClass('animated zoomOut');
+						elem = document.querySelector("div.confirm");
+						anim_player = cssAnimate.zoomOut(elem, 1);
+						anim_player.onfinish = function(e) {	// e.isTrusted = "true"
+							elem.style.display = 'none';
+						  //console.log("per aspera ad astra!     e.tagName:'%s'",e.tagName);
+						  //printobj(anim_player,'anim_player');
+						};
+					break;
+					
+					case  (_ev.target.tagName == 'BUTTON'  && _ev.target.id == 'btnReply') || (_ev.target.tagName == 'I'  && _ev.target.className.indexOf('fa-car') >= 0)  :	
+						//$('.panel.confirm').css('display','block').removeClass('animated flipOutX').addClass('animated flipInX');
+							//$('.panel.confirm').css('display','block').removeClass('animated lightSpeedOut').addClass('animated lightSpeedIn');
+						//$('.panel.confirm').css('display','block').removeClass('animated rotateOut').addClass('animated rotateIn');
+						//$('.panel.confirm').css('display','block').removeClass('animated rollOut').addClass('animated rollIn');
+						//$('.panel.confirm').css('display','block').removeClass('animated zoomOut').addClass('animated zoomIn');
+						//var iterations = 1;
+						elem = document.querySelector("div.confirm");
+						elem.style.display = 'block';
+						cssAnimate.zoomIn(elem, 1);
+					break;
+				}
+			}
+	});
+//});
+</script>
+</body>
+</html>

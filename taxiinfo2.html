@@ -58,7 +58,7 @@ div#jGrowl	{
     border-top-right-radius: 0;
 	font-size: 14pt;
     font-family: Georgia, 'Times New Roman', Times, serif;    
-	line-height: 27px; 
+	line-height: 37px; 
 	/*position: relative; */
 	position: fixed;
 	pointer-events: all !important; 
@@ -107,7 +107,6 @@ div#jGrowl	{
 	</div>
 <script src="https://yastatic.net/jquery/2.2.0/jquery.min.js"></script>								<!--  28 KB-->
 <script src="https://cdn.upress.co.il/ajax/libs/jquery-jgrowl/1.4.4/jquery.jgrowl.min.js"></script>	<!--  1.7 KB -->
-<script src="https://yastatic.net/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="./libs/jquery.toast.js"></script>														<!--  12.4 KB -->
 
 <script src="hammer.min.js"></script>																<!--  20.5 KB -->
@@ -154,46 +153,20 @@ $(function() {
         afterHidden: function () {}
     };
 */
-	var	cur_toast_instance = null
-	,	cur_text = ''
-	,	notifier_subscription = hub.subscribe('/toast/notifier', function(_obj) {	
-														var ob = {}
-														;
-														ob['text'] = _obj.text;			// fast query ended 
+	var subscription = hub.subscribe('/toast/notifier', function(_obj) {	
+														var ob = {};
+														ob['text'] = _obj.text;
 														ob['allowToastClose'] = false;
-														ob['hideAfter'] = 1500;
+														ob['stack'] = 5;
+														ob['hideAfter'] = 2000;
 														ob['loaderBg'] = '#FFA500';
 														ob['position'] = 'top-left';
-														ob['stack'] = 5;
 														ob['showHideTransition'] = 'slide';
-														
-														//if (ob['text'].EndsWith('id="i1000"')) {	// for css debug	
-														//	ob['hideAfter'] = false;
-														//}	
-															//ob['hideAfter'] = 2000;
-															//cur_toast_instance = $.toast(ob);
-															//cur_text = ob['text'];
-														/*} else 
-															if (cur_text.EndsWith('...')) {	// slow query ended 	
-																//cur_toast_instance.reset(); 					// remove the toast
-																//ob['hideAfter'] = 2000;
-																//ob['hideAfter'] = (_obj.text.EndsWith('...')) ? false : 2000;
-																cur_toast_instance.update(ob);
-																cur_text = ob['text'];
-																window.setTimeout(function(){
-																	 $.toast().reset('all');
-																}, 2000)																
-																return;
-																}
-														*/		
-																cur_toast_instance = $.toast(ob);	// fast  query ended 
-																cur_text = ob['text'];				// 		or slow query started
-	})
-	
-	, itracer_subscription = hub.subscribe('/toast/itracer', function(_obj) {	
+														$.toast(ob);
+	});
+	var subscription = hub.subscribe('/toast/itracer', function(_obj) {	
 										$.toast(_obj.text);	
-	})
-	;
+	});
 	
 });
 	
@@ -319,34 +292,66 @@ var pub = (function(){
 		}
 	};
 })();
-
-//$.toast("toast OK !")
-//$.toast({ 
-//  text : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad molestias illo illum, modi, ...", 
-//  position:			'top-left',
-//  showHideTransition : 'slide'
-//});
-pub.itracer('jGrowl OK ! ');
 /*
-$.toast("toast OK !")
-setTimeout(function () {
-	pub.notifier('notifier OK ! ');	//$('div.top-left').jGrowl('notifier OK!!!');	
-}
-, 800);		
+var cssAnimate = (function(){	
+	return {
+		zoomIn: function (elem, iterations) {
+			var keyframes = [{transform: 'scale3d(.3, .3, .3)  ', opacity: '0', offset: 0},
+							 {transform: 'none', opacity: '1',                  offset: 1}]
+			,	timing = {duration: 900, iterations: iterations}
+			;
+			return elem.animate(keyframes, timing);        
+		},
+		
+		zoomOut: function (elem, iterations) {
+			var keyframes = [{transform: 'none', opacity: '1',                  offset: 0},
+							 {transform: 'scale3d(.3, .3, .3)  ', opacity: '0', offset: 1}]
+			,	timing = {duration: 900, iterations: iterations}
+			;
+			return elem.animate(keyframes, timing);        
+		},
+		
+		function pulse(elem, iterations) {
+			var keyframes = [
+			  {transform: 'scale3d(1, 1, 1)',          offset: 0}, 
+			  {transform: 'scale3d(1.05, 1.05, 1.05)', offset: 0.5}, 
+			  {transform: 'scale3d(1, 1, 1)',          offset: 1}];
+			var timing = {duration: 300, iterations: iterations};
+			return elem.animate(keyframes, timing);
+		}		
+})();
 */
 
-$('#confirm').modal({
-  show: false,
-  backdrop: 'static'
-  //remote: 'dialog.html'
-});
-	
-//var timeoutId = setTimeout(function() {
-//	$('#confirm').modal('show');
-//}, 10000);	
-	
+var cssAnimate = (function(){	
+	return {
+		zoomIn: function (elem, iterations) {
+			var keyframes = [{transform: 'scale3d(.3, .3, .3)  ', opacity: '0', offset: 0},
+							 {transform: 'none', opacity: '1',                  offset: 1}]
+			,	timing = {duration: 900, iterations: iterations}
+			;
+			return elem.animate(keyframes, timing);        
+		},
+		
+		zoomOut: function (elem, iterations) {
+			var keyframes = [{transform: 'none', opacity: '1',                  offset: 0},
+							 {transform: 'scale3d(.3, .3, .3)  ', opacity: '0', offset: 1}]
+			,	timing = {duration: 900, iterations: iterations}
+			;
+			return elem.animate(keyframes, timing);        
+		},
+		
+		pulse: function (elem, iterations) {
+			var keyframes = [
+			  {transform: 'scale3d(1, 1, 1)',          offset: 0}, 
+			  {transform: 'scale3d(1.05, 1.05, 1.05)', offset: 0.5}, 
+			  {transform: 'scale3d(1, 1, 1)',          offset: 1}];
+			var timing = {duration: 500, iterations: iterations};
+			return elem.animate(keyframes, timing);
+		}
+	}	
+})()
 
-
+//pub.itracer('jGrowl OK ! ');
 </script>
 </body>
 </html>
