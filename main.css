@@ -85,16 +85,16 @@ span.hasi#focusRegNum,span.hasi#_focusRegNum,span.hasi#focusName	{background: #b
 span.badge.label-danger {font-size: 1em}
 code {font-size: 1.1em}	
 
+																										/*#a5d6a7  #c5e1a5 #aed581*/
+input#txtBrand:read-only,input#txtModel:read-only,input#txtRegNum:read-only,input#txtName:read-only	{background-color:#a5d6a7;}
 
-input#txtBrand:read-only,input#txtModel:read-only,input#txtRegNum:read-only,input#txtName:read-only	{background-color:#d0d0d0;}
-
-
-
-
-
-
-
-
+div.confirm {display:none;position:absolute;z-index:999;left:15px;top:90px;border:1px solid #3c6d48;color:f6f9f7;}
+div.confirm  div.panel-heading {background-color:#77a181;border-bottom:1px solid #556d3c;text-align:center;}
+div.confirm  div.panel-heading p {margin-top: 11px;font-size: 110%;}
+div.confirm  div.panel-body {background-color:#77a181;}
+div.confirm  div.panel-footer {background-color:#77a181;border-top:1px solid #556d3c;text-align:right;}
+/* div.confirm  div.panel-footer button#confirm-stop	{	} */
+/* div.confirm  div.panel-footer button#confirm-go		{	} */
 
 /*-----------------------------------------------------------------------*/
 

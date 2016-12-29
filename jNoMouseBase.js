@@ -663,7 +663,7 @@ $scope.ToArrayByGroup = function (_scope,arrayname,propname,subarray_propname) {
 		propname_value = old_item[propname];
 		subarray_item = old_item;
 		//delete subarray_item[propname];							// !!!!!    24.02.2016
-		console.log("i:'%s'     propname_value:'%s'   groupvalue:'%s'    subarray.length:'%s'",i, propname_value, groupvalue,subarray.length);
+		//console.log("i:'%s'     propname_value:'%s'   groupvalue:'%s'    subarray.length:'%s'",i, propname_value, groupvalue,subarray.length);
 		switch (true) {
 			case i == 0:											// first array item
 				groupvalue = propname_value;
@@ -965,13 +965,13 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 			{
 				console.log("send.success:---data.mode='%s'---->",data.mode);   // insert_id 
 				console.log("send.success:---data.sqlText=%s---->",data.sqlText);   
-				console.log("send.success:---data.affected_rows='%s'---->",data.affected_rows); 
+				//console.log("send.success:---data.affected_rows='%s'---->",data.affected_rows); 
 				switch (true) 
 				{
 					case data.mode == 'SE' || data.mode == 'SP': 						////// SE,SP  //////
 						console.log("send.success:---data.types='%s'---->",data.types);   
 						console.log("send.success:---data.flags='%s'---->",data.flags);   
-						console.log("send.success:---data.csv='%s'---->",data.csv);
+						console.log("send.success:---data.csv='%s'---->",data.csv.substr(0,512));
 						//mstext = (data.affected_rows>0)? 'успешно загружено {1} зап.'.Format( data.affected_rows):'не загружено НИ ОДНОЙ записи';
 						//if ($scope.mestext.EndsWith('...')) $scope.mesAdd('<br>' + mstext);
 						//else $scope.mesPost(mstext);
@@ -1007,7 +1007,7 @@ $scope.send = function (controller_scope,paramExt, opts, configExt) {
 		});
 	}//real query to server
 }//$scope.send
-
+						
 //////////////////////////////////////////////////////////////////////////////////     UniPopup   
 $scope.UniPopup = {	
 popupHeight: 460,    	   //  20 x 17px = 340 +1 = 341px    20 x 23px + 1 = 461px
@@ -1058,6 +1058,21 @@ $this: null,
 		console.log("UniPopup.getOpenPopup:<------ _from='%s'-----",_from);
 		return _from;
 	},
+	
+//	usage:	$scope.UniPopup.getCssValue(_rule, _propkey)
+//			_rule: 'width: 340px; left: 205px; display: block;'   _propkey: 'left'
+//			returns: '205px'  or ''(not found)
+	getCssValue: function (_rule, _propkey)	{	
+		var pos = _rule.indexOf(_propkey)
+		,	startpos  = pos + _propkey.length + 2
+		,	len = _rule.indexOf(';', startpos)
+		,	value = (pos >= 0) ? _rule.substr(startpos, len - _propkey.length - 2) : ''
+		;
+		//console.log("<==UniPopup.getCssValue:   _rule:'%s'  _propkey:'%s'  value:'%s'",_rule, _propkey, value);
+		//console.log("<==UniPopup.getCssValue:   pos:'%s'  startpos:'%s'  len:'%s'",pos, startpos, len);
+		return value;
+	},
+	
 	
 	popupShow: function(_from, refresh) 	{
 /*		
